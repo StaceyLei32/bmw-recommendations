@@ -301,7 +301,6 @@ const TripModeApp = () => {
         ))}
       </div>
 
-      {/* CONVOY */}
       {tab === "convoy" && (
         <div className="fade-in">
           <div style={{ background:`linear-gradient(135deg,${A}14,transparent)`, border:`1px solid ${A}30`, borderRadius:14, padding:"14px 18px", marginBottom:14 }}>
@@ -311,17 +310,10 @@ const TripModeApp = () => {
           </div>
           <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
             {cars.map(c => (
-              <div key={c.id} onClick={()=>setLeader(c.id)} style={{
-                display:"flex", alignItems:"center", gap:14, cursor:"pointer",
-                background:c.isLeader?`${A}0C`:SRF, border:`1px solid ${c.isLeader?A+"35":BDR}`,
-                borderRadius:14, padding:"14px 16px", transition:"all 0.25s",
-              }}>
+              <div key={c.id} onClick={()=>setLeader(c.id)} style={{ display:"flex", alignItems:"center", gap:14, cursor:"pointer", background:c.isLeader?`${A}0C`:SRF, border:`1px solid ${c.isLeader?A+"35":BDR}`, borderRadius:14, padding:"14px 16px", transition:"all 0.25s" }}>
                 <div style={{ width:40, height:40, borderRadius:10, background:`${c.accent}25`, border:`1.5px solid ${c.accent}40`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:700, color:c.accent, fontFamily:"'Anybody',sans-serif", flexShrink:0 }}>{c.avatar}</div>
                 <div style={{ flex:1 }}>
-                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:3 }}>
-                    <span style={{ fontSize:13, fontWeight:600, color:"#EEE" }}>{c.name}</span>
-                    {c.isLeader && <Badge text="Leader" color={A} bg={AD}/>}
-                  </div>
+                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:3 }}><span style={{ fontSize:13, fontWeight:600, color:"#EEE" }}>{c.name}</span>{c.isLeader && <Badge text="Leader" color={A} bg={AD}/>}</div>
                   <div style={{ fontSize:11, color:"#777", marginBottom:4 }}>{c.car}</div>
                   <div style={{ display:"flex", alignItems:"center", gap:8 }}>
                     <span style={{ display:"inline-flex", alignItems:"center", gap:4, fontSize:10, fontWeight:600, color:stCfg[c.status]?.color, padding:"2px 8px", borderRadius:20, background:`${stCfg[c.status]?.color}18` }}>
@@ -333,9 +325,7 @@ const TripModeApp = () => {
                 <div style={{ textAlign:"right", flexShrink:0 }}>
                   <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:20, fontWeight:700, color:c.speed>0?"#F0F0F0":"#444" }}>{c.speed>0?c.speed:"—"}</div>
                   <div style={{ fontSize:9, color:"#555" }}>{c.speed>0?"MPH":""}</div>
-                  <div style={{ width:44, height:3, borderRadius:2, background:"rgba(255,255,255,0.06)", marginTop:4, overflow:"hidden" }}>
-                    <div style={{ height:"100%", borderRadius:2, width:`${c.fuel}%`, background:c.fuel<20?R:c.fuel<40?A:T }}/>
-                  </div>
+                  <div style={{ width:44, height:3, borderRadius:2, background:"rgba(255,255,255,0.06)", marginTop:4, overflow:"hidden" }}><div style={{ height:"100%", borderRadius:2, width:`${c.fuel}%`, background:c.fuel<20?R:c.fuel<40?A:T }}/></div>
                   <div style={{ fontSize:8, color:"#555", marginTop:2 }}>{c.fuel}%</div>
                 </div>
               </div>
@@ -344,7 +334,6 @@ const TripModeApp = () => {
         </div>
       )}
 
-      {/* ROUTE */}
       {tab === "route" && (
         <div className="fade-in">
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:14 }}>
@@ -354,18 +343,9 @@ const TripModeApp = () => {
           {itin.map((s,i) => (
             <div key={s.id} style={{ display:"flex", gap:14, position:"relative" }}>
               {i < itin.length-1 && <div style={{ position:"absolute", left:16, top:34, bottom:-4, width:1.5, background:s.done?`${T}40`:BDR }}/>}
-              <div onClick={()=>toggleStop(s.id)} style={{
-                width:34, height:34, borderRadius:10, flexShrink:0, cursor:"pointer",
-                background:s.done?`${T}18`:s.active?`${A}15`:SRF,
-                border:`1.5px solid ${s.done?T+"50":s.active?A+"40":BDR}`,
-                display:"flex", alignItems:"center", justifyContent:"center",
-                fontSize:s.done?14:11, color:s.done?T:s.active?A:"#555", fontWeight:700, transition:"all 0.25s",
-              }}>{s.done?"✓":"◉"}</div>
+              <div onClick={()=>toggleStop(s.id)} style={{ width:34, height:34, borderRadius:10, flexShrink:0, cursor:"pointer", background:s.done?`${T}18`:s.active?`${A}15`:SRF, border:`1.5px solid ${s.done?T+"50":s.active?A+"40":BDR}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:s.done?14:11, color:s.done?T:s.active?A:"#555", fontWeight:700, transition:"all 0.25s" }}>{s.done?"✓":"◉"}</div>
               <div style={{ flex:1, paddingBottom:20 }}>
-                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:2 }}>
-                  <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:11, fontWeight:600, color:s.active?A:"#555" }}>{s.time}</span>
-                  {s.active && <Badge text="Next" color={A} bg={AD}/>}
-                </div>
+                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:2 }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:11, fontWeight:600, color:s.active?A:"#555" }}>{s.time}</span>{s.active && <Badge text="Next" color={A} bg={AD}/>}</div>
                 <div style={{ fontSize:13.5, fontWeight:600, color:s.done?"#555":"#E8E8E8", textDecoration:s.done?"line-through":"none", marginBottom:2 }}>{s.label}</div>
                 <div style={{ fontSize:11.5, color:"#666" }}>{s.sub}</div>
               </div>
@@ -375,7 +355,6 @@ const TripModeApp = () => {
         </div>
       )}
 
-      {/* CHAT */}
       {tab === "chat" && (
         <div className="fade-in" style={{ display:"flex", flexDirection:"column", height:400 }}>
           <div style={{ flex:1, overflowY:"auto", display:"flex", flexDirection:"column", gap:8, paddingRight:4 }}>
@@ -437,199 +416,79 @@ const RecommendationsApp = () => {
         <div style={{ fontSize:12, color:"#666", marginTop:4 }}>Aggregated from BMW drivers on Pacific Coast Highway</div>
       </div>
 
-      {/* Filters */}
       <div style={{ display:"flex", gap:6, marginBottom:16, overflowX:"auto", paddingBottom:2 }}>
         {filters.map(f => (
-          <button key={f.id} onClick={()=>{ setFilter(f.id); setSelected(null); }} style={{
-            padding:"6px 14px", borderRadius:20, border:`1px solid ${filter===f.id?T+"40":BDR}`,
-            background:filter===f.id?`${T}15`:"transparent", color:filter===f.id?T:"#666",
-            fontSize:11, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif",
-            display:"flex", alignItems:"center", gap:5, whiteSpace:"nowrap", transition:"all 0.2s",
-          }}>
+          <button key={f.id} onClick={()=>{ setFilter(f.id); setSelected(null); }} style={{ padding:"6px 14px", borderRadius:20, border:`1px solid ${filter===f.id?T+"40":BDR}`, background:filter===f.id?`${T}15`:"transparent", color:filter===f.id?T:"#666", fontSize:11, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", display:"flex", alignItems:"center", gap:5, whiteSpace:"nowrap", transition:"all 0.2s" }}>
             {f.label} <span style={{ fontSize:9, opacity:0.6 }}>{f.count}</span>
           </button>
         ))}
       </div>
 
-      {/* ── MAP ── */}
-      <div
-        onClick={() => setSelected(null)}
-        style={{
-          position:"relative", width:"100%", height:360, borderRadius:16, overflow:"hidden",
-          background:"linear-gradient(160deg, #0D1B2A 0%, #0A1628 40%, #0F1D2F 70%, #0B1420 100%)",
-          border:`1px solid ${BDR}`, marginBottom:16, cursor:"default",
-        }}
-      >
-        {/* Coastline + grid */}
+      <div onClick={() => setSelected(null)} style={{ position:"relative", width:"100%", height:360, borderRadius:16, overflow:"hidden", background:"linear-gradient(160deg, #0D1B2A 0%, #0A1628 40%, #0F1D2F 70%, #0B1420 100%)", border:`1px solid ${BDR}`, marginBottom:16, cursor:"default" }}>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%", opacity:0.2 }}>
           <path d="M 0,0 Q 5,10 8,20 Q 12,30 10,42 Q 8,52 15,60 Q 22,68 18,78 Q 15,88 20,100 L 0,100 Z" fill={T} opacity="0.25"/>
           <path d="M 10,5 Q 20,15 15,25 Q 10,35 18,45 Q 25,55 22,65 Q 20,75 30,80 Q 45,88 55,82 Q 65,76 75,80 Q 85,85 90,95" fill="none" stroke={T} strokeWidth="0.5" strokeDasharray="2,2"/>
           {[20,40,60,80].map(v => <line key={`h${v}`} x1="0" y1={v} x2="100" y2={v} stroke="white" strokeWidth="0.1" opacity="0.4"/>)}
           {[20,40,60,80].map(v => <line key={`v${v}`} x1={v} y1="0" x2={v} y2="100" stroke="white" strokeWidth="0.1" opacity="0.4"/>)}
         </svg>
-
-        {/* Road */}
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}>
           <path d="M 25,8 C 30,18 20,28 28,38 C 35,48 30,55 40,60 C 55,68 65,62 72,70 C 78,76 80,82 85,90" fill="none" stroke={A} strokeWidth="0.5" opacity="0.3" strokeLinecap="round"/>
           <path d="M 25,8 C 30,18 20,28 28,38 C 35,48 30,55 40,60 C 55,68 65,62 72,70 C 78,76 80,82 85,90" fill="none" stroke={A} strokeWidth="0.25" opacity="0.6" strokeDasharray="1.5,3"/>
         </svg>
-
-        {/* Labels */}
         <div style={{ position:"absolute", top:8, left:12, fontSize:8, color:"rgba(255,255,255,0.12)", fontFamily:"'Anybody',sans-serif", fontWeight:700, letterSpacing:1.5 }}>SAN FRANCISCO</div>
         <div style={{ position:"absolute", bottom:8, right:12, fontSize:8, color:"rgba(255,255,255,0.12)", fontFamily:"'Anybody',sans-serif", fontWeight:700, letterSpacing:1.5 }}>MONTEREY</div>
 
-        {/* Markers */}
         {filtered.map(s => {
-          const isSel = selected === s.id;
-          const col = typeColors[s.type];
+          const isSel = selected === s.id; const col = typeColors[s.type];
           return (
-            <div key={s.id}
-              onClick={(e) => { e.stopPropagation(); setSelected(isSel ? null : s.id); }}
-              style={{
-                position:"absolute", left:`${s.x}%`, top:`${s.y}%`, transform:"translate(-50%,-50%)",
-                cursor:"pointer", zIndex:isSel?20:s.visitors > 400 ? 5 : 1, transition:"all 0.3s ease",
-              }}
-            >
-              {/* Pulse for popular */}
-              {s.visitors > 300 && !isSel && (
-                <div style={{
-                  position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)",
-                  width:52, height:52, borderRadius:"50%", border:`1px solid ${col}25`,
-                  animation:"pulse-ring 3s infinite",
-                }}/>
-              )}
-              {/* Dot */}
-              <div style={{
-                width:isSel?46:36, height:isSel?46:36, borderRadius:"50%",
-                background:`radial-gradient(circle at 40% 35%, ${col}40, ${col}15)`,
-                border:`2px solid ${col}${isSel?"CC":"55"}`,
-                display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column",
-                boxShadow:isSel?`0 0 24px ${col}50, 0 0 48px ${col}20`:`0 0 10px ${col}15`,
-                transition:"all 0.3s ease",
-              }}>
-                <span style={{ fontSize:isSel?12:10, fontWeight:800, color:"#FFF", fontFamily:"'Anybody',sans-serif", lineHeight:1, textShadow:`0 0 8px ${col}` }}>
-                  {s.visitors}
-                </span>
+            <div key={s.id} onClick={(e) => { e.stopPropagation(); setSelected(isSel ? null : s.id); }} style={{ position:"absolute", left:`${s.x}%`, top:`${s.y}%`, transform:"translate(-50%,-50%)", cursor:"pointer", zIndex:isSel?20:s.visitors>400?5:1, transition:"all 0.3s ease" }}>
+              {s.visitors > 300 && !isSel && (<div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:52, height:52, borderRadius:"50%", border:`1px solid ${col}25`, animation:"pulse-ring 3s infinite" }}/>)}
+              <div style={{ width:isSel?46:36, height:isSel?46:36, borderRadius:"50%", background:`radial-gradient(circle at 40% 35%, ${col}40, ${col}15)`, border:`2px solid ${col}${isSel?"CC":"55"}`, display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", boxShadow:isSel?`0 0 24px ${col}50, 0 0 48px ${col}20`:`0 0 10px ${col}15`, transition:"all 0.3s ease" }}>
+                <span style={{ fontSize:isSel?12:10, fontWeight:800, color:"#FFF", fontFamily:"'Anybody',sans-serif", lineHeight:1, textShadow:`0 0 8px ${col}` }}>{s.visitors}</span>
                 <span style={{ fontSize:isSel?7:6, color:"rgba(255,255,255,0.6)", fontWeight:600, marginTop:1 }}>visits</span>
               </div>
-              {/* Name tag */}
-              <div style={{
-                position:"absolute", top:"100%", left:"50%", transform:"translateX(-50%)",
-                marginTop:6, whiteSpace:"nowrap", textAlign:"center",
-                background:isSel?"rgba(0,0,0,0.9)":"rgba(0,0,0,0.65)",
-                padding:isSel?"5px 12px":"3px 8px", borderRadius:8,
-                border:`1px solid ${isSel?col+"60":"rgba(255,255,255,0.06)"}`,
-                backdropFilter:"blur(8px)", transition:"all 0.3s",
-              }}>
+              <div style={{ position:"absolute", top:"100%", left:"50%", transform:"translateX(-50%)", marginTop:6, whiteSpace:"nowrap", textAlign:"center", background:isSel?"rgba(0,0,0,0.9)":"rgba(0,0,0,0.65)", padding:isSel?"5px 12px":"3px 8px", borderRadius:8, border:`1px solid ${isSel?col+"60":"rgba(255,255,255,0.06)"}`, backdropFilter:"blur(8px)", transition:"all 0.3s" }}>
                 <div style={{ fontSize:isSel?11:9, fontWeight:600, color:isSel?"#FFF":"#CCC" }}>{s.name}</div>
                 {isSel && <div style={{ fontSize:8, color:col, marginTop:2 }}>{s.category} · ★{s.rating}</div>}
               </div>
             </div>
           );
         })}
-
-        {!selected && (
-          <div style={{ position:"absolute", bottom:12, left:"50%", transform:"translateX(-50%)", fontSize:10, color:"rgba(255,255,255,0.25)", background:"rgba(0,0,0,0.5)", padding:"5px 14px", borderRadius:20, backdropFilter:"blur(4px)" }}>
-            Tap a spot to see what's popular
-          </div>
-        )}
+        {!selected && (<div style={{ position:"absolute", bottom:12, left:"50%", transform:"translateX(-50%)", fontSize:10, color:"rgba(255,255,255,0.25)", background:"rgba(0,0,0,0.5)", padding:"5px 14px", borderRadius:20, backdropFilter:"blur(4px)" }}>Tap a spot to see what's popular</div>)}
       </div>
 
-      {/* ── DETAIL POPUP ── */}
       {spot && (
-        <div className="fade-in" style={{
-          background:`linear-gradient(160deg, ${typeColors[spot.type]}0A, transparent 60%)`,
-          border:`1px solid ${typeColors[spot.type]}30`, borderRadius:18,
-          padding:20, marginBottom:16,
-        }}>
-          {/* Header */}
+        <div className="fade-in" style={{ background:`linear-gradient(160deg, ${typeColors[spot.type]}0A, transparent 60%)`, border:`1px solid ${typeColors[spot.type]}30`, borderRadius:18, padding:20, marginBottom:16 }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:16 }}>
             <div>
-              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
-                <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:14, color:typeColors[spot.type] }}>{typeIcons[spot.type]}</span>
-                <span style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:typeColors[spot.type], textTransform:"uppercase", fontFamily:"'Anybody',sans-serif" }}>{spot.category}</span>
-              </div>
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:14, color:typeColors[spot.type] }}>{typeIcons[spot.type]}</span><span style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:typeColors[spot.type], textTransform:"uppercase", fontFamily:"'Anybody',sans-serif" }}>{spot.category}</span></div>
               <div style={{ fontSize:20, fontWeight:800, color:"#F2F2F2", fontFamily:"'Anybody',sans-serif", letterSpacing:-0.3 }}>{spot.name}</div>
               <div style={{ fontSize:12, color:"#888", fontStyle:"italic", marginTop:3 }}>{spot.tagline}</div>
             </div>
             <button onClick={()=>setSelected(null)} style={{ background:SRF, border:`1px solid ${BDR}`, color:"#888", fontSize:14, cursor:"pointer", padding:"4px 10px", borderRadius:8, fontWeight:600 }}>×</button>
           </div>
-
-          {/* Stats */}
           <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr 1fr", gap:8, marginBottom:16 }}>
-            {[
-              ["Visitors", `${spot.visitors}`, "this week"],
-              ["Rating", `★ ${spot.rating}`, "average"],
-              ["Peak", spot.peakHour, ""],
-              ["Spend", spot.avgSpend, "per visit"],
-            ].map(([l,v,s]) => (
-              <div key={l} style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:10, padding:"10px 8px", textAlign:"center" }}>
-                <div style={{ fontSize:8, color:"#555", fontWeight:600, letterSpacing:0.5, textTransform:"uppercase", marginBottom:3 }}>{l}</div>
-                <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:"#EEE" }}>{v}</div>
-                {s && <div style={{ fontSize:8, color:"#444", marginTop:1 }}>{s}</div>}
-              </div>
+            {[["Visitors",`${spot.visitors}`,"this week"],["Rating",`★ ${spot.rating}`,"average"],["Peak",spot.peakHour,""],["Spend",spot.avgSpend,"per visit"]].map(([l,v,s]) => (
+              <div key={l} style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:10, padding:"10px 8px", textAlign:"center" }}><div style={{ fontSize:8, color:"#555", fontWeight:600, letterSpacing:0.5, textTransform:"uppercase", marginBottom:3 }}>{l}</div><div style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:"#EEE" }}>{v}</div>{s && <div style={{ fontSize:8, color:"#444", marginTop:1 }}>{s}</div>}</div>
             ))}
           </div>
-
-          {/* Trend */}
-          <div style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"5px 12px", borderRadius:8, background:`${T}12`, border:`1px solid ${T}25`, marginBottom:16, fontSize:11, color:T, fontWeight:600 }}>
-            📈 {spot.trend}
-          </div>
-
-          {/* Popular items */}
+          <div style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"5px 12px", borderRadius:8, background:`${T}12`, border:`1px solid ${T}25`, marginBottom:16, fontSize:11, color:T, fontWeight:600 }}>📈 {spot.trend}</div>
           <div>
-            <div style={{ fontSize:10, fontWeight:700, letterSpacing:1.5, color:"#777", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>
-              {spot.type==="food" ? "Most Ordered Items" : spot.type==="scenic" ? "Popular Activities" : spot.type==="event" ? "Attendance Breakdown" : "Most Requested Services"}
-            </div>
+            <div style={{ fontSize:10, fontWeight:700, letterSpacing:1.5, color:"#777", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>{spot.type==="food"?"Most Ordered Items":spot.type==="scenic"?"Popular Activities":spot.type==="event"?"Attendance Breakdown":"Most Requested Services"}</div>
             <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-              {spot.items.map((item, i) => {
-                const col = typeColors[spot.type];
-                return (
-                  <div key={item.name} style={{
-                    display:"flex", alignItems:"center", gap:12,
-                    padding:"10px 14px", borderRadius:12, position:"relative", overflow:"hidden",
-                    background:i===0?`${col}0C`:SRF,
-                    border:`1px solid ${i===0?col+"25":BDR}`,
-                  }}>
-                    {/* Progress bar bg */}
-                    <div style={{ position:"absolute", left:0, top:0, bottom:0, width:`${item.pct}%`, background:`${col}06`, borderRadius:12, transition:"width 0.5s ease" }}/>
-
-                    {/* Rank */}
-                    <div style={{
-                      width:24, height:24, borderRadius:7, flexShrink:0, position:"relative",
-                      background:i===0?`${col}25`:"rgba(255,255,255,0.04)",
-                      display:"flex", alignItems:"center", justifyContent:"center",
-                      fontSize:11, fontWeight:800, color:i===0?col:i<3?"#AAA":"#555",
-                      fontFamily:"'Anybody',sans-serif",
-                    }}>{i+1}</div>
-
-                    {/* Info */}
-                    <div style={{ flex:1, position:"relative", minWidth:0 }}>
-                      <div style={{ fontSize:13, fontWeight:600, color:i===0?"#F0F0F0":"#CCC", display:"flex", alignItems:"center", gap:6, flexWrap:"wrap" }}>
-                        {item.name}
-                        {item.hot && <span style={{ fontSize:7, fontWeight:800, color:col, background:`${col}18`, padding:"2px 6px", borderRadius:4, letterSpacing:0.5 }}>🔥 TOP</span>}
-                      </div>
-                      <div style={{ fontSize:11, color:"#666", marginTop:2 }}>
-                        {item.orders.toLocaleString()} {item.label || "orders"}
-                      </div>
-                    </div>
-
-                    {/* Percentage */}
-                    <div style={{
-                      fontFamily:"'Anybody',sans-serif", fontSize:16, fontWeight:800,
-                      color:i===0?col:`${col}99`, position:"relative", flexShrink:0,
-                    }}>
-                      {item.pct}<span style={{ fontSize:10, opacity:0.6 }}>%</span>
-                    </div>
-                  </div>
-                );
-              })}
+              {spot.items.map((item, i) => { const col = typeColors[spot.type]; return (
+                <div key={item.name} style={{ display:"flex", alignItems:"center", gap:12, padding:"10px 14px", borderRadius:12, position:"relative", overflow:"hidden", background:i===0?`${col}0C`:SRF, border:`1px solid ${i===0?col+"25":BDR}` }}>
+                  <div style={{ position:"absolute", left:0, top:0, bottom:0, width:`${item.pct}%`, background:`${col}06`, borderRadius:12, transition:"width 0.5s ease" }}/>
+                  <div style={{ width:24, height:24, borderRadius:7, flexShrink:0, position:"relative", background:i===0?`${col}25`:"rgba(255,255,255,0.04)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:800, color:i===0?col:i<3?"#AAA":"#555", fontFamily:"'Anybody',sans-serif" }}>{i+1}</div>
+                  <div style={{ flex:1, position:"relative", minWidth:0 }}><div style={{ fontSize:13, fontWeight:600, color:i===0?"#F0F0F0":"#CCC", display:"flex", alignItems:"center", gap:6, flexWrap:"wrap" }}>{item.name}{item.hot && <span style={{ fontSize:7, fontWeight:800, color:col, background:`${col}18`, padding:"2px 6px", borderRadius:4, letterSpacing:0.5 }}>🔥 TOP</span>}</div><div style={{ fontSize:11, color:"#666", marginTop:2 }}>{item.orders.toLocaleString()} {item.label || "orders"}</div></div>
+                  <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:16, fontWeight:800, color:i===0?col:`${col}99`, position:"relative", flexShrink:0 }}>{item.pct}<span style={{ fontSize:10, opacity:0.6 }}>%</span></div>
+                </div>
+              ); })}
             </div>
           </div>
         </div>
       )}
 
-      {/* ── Discover Your Car ── */}
       <div style={{ marginBottom:16 }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
           <div>
@@ -637,128 +496,55 @@ const RecommendationsApp = () => {
             <div style={{ fontSize:12, color:"#666" }}>Contextual suggestions based on road, weather & driving data</div>
           </div>
         </div>
-
-        {/* Active / upcoming suggestion (featured) */}
         {!activatedFeatures.has(discoveryFeatures[discoverIdx].id) ? (
-          <div className="fade-in" key={discoverIdx} style={{
-            background:`linear-gradient(160deg, ${discoveryFeatures[discoverIdx].color}12, transparent 70%)`,
-            border:`1px solid ${discoveryFeatures[discoverIdx].color}30`,
-            borderRadius:16, padding:18, marginBottom:10, position:"relative", overflow:"hidden",
-          }}>
+          <div className="fade-in" key={discoverIdx} style={{ background:`linear-gradient(160deg, ${discoveryFeatures[discoverIdx].color}12, transparent 70%)`, border:`1px solid ${discoveryFeatures[discoverIdx].color}30`, borderRadius:16, padding:18, marginBottom:10, position:"relative", overflow:"hidden" }}>
             <div style={{ position:"absolute", top:-30, right:-30, width:100, height:100, borderRadius:"50%", background:`${discoveryFeatures[discoverIdx].color}06` }}/>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10, position:"relative" }}>
-              <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:18, color:discoveryFeatures[discoverIdx].color }}>{discoveryFeatures[discoverIdx].icon}</span>
-                <div>
-                  <div style={{ fontSize:9, fontWeight:700, letterSpacing:1, color:discoveryFeatures[discoverIdx].color, textTransform:"uppercase", fontFamily:"'Anybody',sans-serif" }}>
-                    Suggestion · Now
-                  </div>
-                </div>
-              </div>
+              <div style={{ display:"flex", alignItems:"center", gap:8 }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:18, color:discoveryFeatures[discoverIdx].color }}>{discoveryFeatures[discoverIdx].icon}</span><div style={{ fontSize:9, fontWeight:700, letterSpacing:1, color:discoveryFeatures[discoverIdx].color, textTransform:"uppercase", fontFamily:"'Anybody',sans-serif" }}>Suggestion · Now</div></div>
               <div style={{ display:"flex", gap:4 }}>
                 <button onClick={()=>setDiscoverIdx(i => (i-1+discoveryFeatures.length)%discoveryFeatures.length)} style={{ background:SRF, border:`1px solid ${BDR}`, color:"#888", fontSize:12, cursor:"pointer", padding:"3px 8px", borderRadius:6, fontFamily:"'Anybody',sans-serif" }}>‹</button>
                 <button onClick={()=>setDiscoverIdx(i => (i+1)%discoveryFeatures.length)} style={{ background:SRF, border:`1px solid ${BDR}`, color:"#888", fontSize:12, cursor:"pointer", padding:"3px 8px", borderRadius:6, fontFamily:"'Anybody',sans-serif" }}>›</button>
               </div>
             </div>
             <div style={{ fontSize:17, fontWeight:700, color:"#F0F0F0", marginBottom:4, position:"relative" }}>{discoveryFeatures[discoverIdx].title}</div>
-            <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8, position:"relative" }}>
-              <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:discoveryFeatures[discoverIdx].color }}>{discoveryFeatures[discoverIdx].stat}</span>
-              <span style={{ fontSize:12, color:"#888" }}>{discoveryFeatures[discoverIdx].statDetail}</span>
-            </div>
+            <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8, position:"relative" }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:discoveryFeatures[discoverIdx].color }}>{discoveryFeatures[discoverIdx].stat}</span><span style={{ fontSize:12, color:"#888" }}>{discoveryFeatures[discoverIdx].statDetail}</span></div>
             <div style={{ fontSize:12, color:"#999", lineHeight:1.5, marginBottom:14, position:"relative" }}>{discoveryFeatures[discoverIdx].desc}</div>
-            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14, position:"relative" }}>
-              <span style={{ fontSize:9, color:"#555", background:SRF, padding:"3px 8px", borderRadius:6, border:`1px solid ${BDR}` }}>{discoveryFeatures[discoverIdx].context}</span>
-            </div>
+            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14, position:"relative" }}><span style={{ fontSize:9, color:"#555", background:SRF, padding:"3px 8px", borderRadius:6, border:`1px solid ${BDR}` }}>{discoveryFeatures[discoverIdx].context}</span></div>
             <div style={{ display:"flex", gap:8, position:"relative" }}>
-              <button onClick={()=>{ setActivatedFeatures(p => new Set([...p, discoveryFeatures[discoverIdx].id])); }} style={{
-                background:discoveryFeatures[discoverIdx].color, border:"none", borderRadius:8,
-                padding:"9px 20px", color:"#111", fontSize:12, fontWeight:700, cursor:"pointer",
-                fontFamily:"'Instrument Sans',sans-serif",
-              }}>
-                {discoveryFeatures[discoverIdx].cta} →
-              </button>
-              <button onClick={()=>setDiscoverIdx(i => (i+1)%discoveryFeatures.length)} style={{
-                background:SRF, border:`1px solid ${BDR}`, borderRadius:8,
-                padding:"9px 16px", color:"#888", fontSize:12, fontWeight:600, cursor:"pointer",
-                fontFamily:"'Instrument Sans',sans-serif",
-              }}>
-                Skip
-              </button>
+              <button onClick={()=>{ setActivatedFeatures(p => new Set([...p, discoveryFeatures[discoverIdx].id])); }} style={{ background:discoveryFeatures[discoverIdx].color, border:"none", borderRadius:8, padding:"9px 20px", color:"#111", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>{discoveryFeatures[discoverIdx].cta} →</button>
+              <button onClick={()=>setDiscoverIdx(i => (i+1)%discoveryFeatures.length)} style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:8, padding:"9px 16px", color:"#888", fontSize:12, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>Skip</button>
             </div>
             <div style={{ position:"relative", marginTop:12, display:"flex", gap:3, justifyContent:"center" }}>
-              {discoveryFeatures.map((_, i) => (
-                <div key={i} onClick={()=>setDiscoverIdx(i)} style={{
-                  width:i===discoverIdx?16:6, height:6, borderRadius:3, cursor:"pointer",
-                  background:activatedFeatures.has(discoveryFeatures[i].id) ? `${T}60` : i===discoverIdx ? discoveryFeatures[discoverIdx].color : "rgba(255,255,255,0.1)",
-                  transition:"all 0.25s",
-                }}/>
-              ))}
+              {discoveryFeatures.map((_, i) => (<div key={i} onClick={()=>setDiscoverIdx(i)} style={{ width:i===discoverIdx?16:6, height:6, borderRadius:3, cursor:"pointer", background:activatedFeatures.has(discoveryFeatures[i].id)?`${T}60`:i===discoverIdx?discoveryFeatures[discoverIdx].color:"rgba(255,255,255,0.1)", transition:"all 0.25s" }}/>))}
             </div>
           </div>
         ) : (
-          <div className="fade-in" style={{
-            background:`${T}0C`, border:`1px solid ${T}25`, borderRadius:14,
-            padding:14, marginBottom:10, display:"flex", alignItems:"center", gap:12,
-          }}>
+          <div className="fade-in" style={{ background:`${T}0C`, border:`1px solid ${T}25`, borderRadius:14, padding:14, marginBottom:10, display:"flex", alignItems:"center", gap:12 }}>
             <span style={{ fontSize:16, color:T }}>✓</span>
-            <div style={{ flex:1 }}>
-              <div style={{ fontSize:13, fontWeight:600, color:T }}>{discoveryFeatures[discoverIdx].title} — Activated</div>
-              <div style={{ fontSize:11, color:"#888", marginTop:2 }}>Tap arrows above to browse more suggestions</div>
-            </div>
-            <button onClick={()=>{ setActivatedFeatures(p => { const n = new Set(p); n.delete(discoveryFeatures[discoverIdx].id); return n; }); }} style={{
-              background:SRF, border:`1px solid ${BDR}`, borderRadius:6,
-              padding:"5px 10px", color:"#888", fontSize:10, fontWeight:600, cursor:"pointer",
-              fontFamily:"'Instrument Sans',sans-serif",
-            }}>Undo</button>
+            <div style={{ flex:1 }}><div style={{ fontSize:13, fontWeight:600, color:T }}>{discoveryFeatures[discoverIdx].title} — Activated</div><div style={{ fontSize:11, color:"#888", marginTop:2 }}>Tap arrows above to browse more suggestions</div></div>
+            <button onClick={()=>{ setActivatedFeatures(p => { const n = new Set(p); n.delete(discoveryFeatures[discoverIdx].id); return n; }); }} style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:6, padding:"5px 10px", color:"#888", fontSize:10, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>Undo</button>
           </div>
         )}
-
-        {/* Quick-access grid of other suggestions */}
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6 }}>
-          {discoveryFeatures.filter((_,i) => i !== discoverIdx).slice(0,4).map(f => {
-            const active = activatedFeatures.has(f.id);
-            return (
-              <div key={f.id}
-                onClick={() => setDiscoverIdx(discoveryFeatures.findIndex(d => d.id === f.id))}
-                style={{
-                  background:active?`${T}08`:SRF, border:`1px solid ${active?T+"20":BDR}`,
-                  borderRadius:10, padding:"10px 12px", cursor:"pointer", transition:"all 0.2s",
-                }}>
-                <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4 }}>
-                  <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:12, color:active?T:f.color }}>{active?"✓":f.icon}</span>
-                  <span style={{ fontSize:11, fontWeight:600, color:active?"#999":"#CCC" }}>{f.title}</span>
-                </div>
-                <div style={{ fontSize:10, color:"#555" }}>
-                  <span style={{ color:active?T:f.color, fontWeight:600 }}>{f.stat}</span> {f.statDetail.split(" ").slice(0,3).join(" ")}…
-                </div>
-              </div>
-            );
-          })}
+          {discoveryFeatures.filter((_,i) => i !== discoverIdx).slice(0,4).map(f => { const active = activatedFeatures.has(f.id); return (
+            <div key={f.id} onClick={() => setDiscoverIdx(discoveryFeatures.findIndex(d => d.id === f.id))} style={{ background:active?`${T}08`:SRF, border:`1px solid ${active?T+"20":BDR}`, borderRadius:10, padding:"10px 12px", cursor:"pointer", transition:"all 0.2s" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4 }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:12, color:active?T:f.color }}>{active?"✓":f.icon}</span><span style={{ fontSize:11, fontWeight:600, color:active?"#999":"#CCC" }}>{f.title}</span></div>
+              <div style={{ fontSize:10, color:"#555" }}><span style={{ color:active?T:f.color, fontWeight:600 }}>{f.stat}</span> {f.statDetail.split(" ").slice(0,3).join(" ")}…</div>
+            </div>
+          ); })}
         </div>
-
-        {activatedFeatures.size > 0 && (
-          <div style={{ textAlign:"center", marginTop:10, fontSize:11, color:T }}>
-            {activatedFeatures.size} feature{activatedFeatures.size>1?"s":""} activated this drive
-          </div>
-        )}
+        {activatedFeatures.size > 0 && (<div style={{ textAlign:"center", marginTop:10, fontSize:11, color:T }}>{activatedFeatures.size} feature{activatedFeatures.size>1?"s":""} activated this drive</div>)}
       </div>
 
-      {/* ── Sharing ── */}
       <div>
         <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>Your Data Sharing</div>
         <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
           {[["food","Food Spots"], ["scenic","Scenic Spots"], ["events","Events & Meets"], ["maint","Service Shops"], ["mode","Drive Mode Stats"]].map(([id, label]) => (
-            <div key={id} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", background:SRF, border:`1px solid ${BDR}`, borderRadius:10, padding:"10px 14px" }}>
-              <span style={{ fontSize:12.5, fontWeight:500, color:"#CCC" }}>{label}</span>
-              <Toggle on={sharingToggles[id]} onFlip={()=>setSharingToggles(p=>({...p,[id]:!p[id]}))}/>
-            </div>
+            <div key={id} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", background:SRF, border:`1px solid ${BDR}`, borderRadius:10, padding:"10px 14px" }}><span style={{ fontSize:12.5, fontWeight:500, color:"#CCC" }}>{label}</span><Toggle on={sharingToggles[id]} onFlip={()=>setSharingToggles(p=>({...p,[id]:!p[id]}))}/></div>
           ))}
         </div>
         <div style={{ marginTop:10, background:closeFriends?`${P}08`:SRF, border:`1px solid ${closeFriends?P+"25":BDR}`, borderRadius:12, padding:"12px 16px", display:"flex", justifyContent:"space-between", alignItems:"center", transition:"all 0.3s" }}>
-          <div>
-            <div style={{ fontSize:13, fontWeight:600, color:"#DDD" }}>Close Friends Mode</div>
-            <div style={{ fontSize:11, color:"#666", marginTop:2 }}>Share detailed data with trusted drivers</div>
-          </div>
+          <div><div style={{ fontSize:13, fontWeight:600, color:"#DDD" }}>Close Friends Mode</div><div style={{ fontSize:11, color:"#666", marginTop:2 }}>Share detailed data with trusted drivers</div></div>
           <Toggle on={closeFriends} onFlip={()=>setCloseFriends(!closeFriends)} color={P}/>
         </div>
       </div>
@@ -771,57 +557,15 @@ const RecommendationsApp = () => {
    ═══════════════════════════ */
 
 const archetypes = [
-  {
-    id:"spirited",
-    name:"The Spirited Tourer",
-    icon:"◉",
-    color:A,
-    desc:"You live for the open road. Sport mode is your default, you chase elevation, and you're the one who finds the best twisty stretch on every route.",
-    match:31,
-  },
-  {
-    id:"comfort",
-    name:"The Comfort Cruiser",
-    icon:"◎",
-    color:T,
-    desc:"Smooth, intentional, scenic. You choose Comfort mode, keep a steady pace, and always find the best overlook for a break.",
-    match:18,
-  },
-  {
-    id:"performance",
-    name:"The Performance Seeker",
-    icon:"▲",
-    color:R,
-    desc:"Sport+ is a lifestyle. You push limits, hit high speeds, and your drives read like a track session on public roads.",
-    match:12,
-  },
-  {
-    id:"captain",
-    name:"The Road Captain",
-    icon:"◈",
-    color:P,
-    desc:"Convoy leader by instinct. You set the pace, keep the group together, and know exactly when to call a fuel stop.",
-    match:9,
-  },
-  {
-    id:"wanderer",
-    name:"The Weekend Wanderer",
-    icon:"✦",
-    color:O,
-    desc:"No strict agenda. You mix modes, explore detours, and the best part of every drive is the unexpected stop along the way.",
-    match:22,
-  },
-  {
-    id:"optimizer",
-    name:"The Efficiency Optimizer",
-    icon:"◌",
-    color:"#88C878",
-    desc:"Every mile is calculated. Eco mode, smooth acceleration, minimal fuel stops — you squeeze the most out of every tank.",
-    match:8,
-  },
+  { id:"spirited", name:"The Spirited Tourer", icon:"◉", color:A, desc:"You live for the open road. Sport mode is your default, you chase elevation, and you're the one who finds the best twisty stretch on every route.", match:31 },
+  { id:"comfort", name:"The Comfort Cruiser", icon:"◎", color:T, desc:"Smooth, intentional, scenic. You choose Comfort mode, keep a steady pace, and always find the best overlook for a break.", match:18 },
+  { id:"performance", name:"The Performance Seeker", icon:"▲", color:R, desc:"Sport+ is a lifestyle. You push limits, hit high speeds, and your drives read like a track session on public roads.", match:12 },
+  { id:"captain", name:"The Road Captain", icon:"◈", color:P, desc:"Convoy leader by instinct. You set the pace, keep the group together, and know exactly when to call a fuel stop.", match:9 },
+  { id:"wanderer", name:"The Weekend Wanderer", icon:"✦", color:O, desc:"No strict agenda. You mix modes, explore detours, and the best part of every drive is the unexpected stop along the way.", match:22 },
+  { id:"optimizer", name:"The Efficiency Optimizer", icon:"◌", color:"#88C878", desc:"Every mile is calculated. Eco mode, smooth acceleration, minimal fuel stops — you squeeze the most out of every tank.", match:8 },
 ];
 
-const userArchetype = archetypes[0]; // Marcus W. is The Spirited Tourer
+const userArchetype = archetypes[0];
 
 const driveModes = [
   { label:"Sport", pct:54, color:A },
@@ -831,79 +575,11 @@ const driveModes = [
 ];
 
 const pastTrips = [
-  {
-    id:"t1",
-    name:"Pacific Coast Highway",
-    date:"Apr 5, 2025",
-    distance:"187 mi",
-    duration:"4h 22m",
-    topSpeed:"84 mph",
-    avgSpeed:"71 mph",
-    stops:4,
-    group:[
-      { avatar:"MW", accent:A },
-      { avatar:"PS", accent:T },
-      { avatar:"TK", accent:O },
-      { avatar:"NR", accent:P },
-    ],
-  },
-  {
-    id:"t2",
-    name:"Napa Valley Loop",
-    date:"Mar 22, 2025",
-    distance:"134 mi",
-    duration:"3h 05m",
-    topSpeed:"79 mph",
-    avgSpeed:"68 mph",
-    stops:3,
-    group:[
-      { avatar:"MW", accent:A },
-      { avatar:"PS", accent:T },
-    ],
-  },
-  {
-    id:"t3",
-    name:"Tahoe Rim Circuit",
-    date:"Mar 8, 2025",
-    distance:"218 mi",
-    duration:"5h 14m",
-    topSpeed:"91 mph",
-    avgSpeed:"74 mph",
-    stops:5,
-    group:[
-      { avatar:"MW", accent:A },
-      { avatar:"TK", accent:O },
-      { avatar:"NR", accent:P },
-    ],
-  },
-  {
-    id:"t4",
-    name:"Highway 1 Solo Run",
-    date:"Feb 14, 2025",
-    distance:"96 mi",
-    duration:"2h 18m",
-    topSpeed:"88 mph",
-    avgSpeed:"76 mph",
-    stops:2,
-    group:[
-      { avatar:"MW", accent:A },
-    ],
-  },
-  {
-    id:"t5",
-    name:"Carmel–Big Sur Blitz",
-    date:"Jan 31, 2025",
-    distance:"72 mi",
-    duration:"1h 48m",
-    topSpeed:"93 mph",
-    avgSpeed:"79 mph",
-    stops:1,
-    group:[
-      { avatar:"MW", accent:A },
-      { avatar:"PS", accent:T },
-      { avatar:"TK", accent:O },
-    ],
-  },
+  { id:"t1", name:"Pacific Coast Highway", date:"Apr 5, 2025", distance:"187 mi", duration:"4h 22m", topSpeed:"84 mph", avgSpeed:"71 mph", stops:4, group:[{avatar:"MW",accent:A},{avatar:"PS",accent:T},{avatar:"TK",accent:O},{avatar:"NR",accent:P}] },
+  { id:"t2", name:"Napa Valley Loop", date:"Mar 22, 2025", distance:"134 mi", duration:"3h 05m", topSpeed:"79 mph", avgSpeed:"68 mph", stops:3, group:[{avatar:"MW",accent:A},{avatar:"PS",accent:T}] },
+  { id:"t3", name:"Tahoe Rim Circuit", date:"Mar 8, 2025", distance:"218 mi", duration:"5h 14m", topSpeed:"91 mph", avgSpeed:"74 mph", stops:5, group:[{avatar:"MW",accent:A},{avatar:"TK",accent:O},{avatar:"NR",accent:P}] },
+  { id:"t4", name:"Highway 1 Solo Run", date:"Feb 14, 2025", distance:"96 mi", duration:"2h 18m", topSpeed:"88 mph", avgSpeed:"76 mph", stops:2, group:[{avatar:"MW",accent:A}] },
+  { id:"t5", name:"Carmel–Big Sur Blitz", date:"Jan 31, 2025", distance:"72 mi", duration:"1h 48m", topSpeed:"93 mph", avgSpeed:"79 mph", stops:1, group:[{avatar:"MW",accent:A},{avatar:"PS",accent:T},{avatar:"TK",accent:O}] },
 ];
 
 const PastDrivesApp = () => {
@@ -913,158 +589,241 @@ const PastDrivesApp = () => {
 
   return (
     <div>
-      {/* Header */}
       <div style={{ marginBottom:20 }}>
         <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:9, fontWeight:800, letterSpacing:3, color:P, textTransform:"uppercase", marginBottom:8 }}>◈ Past Drives</div>
         <h2 style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, fontWeight:800, margin:0, color:"#F5F5F5", letterSpacing:-0.5 }}>Your Drive Profile</h2>
         <div style={{ fontSize:12, color:"#666", marginTop:4 }}>Marcus W. · M4 Competition</div>
       </div>
-
-      {/* Summary pills */}
       <div style={{ display:"flex", gap:8, marginBottom:22 }}>
-        {[
-          ["DRIVES", totalDrives, P],
-          ["TOTAL MILES", `${totalMiles}`, "#DDD"],
-          ["AVG SPEED", "73 mph", A],
-        ].map(([l,v,c]) => (
-          <div key={l} style={{ flex:1, textAlign:"center", background:SRF, border:`1px solid ${BDR}`, borderRadius:12, padding:"12px 8px" }}>
-            <div style={{ fontSize:9, color:"#555", fontWeight:600, letterSpacing:0.5, marginBottom:3 }}>{l}</div>
-            <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:16, fontWeight:700, color:c }}>{v}</div>
-          </div>
+        {[["DRIVES",totalDrives,P],["TOTAL MILES",`${totalMiles}`,"#DDD"],["AVG SPEED","73 mph",A]].map(([l,v,c]) => (
+          <div key={l} style={{ flex:1, textAlign:"center", background:SRF, border:`1px solid ${BDR}`, borderRadius:12, padding:"12px 8px" }}><div style={{ fontSize:9, color:"#555", fontWeight:600, letterSpacing:0.5, marginBottom:3 }}>{l}</div><div style={{ fontFamily:"'Anybody',sans-serif", fontSize:16, fontWeight:700, color:c }}>{v}</div></div>
         ))}
       </div>
-
-      {/* ── Drive Mode Breakdown ── */}
       <div style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:16, padding:"18px 18px 16px", marginBottom:16 }}>
         <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:14 }}>Drive Mode Breakdown</div>
         <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
-          {driveModes.map(m => (
-            <div key={m.label}>
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:5 }}>
-                <span style={{ fontSize:12, fontWeight:600, color:"#CCC" }}>{m.label}</span>
-                <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:m.color }}>{m.pct}%</span>
-              </div>
-              <div style={{ height:5, borderRadius:3, background:"rgba(255,255,255,0.06)", overflow:"hidden" }}>
-                <div style={{ height:"100%", width:`${m.pct}%`, borderRadius:3, background:m.color, transition:"width 0.6s ease" }}/>
-              </div>
-            </div>
-          ))}
+          {driveModes.map(m => (<div key={m.label}><div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:5 }}><span style={{ fontSize:12, fontWeight:600, color:"#CCC" }}>{m.label}</span><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:m.color }}>{m.pct}%</span></div><div style={{ height:5, borderRadius:3, background:"rgba(255,255,255,0.06)", overflow:"hidden" }}><div style={{ height:"100%", width:`${m.pct}%`, borderRadius:3, background:m.color, transition:"width 0.6s ease" }}/></div></div>))}
         </div>
-        <div style={{ marginTop:14, fontSize:11, color:"#555", borderTop:`1px solid ${BDR}`, paddingTop:12 }}>
-          Sport-dominant driver — you're in the top <span style={{ color:A, fontWeight:600 }}>15%</span> of M4 owners by Sport mode usage.
-        </div>
+        <div style={{ marginTop:14, fontSize:11, color:"#555", borderTop:`1px solid ${BDR}`, paddingTop:12 }}>Sport-dominant driver — you're in the top <span style={{ color:A, fontWeight:600 }}>15%</span> of M4 owners by Sport mode usage.</div>
       </div>
-
-      {/* ── Personality Archetype ── */}
       <div style={{ background:`linear-gradient(135deg, ${userArchetype.color}12, transparent)`, border:`1px solid ${userArchetype.color}35`, borderRadius:16, padding:"20px 20px 18px", marginBottom:16 }}>
         <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>Your Driver Archetype</div>
         <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:12 }}>
-          <div style={{ width:48, height:48, borderRadius:14, background:`${userArchetype.color}20`, border:`1.5px solid ${userArchetype.color}45`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-            <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, color:userArchetype.color }}>{userArchetype.icon}</span>
-          </div>
-          <div>
-            <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:18, fontWeight:800, color:userArchetype.color, letterSpacing:-0.3 }}>{userArchetype.name}</div>
-            <div style={{ fontSize:11, color:"#666", marginTop:2 }}>{userArchetype.match}% of BMW drivers share this profile</div>
-          </div>
+          <div style={{ width:48, height:48, borderRadius:14, background:`${userArchetype.color}20`, border:`1.5px solid ${userArchetype.color}45`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, color:userArchetype.color }}>{userArchetype.icon}</span></div>
+          <div><div style={{ fontFamily:"'Anybody',sans-serif", fontSize:18, fontWeight:800, color:userArchetype.color, letterSpacing:-0.3 }}>{userArchetype.name}</div><div style={{ fontSize:11, color:"#666", marginTop:2 }}>{userArchetype.match}% of BMW drivers share this profile</div></div>
         </div>
         <div style={{ fontSize:13, color:"#AAA", lineHeight:1.6, marginBottom:14 }}>{userArchetype.desc}</div>
-        <div style={{ background:`${userArchetype.color}10`, border:`1px solid ${userArchetype.color}25`, borderRadius:10, padding:"10px 14px", fontSize:12, color:"#999" }}>
-          <span style={{ color:userArchetype.color, fontWeight:600 }}>◉ Recommendation: </span>
-          We'll suggest you more <span style={{ color:"#DDD", fontWeight:600 }}>{userArchetype.name}</span> drives — spirited routes with elevation changes and coastal twisties.
-        </div>
       </div>
-
-      {/* ── Other Archetypes ── */}
       <div style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:16, padding:"16px 18px", marginBottom:16 }}>
         <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:12 }}>BMW Driver Archetypes</div>
         <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
-          {archetypes.map(a => {
-            const isUser = a.id === userArchetype.id;
-            return (
-              <div key={a.id} style={{
-                display:"flex", alignItems:"center", gap:12,
-                background:isUser?`${a.color}10`:SRF,
-                border:`1px solid ${isUser?a.color+"35":BDR}`,
-                borderRadius:12, padding:"10px 14px", transition:"all 0.2s",
-              }}>
-                <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:16, color:a.color, width:20, textAlign:"center" }}>{a.icon}</span>
-                <div style={{ flex:1 }}>
-                  <div style={{ fontSize:12, fontWeight:600, color:isUser?a.color:"#CCC" }}>{a.name}</div>
-                </div>
-                <div style={{ textAlign:"right", flexShrink:0 }}>
-                  <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:isUser?a.color:"#555" }}>{a.match}%</div>
-                  <div style={{ fontSize:9, color:"#444" }}>of drivers</div>
-                </div>
-                {isUser && <Badge text="You" color={a.color} bg={`${a.color}18`}/>}
-              </div>
-            );
-          })}
+          {archetypes.map(a => { const isUser = a.id === userArchetype.id; return (
+            <div key={a.id} style={{ display:"flex", alignItems:"center", gap:12, background:isUser?`${a.color}10`:SRF, border:`1px solid ${isUser?a.color+"35":BDR}`, borderRadius:12, padding:"10px 14px" }}>
+              <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:16, color:a.color, width:20, textAlign:"center" }}>{a.icon}</span>
+              <div style={{ flex:1 }}><div style={{ fontSize:12, fontWeight:600, color:isUser?a.color:"#CCC" }}>{a.name}</div></div>
+              <div style={{ textAlign:"right", flexShrink:0 }}><div style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:isUser?a.color:"#555" }}>{a.match}%</div><div style={{ fontSize:9, color:"#444" }}>of drivers</div></div>
+              {isUser && <Badge text="You" color={a.color} bg={`${a.color}18`}/>}
+            </div>
+          ); })}
         </div>
       </div>
-
-      {/* ── Past Trips (collapsible) ── */}
       <div style={{ border:`1px solid ${BDR}`, borderRadius:16, overflow:"hidden" }}>
-        <button
-          onClick={() => setTripsOpen(o => !o)}
-          style={{
-            width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between",
-            background:tripsOpen?SRF:"transparent", border:"none", padding:"16px 18px",
-            cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif",
-          }}
-        >
-          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-            <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase" }}>Past Trips</span>
-            <span style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:6, padding:"2px 8px", fontSize:10, color:"#666", fontWeight:600 }}>{totalDrives}</span>
-          </div>
-          <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-            <span style={{ fontSize:11, color:"#555" }}>{totalMiles} mi total</span>
-            <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:14, color:"#555", transition:"transform 0.25s", display:"inline-block", transform:tripsOpen?"rotate(180deg)":"rotate(0deg)" }}>▾</span>
-          </div>
+        <button onClick={() => setTripsOpen(o => !o)} style={{ width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between", background:tripsOpen?SRF:"transparent", border:"none", padding:"16px 18px", cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase" }}>Past Trips</span><span style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:6, padding:"2px 8px", fontSize:10, color:"#666", fontWeight:600 }}>{totalDrives}</span></div>
+          <div style={{ display:"flex", alignItems:"center", gap:8 }}><span style={{ fontSize:11, color:"#555" }}>{totalMiles} mi total</span><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:14, color:"#555", transition:"transform 0.25s", display:"inline-block", transform:tripsOpen?"rotate(180deg)":"rotate(0deg)" }}>▾</span></div>
         </button>
-
         {tripsOpen && (
           <div className="fade-in" style={{ borderTop:`1px solid ${BDR}`, maxHeight:520, overflowY:"auto", padding:"12px 14px", display:"flex", flexDirection:"column", gap:10 }}>
             {pastTrips.map(trip => (
               <div key={trip.id} style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:14, padding:"14px 16px" }}>
-                {/* Trip header */}
-                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10 }}>
-                  <div>
-                    <div style={{ fontSize:13.5, fontWeight:700, color:"#EEE", marginBottom:2 }}>{trip.name}</div>
-                    <div style={{ fontSize:11, color:"#555" }}>{trip.date}</div>
-                  </div>
-                  <div style={{ textAlign:"right" }}>
-                    <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:16, fontWeight:700, color:"#F0F0F0" }}>{trip.distance}</div>
-                    <div style={{ fontSize:10, color:"#555" }}>{trip.duration}</div>
-                  </div>
-                </div>
-
-                {/* Stats row */}
-                <div style={{ display:"flex", gap:6, marginBottom:12 }}>
-                  {[
-                    ["AVG", trip.avgSpeed],
-                    ["TOP", trip.topSpeed],
-                    ["STOPS", trip.stops],
-                  ].map(([l,v]) => (
-                    <div key={l} style={{ flex:1, background:"rgba(255,255,255,0.03)", borderRadius:8, padding:"7px 0", textAlign:"center" }}>
-                      <div style={{ fontSize:8, color:"#444", letterSpacing:0.5, marginBottom:2 }}>{l}</div>
-                      <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:12, fontWeight:700, color:"#CCC" }}>{v}</div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Group */}
-                <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                  <span style={{ fontSize:10, color:"#555" }}>{trip.group.length === 1 ? "Solo drive" : `${trip.group.length} drivers`}</span>
-                  <div style={{ display:"flex", gap:4 }}>
-                    {trip.group.map((m,i) => (
-                      <div key={i} style={{ width:26, height:26, borderRadius:7, background:`${m.accent}25`, border:`1.5px solid ${m.accent}45`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, fontWeight:700, color:m.accent, fontFamily:"'Anybody',sans-serif" }}>{m.avatar}</div>
-                    ))}
-                  </div>
-                </div>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10 }}><div><div style={{ fontSize:13.5, fontWeight:700, color:"#EEE", marginBottom:2 }}>{trip.name}</div><div style={{ fontSize:11, color:"#555" }}>{trip.date}</div></div><div style={{ textAlign:"right" }}><div style={{ fontFamily:"'Anybody',sans-serif", fontSize:16, fontWeight:700, color:"#F0F0F0" }}>{trip.distance}</div><div style={{ fontSize:10, color:"#555" }}>{trip.duration}</div></div></div>
+                <div style={{ display:"flex", gap:6, marginBottom:12 }}>{[["AVG",trip.avgSpeed],["TOP",trip.topSpeed],["STOPS",trip.stops]].map(([l,v]) => (<div key={l} style={{ flex:1, background:"rgba(255,255,255,0.03)", borderRadius:8, padding:"7px 0", textAlign:"center" }}><div style={{ fontSize:8, color:"#444", letterSpacing:0.5, marginBottom:2 }}>{l}</div><div style={{ fontFamily:"'Anybody',sans-serif", fontSize:12, fontWeight:700, color:"#CCC" }}>{v}</div></div>))}</div>
+                <div style={{ display:"flex", alignItems:"center", gap:8 }}><span style={{ fontSize:10, color:"#555" }}>{trip.group.length===1?"Solo drive":`${trip.group.length} drivers`}</span><div style={{ display:"flex", gap:4 }}>{trip.group.map((m,i) => (<div key={i} style={{ width:26, height:26, borderRadius:7, background:`${m.accent}25`, border:`1.5px solid ${m.accent}45`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, fontWeight:700, color:m.accent, fontFamily:"'Anybody',sans-serif" }}>{m.avatar}</div>))}</div></div>
               </div>
             ))}
           </div>
         )}
+      </div>
+    </div>
+  );
+};
+
+/* ═══════════════════════════
+   APP 4: VIBE MAP
+   ═══════════════════════════ */
+
+const vibeEmojis = {
+  exhilarating: { emoji:"⚡", label:"Exhilarating", color:"#E8A838", colorEnd:"#E8C838" },
+  peaceful: { emoji:"🍃", label:"Peaceful", color:"#3DD6C8", colorEnd:"#38E8A8" },
+  scenic: { emoji:"✨", label:"Scenic", color:"#A87CE8", colorEnd:"#C87CE8" },
+  boring: { emoji:"😐", label:"Boring", color:"#666666", colorEnd:"#555555" },
+  stressful: { emoji:"😤", label:"Stressful", color:"#E8574A", colorEnd:"#E87C4A" },
+  focused: { emoji:"🎯", label:"Focused", color:"#4A9DE8", colorEnd:"#5AB8E8" },
+};
+
+const roadSegments = [
+  { id:"seg1", name:"Golden Gate → Pacifica", from:{x:22,y:6}, to:{x:18,y:18}, vibe:"exhilarating", pct:89, votes:342, miles:12.4, details:"Sweeping bridge exit into coastal curves. Sport mode territory — every driver loves this opening.", breakdown:[{v:"exhilarating",p:89},{v:"scenic",p:68},{v:"focused",p:42},{v:"peaceful",p:12},{v:"stressful",p:5}] },
+  { id:"seg2", name:"Pacifica → Devil's Slide", from:{x:18,y:18}, to:{x:15,y:28}, vibe:"focused", pct:78, votes:298, miles:8.2, details:"Tight cliff-edge curves with ocean drops. Requires attention — tunnels ahead get the exhaust echoing.", breakdown:[{v:"focused",p:78},{v:"exhilarating",p:65},{v:"stressful",p:28},{v:"scenic",p:45},{v:"peaceful",p:8}] },
+  { id:"seg3", name:"Half Moon Bay Stretch", from:{x:15,y:28}, to:{x:20,y:40}, vibe:"peaceful", pct:94, votes:445, miles:15.8, details:"Long coastal flats with farm views and ocean on the left. Roll down your windows, open the roof.", breakdown:[{v:"peaceful",p:94},{v:"scenic",p:82},{v:"boring",p:12},{v:"exhilarating",p:8},{v:"stressful",p:2}] },
+  { id:"seg4", name:"Pescadero → Davenport", from:{x:20,y:40}, to:{x:28,y:52}, vibe:"scenic", pct:91, votes:387, miles:18.6, details:"Redwood groves transition to open cliffs. The most photographed stretch — pull over at Shark Fin Cove.", breakdown:[{v:"scenic",p:91},{v:"peaceful",p:76},{v:"exhilarating",p:34},{v:"focused",p:18},{v:"boring",p:3}] },
+  { id:"seg5", name:"Davenport → Santa Cruz", from:{x:28,y:52}, to:{x:38,y:60}, vibe:"boring", pct:52, votes:234, miles:11.2, details:"Flat agricultural stretch connecting to the city. Highway vibes — put on a podcast and cruise.", breakdown:[{v:"boring",p:52},{v:"peaceful",p:34},{v:"stressful",p:18},{v:"focused",p:22},{v:"scenic",p:12}] },
+  { id:"seg6", name:"Santa Cruz → Moss Landing", from:{x:38,y:60}, to:{x:52,y:66}, vibe:"peaceful", pct:72, votes:267, miles:22.4, details:"Coastal highway with wetland views. Sea otters in the harbor if you stop. Comfortable cruising.", breakdown:[{v:"peaceful",p:72},{v:"scenic",p:58},{v:"boring",p:28},{v:"focused",p:12},{v:"exhilarating",p:6}] },
+  { id:"seg7", name:"Monterey Peninsula", from:{x:52,y:66}, to:{x:62,y:72}, vibe:"scenic", pct:86, votes:412, miles:14.8, details:"17-Mile Drive adjacent. Cypress trees, ocean, Pebble Beach. Drive slow — it's all about the views.", breakdown:[{v:"scenic",p:86},{v:"peaceful",p:78},{v:"exhilarating",p:22},{v:"focused",p:14},{v:"boring",p:4}] },
+  { id:"seg8", name:"Big Sur — Bixby Bridge", from:{x:62,y:72}, to:{x:74,y:80}, vibe:"exhilarating", pct:96, votes:523, miles:24.6, details:"THE stretch. Bixby Bridge, cliff-hugging curves, 1000ft drops to the Pacific. Peak driving experience.", breakdown:[{v:"exhilarating",p:96},{v:"scenic",p:94},{v:"focused",p:72},{v:"peaceful",p:18},{v:"stressful",p:8}] },
+  { id:"seg9", name:"Big Sur → Carmel", from:{x:74,y:80}, to:{x:82,y:90}, vibe:"peaceful", pct:82, votes:378, miles:16.2, details:"Winding descent into Carmel. The drive mellows out — golden light through the trees as you arrive.", breakdown:[{v:"peaceful",p:82},{v:"scenic",p:74},{v:"exhilarating",p:28},{v:"focused",p:16},{v:"boring",p:6}] },
+];
+
+const VibeMapApp = () => {
+  const [selectedSeg, setSelectedSeg] = useState(null);
+  const [vibeFilter, setVibeFilter] = useState("all");
+  const [userRatings, setUserRatings] = useState({});
+
+  const seg = roadSegments.find(s => s.id === selectedSeg);
+  const rateSeg = (segId, vibe) => setUserRatings(p => ({...p, [segId]: vibe}));
+  const totalVotes = roadSegments.reduce((s,r) => s + r.votes, 0);
+  const totalMiles = roadSegments.reduce((s,r) => s + r.miles, 0).toFixed(1);
+
+  return (
+    <div>
+      <div style={{ marginBottom:16 }}>
+        <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:9, fontWeight:800, letterSpacing:3, color:"#E8C438", textTransform:"uppercase", marginBottom:8 }}>🍃 Vibe Map</div>
+        <h2 style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, fontWeight:800, margin:0, color:"#F5F5F5", letterSpacing:-0.5 }}>Emotional Road Map</h2>
+        <div style={{ fontSize:12, color:"#666", marginTop:4 }}>How drivers <em>feel</em> on every stretch — {totalVotes.toLocaleString()} ratings across {totalMiles} mi</div>
+      </div>
+
+      <div style={{ display:"flex", gap:5, marginBottom:14, overflowX:"auto", paddingBottom:2 }}>
+        <button onClick={()=>{setVibeFilter("all");setSelectedSeg(null);}} style={{ padding:"5px 12px", borderRadius:16, border:`1px solid ${vibeFilter==="all"?"#E8C43840":BDR}`, background:vibeFilter==="all"?"#E8C43815":"transparent", color:vibeFilter==="all"?"#E8C438":"#666", fontSize:10, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", whiteSpace:"nowrap" }}>All Vibes</button>
+        {Object.entries(vibeEmojis).map(([k,v]) => (
+          <button key={k} onClick={()=>{setVibeFilter(k);setSelectedSeg(null);}} style={{ padding:"5px 12px", borderRadius:16, border:`1px solid ${vibeFilter===k?v.color+"40":BDR}`, background:vibeFilter===k?`${v.color}15`:"transparent", color:vibeFilter===k?v.color:"#666", fontSize:10, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", whiteSpace:"nowrap", display:"flex", alignItems:"center", gap:4 }}>
+            <span style={{fontSize:12}}>{v.emoji}</span>{v.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Heat Map */}
+      <div onClick={()=>setSelectedSeg(null)} style={{ position:"relative", width:"100%", height:400, borderRadius:16, overflow:"hidden", background:"linear-gradient(170deg, #0D1B2A 0%, #080E18 50%, #0B1420 100%)", border:`1px solid ${BDR}`, marginBottom:16 }}>
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%", opacity:0.1 }}>
+          {[10,20,30,40,50,60,70,80,90].map(v => <line key={`h${v}`} x1="0" y1={v} x2="100" y2={v} stroke="white" strokeWidth="0.08"/>)}
+          {[10,20,30,40,50,60,70,80,90].map(v => <line key={`v${v}`} x1={v} y1="0" x2={v} y2="100" stroke="white" strokeWidth="0.08"/>)}
+        </svg>
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%", opacity:0.08 }}>
+          <path d="M 0,0 Q 6,8 10,16 Q 14,24 12,34 Q 8,44 14,54 Q 20,62 16,72 Q 12,82 18,92 L 18,100 L 0,100 Z" fill="#3DD6C8"/>
+        </svg>
+        <div style={{ position:"absolute", top:4, left:10, fontSize:7, color:"rgba(255,255,255,0.08)", fontFamily:"'Anybody',sans-serif", fontWeight:700, letterSpacing:1.5 }}>SAN FRANCISCO</div>
+        <div style={{ position:"absolute", bottom:4, right:10, fontSize:7, color:"rgba(255,255,255,0.08)", fontFamily:"'Anybody',sans-serif", fontWeight:700, letterSpacing:1.5 }}>CARMEL</div>
+
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}>
+          <defs>
+            {roadSegments.map(s => (
+              <linearGradient key={`g-${s.id}`} id={`grad-${s.id}`} x1={s.from.x} y1={s.from.y} x2={s.to.x} y2={s.to.y} gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor={vibeEmojis[s.vibe].color} stopOpacity="0.9"/><stop offset="100%" stopColor={vibeEmojis[s.vibe].colorEnd} stopOpacity="0.9"/>
+              </linearGradient>
+            ))}
+          </defs>
+          {roadSegments.map(s => { const vis = vibeFilter==="all"||s.vibe===vibeFilter; return (
+            <line key={`sh-${s.id}`} x1={s.from.x} y1={s.from.y} x2={s.to.x} y2={s.to.y} stroke={vibeEmojis[s.vibe].color} strokeWidth="4" strokeLinecap="round" opacity={vis?0.15:0.02} style={{transition:"opacity 0.4s"}}/>
+          ); })}
+          {roadSegments.map(s => { const vis = vibeFilter==="all"||s.vibe===vibeFilter; const isSel = selectedSeg===s.id; return (
+            <line key={`ln-${s.id}`} x1={s.from.x} y1={s.from.y} x2={s.to.x} y2={s.to.y} stroke={`url(#grad-${s.id})`} strokeWidth={isSel?2.5:1.5} strokeLinecap="round" opacity={vis?(isSel?1:0.75):0.08} style={{transition:"all 0.4s"}}/>
+          ); })}
+        </svg>
+
+        {roadSegments.map(s => {
+          const vis = vibeFilter==="all"||s.vibe===vibeFilter;
+          const isSel = selectedSeg===s.id;
+          const mx = (s.from.x+s.to.x)/2, my = (s.from.y+s.to.y)/2;
+          const v = vibeEmojis[s.vibe];
+          return (
+            <div key={s.id} onClick={e=>{e.stopPropagation();setSelectedSeg(isSel?null:s.id);}}
+              style={{ position:"absolute", left:`${mx}%`, top:`${my}%`, transform:"translate(-50%,-50%)", cursor:"pointer", zIndex:isSel?20:5, transition:"all 0.3s", opacity:vis?1:0.15, pointerEvents:vis?"auto":"none" }}>
+              <div style={{ width:isSel?40:28, height:isSel?40:28, borderRadius:"50%", background:`radial-gradient(circle at 40% 35%, ${v.color}50, ${v.color}20)`, border:`2px solid ${v.color}${isSel?"DD":"60"}`, display:"flex", alignItems:"center", justifyContent:"center", boxShadow:isSel?`0 0 20px ${v.color}40, 0 0 40px ${v.color}15`:`0 0 8px ${v.color}20`, transition:"all 0.3s" }}>
+                <span style={{ fontSize:isSel?16:12 }}>{v.emoji}</span>
+              </div>
+              {vis && (
+                <div style={{ position:"absolute", top:"100%", left:"50%", transform:"translateX(-50%)", marginTop:5, whiteSpace:"nowrap", textAlign:"center", background:isSel?"rgba(0,0,0,0.9)":"rgba(0,0,0,0.5)", padding:isSel?"4px 10px":"2px 6px", borderRadius:6, border:`1px solid ${isSel?v.color+"50":"transparent"}`, transition:"all 0.3s" }}>
+                  <div style={{ fontSize:isSel?9:7, fontWeight:600, color:isSel?"#FFF":"#AAA" }}>{s.name.split("→").pop().trim()}</div>
+                  {isSel && <div style={{ fontSize:7, color:v.color, marginTop:1 }}>{v.label} · {s.pct}%</div>}
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        <div style={{ position:"absolute", left:"22%", top:"6%", transform:"translate(-50%,-50%)", width:8, height:8, borderRadius:"50%", background:"#FFF", border:"2px solid #0D1B2A", boxShadow:"0 0 8px rgba(255,255,255,0.3)", zIndex:10 }}/>
+        <div style={{ position:"absolute", left:"82%", top:"90%", transform:"translate(-50%,-50%)", width:8, height:8, borderRadius:"50%", background:"#E8C438", border:"2px solid #0D1B2A", boxShadow:"0 0 8px #E8C43840", zIndex:10 }}/>
+        {!selectedSeg && <div style={{ position:"absolute", bottom:10, left:"50%", transform:"translateX(-50%)", fontSize:9, color:"rgba(255,255,255,0.2)", background:"rgba(0,0,0,0.4)", padding:"4px 12px", borderRadius:14 }}>Tap a segment to see how drivers feel</div>}
+      </div>
+
+      {/* Segment Detail */}
+      {seg && (
+        <div className="fade-in" key={seg.id} style={{ background:`linear-gradient(160deg, ${vibeEmojis[seg.vibe].color}0A, transparent 60%)`, border:`1px solid ${vibeEmojis[seg.vibe].color}30`, borderRadius:18, padding:20, marginBottom:16 }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:14 }}>
+            <div>
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:6 }}>
+                <span style={{ fontSize:20 }}>{vibeEmojis[seg.vibe].emoji}</span>
+                <span style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:vibeEmojis[seg.vibe].color, textTransform:"uppercase", fontFamily:"'Anybody',sans-serif" }}>{vibeEmojis[seg.vibe].label}</span>
+                <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:14, fontWeight:800, color:vibeEmojis[seg.vibe].color }}>{seg.pct}%</span>
+              </div>
+              <div style={{ fontSize:17, fontWeight:800, color:"#F2F2F2", fontFamily:"'Anybody',sans-serif", letterSpacing:-0.3 }}>{seg.name}</div>
+              <div style={{ fontSize:11, color:"#888", marginTop:3 }}>{seg.miles} miles · {seg.votes} driver ratings</div>
+            </div>
+            <button onClick={()=>setSelectedSeg(null)} style={{ background:SRF, border:`1px solid ${BDR}`, color:"#888", fontSize:14, cursor:"pointer", padding:"4px 10px", borderRadius:8 }}>×</button>
+          </div>
+          <div style={{ fontSize:13, color:"#AAA", lineHeight:1.6, marginBottom:16, paddingLeft:2 }}>"{seg.details}"</div>
+
+          <div style={{ marginBottom:16 }}>
+            <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>Community Vibe Breakdown</div>
+            <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+              {seg.breakdown.sort((a,b) => b.p - a.p).map(b => { const vd = vibeEmojis[b.v]; return (
+                <div key={b.v}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4 }}>
+                    <div style={{ display:"flex", alignItems:"center", gap:6 }}><span style={{ fontSize:14 }}>{vd.emoji}</span><span style={{ fontSize:12, fontWeight:600, color:"#CCC" }}>{vd.label}</span></div>
+                    <span style={{ fontFamily:"'Anybody',sans-serif", fontSize:14, fontWeight:700, color:vd.color }}>{b.p}%</span>
+                  </div>
+                  <div style={{ height:8, borderRadius:4, background:"rgba(255,255,255,0.04)", overflow:"hidden" }}>
+                    <div style={{ height:"100%", borderRadius:4, width:`${b.p}%`, background:`linear-gradient(90deg, ${vd.color}, ${vd.colorEnd||vd.color})`, boxShadow:`0 0 8px ${vd.color}30`, transition:"width 0.6s ease" }}/>
+                  </div>
+                </div>
+              ); })}
+            </div>
+          </div>
+
+          <div style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:14, padding:16 }}>
+            <div style={{ fontSize:11, fontWeight:600, color:"#CCC", marginBottom:10 }}>{userRatings[seg.id] ? `You rated this: ${vibeEmojis[userRatings[seg.id]].emoji} ${vibeEmojis[userRatings[seg.id]].label}` : "How did this stretch feel to you?"}</div>
+            <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+              {Object.entries(vibeEmojis).map(([k,v]) => { const isRated = userRatings[seg.id]===k; return (
+                <button key={k} onClick={()=>rateSeg(seg.id,k)} style={{ display:"flex", alignItems:"center", gap:5, padding:"7px 12px", borderRadius:10, border:`1px solid ${isRated?v.color+"60":BDR}`, background:isRated?`${v.color}18`:SRF, color:isRated?v.color:"#888", fontSize:11, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", transition:"all 0.2s" }}>
+                  <span style={{fontSize:14}}>{v.emoji}</span>{v.label}
+                </button>
+              ); })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Vibe Summary */}
+      <div style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:16, padding:"18px 18px 16px", marginBottom:16 }}>
+        <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:14 }}>Route Vibe Summary</div>
+        <div style={{ height:14, borderRadius:7, overflow:"hidden", display:"flex", marginBottom:14 }}>
+          {(() => { const t={}; roadSegments.forEach(s=>{s.breakdown.forEach(b=>{t[b.v]=(t[b.v]||0)+b.p;})}); const sum=Object.values(t).reduce((a,b)=>a+b,0); return Object.entries(t).sort((a,b)=>b[1]-a[1]).map(([k,v])=>(<div key={k} style={{width:`${(v/sum)*100}%`,height:"100%",background:`linear-gradient(90deg,${vibeEmojis[k].color},${vibeEmojis[k].colorEnd})`}} title={`${vibeEmojis[k].label}: ${Math.round((v/sum)*100)}%`}/>)); })()}
+        </div>
+        <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
+          {(() => { const t={}; roadSegments.forEach(s=>{s.breakdown.forEach(b=>{t[b.v]=(t[b.v]||0)+b.p;})}); const sum=Object.values(t).reduce((a,b)=>a+b,0); return Object.entries(t).sort((a,b)=>b[1]-a[1]).map(([k,v])=>(<div key={k} style={{display:"flex",alignItems:"center",gap:5}}><div style={{width:8,height:8,borderRadius:2,background:vibeEmojis[k].color}}/><span style={{fontSize:10,color:"#888"}}>{vibeEmojis[k].emoji} {vibeEmojis[k].label}</span><span style={{fontFamily:"'Anybody',sans-serif",fontSize:10,fontWeight:700,color:vibeEmojis[k].color}}>{Math.round((v/sum)*100)}%</span></div>)); })()}
+        </div>
+      </div>
+
+      {/* Highlights */}
+      <div>
+        <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>Highlights</div>
+        <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+          {[{label:"Most Exhilarating",seg:roadSegments.find(s=>s.vibe==="exhilarating"&&s.pct>=90),vibe:"exhilarating"},{label:"Most Peaceful",seg:roadSegments.find(s=>s.vibe==="peaceful"&&s.pct>=90),vibe:"peaceful"},{label:"Most Scenic",seg:roadSegments.find(s=>s.vibe==="scenic"&&s.pct>=86),vibe:"scenic"}].filter(h=>h.seg).map(h => { const v=vibeEmojis[h.vibe]; return (
+            <div key={h.label} onClick={()=>setSelectedSeg(h.seg.id)} style={{ display:"flex", alignItems:"center", gap:14, cursor:"pointer", background:`${v.color}08`, border:`1px solid ${v.color}20`, borderRadius:14, padding:"14px 16px", transition:"all 0.2s" }}>
+              <div style={{ width:42, height:42, borderRadius:12, background:`${v.color}15`, border:`1.5px solid ${v.color}35`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}><span style={{ fontSize:20 }}>{v.emoji}</span></div>
+              <div style={{ flex:1 }}><div style={{ fontSize:10, color:"#666", marginBottom:2 }}>{h.label}</div><div style={{ fontSize:14, fontWeight:700, color:"#EEE" }}>{h.seg.name}</div><div style={{ fontSize:11, color:"#888", marginTop:2 }}>{h.seg.miles} mi · {h.seg.pct}% rated {v.label.toLowerCase()}</div></div>
+              <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, fontWeight:800, color:v.color }}>{h.seg.pct}%</div>
+            </div>
+          ); })}
+        </div>
       </div>
     </div>
   );
@@ -1093,31 +852,31 @@ export default function Root() {
       `}</style>
 
       <div style={{ fontFamily:"'Instrument Sans',sans-serif", background:"#08080C", color:"#F0F0F0", minHeight:"100vh" }}>
-        <div style={{ position:"fixed", inset:0, pointerEvents:"none", backgroundImage:`radial-gradient(circle at 50% 0%, ${app==="trip"?A:app==="past"?P:T}06 0%, transparent 50%)` }}/>
+        <div style={{ position:"fixed", inset:0, pointerEvents:"none", backgroundImage:`radial-gradient(circle at 50% 0%, ${app==="trip"?A:app==="past"?P:app==="vibe"?"#E8C438":T}06 0%, transparent 50%)` }}/>
 
         <div style={{ position:"relative", maxWidth:520, margin:"0 auto", padding:"16px 16px 40px" }}>
-          {/* App Switcher */}
-          <div style={{ display:"flex", gap:4, marginBottom:20, padding:3, background:"rgba(255,255,255,0.02)", borderRadius:12, border:`1px solid ${BDR}` }}>
+          <div style={{ display:"flex", gap:3, marginBottom:20, padding:3, background:"rgba(255,255,255,0.02)", borderRadius:12, border:`1px solid ${BDR}` }}>
             {[
               { id:"trip", label:"Trip Mode", icon:"◉", color:A },
               { id:"recs", label:"Recommendations", icon:"✦", color:T },
               { id:"past", label:"Past Drives", icon:"◈", color:P },
+              { id:"vibe", label:"Vibe Map", icon:"🍃", color:"#E8C438" },
             ].map(a => (
               <button key={a.id} onClick={()=>setApp(a.id)} style={{
-                flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:6,
-                padding:"11px 10px", borderRadius:9, border:"none",
+                flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5,
+                padding:"11px 8px", borderRadius:9, border:"none",
                 background:app===a.id?`${a.color}15`:"transparent",
                 color:app===a.id?a.color:"#555",
-                fontSize:12, fontWeight:700, cursor:"pointer",
+                fontSize:11, fontWeight:700, cursor:"pointer",
                 fontFamily:"'Anybody',sans-serif", letterSpacing:0.2, transition:"all 0.25s",
               }}>
-                <span style={{ fontSize:11 }}>{a.icon}</span>{a.label}
+                <span style={{ fontSize:10 }}>{a.icon}</span>{a.label}
               </button>
             ))}
           </div>
 
           <div key={app} className="fade-in">
-            {app === "trip" ? <TripModeApp /> : app === "recs" ? <RecommendationsApp /> : <PastDrivesApp />}
+            {app === "trip" ? <TripModeApp /> : app === "recs" ? <RecommendationsApp /> : app === "past" ? <PastDrivesApp /> : <VibeMapApp />}
           </div>
         </div>
       </div>
