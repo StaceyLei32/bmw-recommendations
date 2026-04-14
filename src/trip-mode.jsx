@@ -17,10 +17,14 @@ const BDR = "rgba(255,255,255,0.07)";
 /* ── Data ── */
 
 const initCars = [
-  { id:"c1", name:"Marcus W.", car:"M4 Competition", avatar:"MW", accent:A, status:"driving", speed:71, eta:"3:42 PM", dist:0, isLeader:true, fuel:72 },
-  { id:"c2", name:"Priya S.", car:"iX M60", avatar:"PS", accent:T, status:"driving", speed:69, eta:"3:44 PM", dist:0.3, isLeader:false, fuel:58 },
-  { id:"c3", name:"Tyler K.", car:"M340i", avatar:"TK", accent:O, status:"fuel_stop", speed:0, eta:"3:55 PM", dist:2.1, isLeader:false, fuel:11 },
-  { id:"c4", name:"Noa R.", car:"X3 M40i", avatar:"NR", accent:P, status:"resting", speed:0, eta:"4:05 PM", dist:4.8, isLeader:false, fuel:44 },
+  { id:"c1", name:"Marcus W.", car:"M4 Competition", avatar:"MW", accent:A, status:"driving", speed:71, eta:"3:42 PM", dist:0, isLeader:true, fuel:72,
+    homePos:{x:22,y:9}, tripPos:{x:65,y:74} },
+  { id:"c2", name:"Priya S.", car:"iX M60", avatar:"PS", accent:T, status:"driving", speed:69, eta:"3:44 PM", dist:0.3, isLeader:false, fuel:58,
+    homePos:{x:25,y:11}, tripPos:{x:62,y:71} },
+  { id:"c3", name:"Tyler K.", car:"M340i", avatar:"TK", accent:O, status:"fuel_stop", speed:0, eta:"3:55 PM", dist:2.1, isLeader:false, fuel:11,
+    homePos:{x:20,y:15}, tripPos:{x:55,y:67} },
+  { id:"c4", name:"Noa R.", car:"X3 M40i", avatar:"NR", accent:P, status:"resting", speed:0, eta:"4:05 PM", dist:4.8, isLeader:false, fuel:44,
+    homePos:{x:27,y:17}, tripPos:{x:50,y:62} },
 ];
 
 const initItinerary = [
@@ -53,7 +57,12 @@ const mapSpots = [
       { name:"Jasmine Green Tea", orders:89, pct:11 },
       { name:"Mango Lassi", orders:73, pct:9 },
     ],
-    peakHour:"2–4 PM", avgSpend:"$7.40", trend:"+23% this week",
+    peakHour:"2–4 PM", avgSpend:"$7.40", trend:"+23% this week", waitMinutes:5, fitScore:72,
+    tips:[
+      { text:"Order ahead on weekdays — line moves fast.", by:"The Efficiency Optimizer" },
+      { text:"Strawberry matcha is the move on a warm day.", by:"The Weekend Wanderer" },
+    ],
+    popularity:{ bestDay:"Saturday", grid:[[1,1,2,2],[0,1,2,1],[0,1,2,2],[1,1,3,2],[1,2,3,3],[1,2,3,3],[1,2,3,2]] },
   },
   {
     id:"spot2", name:"Duarte's Tavern", type:"food", x:28, y:38,
@@ -66,7 +75,12 @@ const mapSpots = [
       { name:"Olallieberry Pie", orders:178, pct:13 },
       { name:"Clam Chowder", orders:87, pct:6 },
     ],
-    peakHour:"12–1:30 PM", avgSpend:"$28.50", trend:"+8% this week",
+    peakHour:"12–1:30 PM", avgSpend:"$28.50", trend:"+8% this week", waitMinutes:18, fitScore:88,
+    tips:[
+      { text:"Artichoke soup first, always — it's the move.", by:"The Road Captain" },
+      { text:"Park around back, much easier for a group exit.", by:"The Road Captain" },
+    ],
+    popularity:{ bestDay:"Sunday", grid:[[0,2,1,0],[0,2,1,0],[0,2,2,0],[0,2,2,1],[1,3,2,1],[1,3,2,1],[1,3,2,0]] },
   },
   {
     id:"spot3", name:"Hawk Hill Overlook", type:"scenic", x:42, y:12,
@@ -79,7 +93,12 @@ const mapSpots = [
       { name:"Drone footage", orders:289, pct:7, label:"clips" },
       { name:"Timelapse", orders:198, pct:5, label:"recordings" },
     ],
-    peakHour:"5:30–7 PM", avgSpend:"Free", trend:"+15% this week",
+    peakHour:"5:30–7 PM", avgSpend:"Free", trend:"+15% this week", waitMinutes:0, fitScore:95,
+    tips:[
+      { text:"Golden hour is 6:30–7:30 PM — plan the stop around it.", by:"The Spirited Tourer" },
+      { text:"Lower lot has quicker turnaround if you're keeping pace.", by:"The Efficiency Optimizer" },
+    ],
+    popularity:{ bestDay:"Saturday", grid:[[0,1,2,3],[0,1,2,3],[0,1,2,3],[0,1,3,3],[1,2,3,3],[1,2,3,3],[1,2,3,3]] },
   },
   {
     id:"spot4", name:"Phil's Fish Market", type:"food", x:62, y:58,
@@ -92,7 +111,12 @@ const mapSpots = [
       { name:"Clam Strips", orders:123, pct:11 },
       { name:"Seafood Pasta", orders:89, pct:8 },
     ],
-    peakHour:"11:30–1 PM", avgSpend:"$22", trend:"+12% this week",
+    peakHour:"11:30–1 PM", avgSpend:"$22", trend:"+12% this week", waitMinutes:22, fitScore:84,
+    tips:[
+      { text:"Get the cioppino in a bread bowl. Non-negotiable.", by:"The Road Captain" },
+      { text:"Arrive before noon — the rush hits hard after 12:30.", by:"The Efficiency Optimizer" },
+    ],
+    popularity:{ bestDay:"Sunday", grid:[[0,2,1,0],[0,3,2,0],[0,2,1,0],[1,3,2,1],[1,3,2,1],[1,3,2,1],[1,3,2,1]] },
   },
   {
     id:"spot5", name:"Cars & Coffee", type:"event", x:70, y:68,
@@ -105,7 +129,12 @@ const mapSpots = [
       { name:"i-Series EV", orders:42, pct:15, label:"attendees" },
       { name:"Classic/Vintage", orders:25, pct:9, label:"attendees" },
     ],
-    peakHour:"8–10 AM Sat", avgSpend:"$5 coffee", trend:"+31% this month",
+    peakHour:"8–10 AM Sat", avgSpend:"$5 coffee", trend:"+31% this month", waitMinutes:0, fitScore:97,
+    tips:[
+      { text:"Show up before 8 AM — best energy and easiest parking.", by:"The Spirited Tourer" },
+      { text:"Bring a jacket. Coastal fog doesn't clear until 10.", by:"The Weekend Wanderer" },
+    ],
+    popularity:{ bestDay:"Saturday", grid:[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[3,2,1,0],[1,0,0,0]] },
   },
   {
     id:"spot6", name:"Bavarian Motorwerks", type:"service", x:18, y:30,
@@ -118,7 +147,12 @@ const mapSpots = [
       { name:"Software / Coding", orders:234, pct:13, label:"services" },
       { name:"Performance Upgrades", orders:178, pct:10, label:"services" },
     ],
-    peakHour:"9 AM–12 PM", avgSpend:"$185", trend:"Steady",
+    peakHour:"9 AM–12 PM", avgSpend:"$185", trend:"Steady", waitMinutes:35, fitScore:91,
+    tips:[
+      { text:"Call ahead — walk-ins wait significantly longer.", by:"The Efficiency Optimizer" },
+      { text:"They do same-day coding and resets if you're passing through.", by:"The Road Captain" },
+    ],
+    popularity:{ bestDay:"Tuesday", grid:[[1,3,3,1],[1,3,3,1],[1,3,2,1],[1,3,2,1],[1,3,2,0],[0,1,1,0],[0,0,0,0]] },
   },
   {
     id:"spot7", name:"Alice's Restaurant", type:"food", x:38, y:32,
@@ -131,7 +165,12 @@ const mapSpots = [
       { name:"Drip Coffee", orders:189, pct:16 },
       { name:"Smoothie Bowl", orders:112, pct:10 },
     ],
-    peakHour:"9–11 AM", avgSpend:"$16", trend:"+5% this week",
+    peakHour:"9–11 AM", avgSpend:"$16", trend:"+5% this week", waitMinutes:15, fitScore:79,
+    tips:[
+      { text:"The breakfast burrito feeds two. Plan accordingly.", by:"The Weekend Wanderer" },
+      { text:"Car crowd peaks 9–11 AM — great window for a stretch.", by:"The Spirited Tourer" },
+    ],
+    popularity:{ bestDay:"Sunday", grid:[[0,1,1,0],[0,1,1,0],[0,1,1,0],[0,1,2,0],[1,2,2,1],[2,3,2,1],[2,3,2,1]] },
   },
   {
     id:"spot8", name:"Laguna Seca", type:"event", x:78, y:74,
@@ -144,7 +183,12 @@ const mapSpots = [
       { name:"Photography pkg", orders:78, pct:11, label:"bookings" },
       { name:"Car rental (track)", orders:42, pct:6, label:"bookings" },
     ],
-    peakHour:"All day events", avgSpend:"$350", trend:"+18% this month",
+    peakHour:"All day events", avgSpend:"$350", trend:"+18% this month", waitMinutes:0, fitScore:93,
+    tips:[
+      { text:"Book the instructor session — worth every dollar.", by:"The Performance Seeker" },
+      { text:"Best photo spot for the Corkscrew is turn 8–8A.", by:"The Spirited Tourer" },
+    ],
+    popularity:{ bestDay:"Saturday", grid:[[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,2,2,1],[1,3,3,2],[2,3,3,2],[2,3,2,1]] },
   },
 ];
 
@@ -224,6 +268,14 @@ const discoveryFeatures = [
 const typeColors = { food:T, scenic:A, event:P, service:O };
 const typeIcons = { food:"◉", scenic:"✦", event:"▣", service:"⚙" };
 
+const pinScale = v => v >= 500 ? 50 : v >= 350 ? 44 : v >= 200 ? 38 : v >= 120 ? 32 : 28;
+const pinGlow = (v, col) => {
+  if (v >= 500) return `0 0 18px ${col}60, 0 0 36px ${col}30`;
+  if (v >= 350) return `0 0 14px ${col}50, 0 0 28px ${col}22`;
+  if (v >= 200) return `0 0 10px ${col}38, 0 0 20px ${col}15`;
+  return `0 0 6px ${col}22`;
+};
+
 /* ── Shared Components ── */
 
 const Badge = ({ text, color="#888", bg=SRF }) => (
@@ -249,7 +301,13 @@ const TripModeApp = () => {
   const [msgs, setMsgs] = useState(initMsgs);
   const [input, setInput] = useState("");
   const [elapsed, setElapsed] = useState(18420);
+  const [tripStarted, setTripStarted] = useState(false);
   const endRef = useRef(null);
+
+  const stopPositions = {
+    s1:{x:22,y:9}, s2:{x:17,y:22}, s3:{x:28,y:52},
+    s4:{x:63,y:74}, s5:{x:68,y:79}, s6:{x:76,y:83},
+  };
 
   useEffect(() => { const t = setInterval(() => setElapsed(e => e+1), 1000); return () => clearInterval(t); }, []);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior:"smooth" }); }, [msgs]);
@@ -271,7 +329,7 @@ const TripModeApp = () => {
   };
 
   const leader = cars.find(c => c.isLeader);
-  const tabs = [{ id:"convoy", label:"Convoy", icon:"◉" }, { id:"route", label:"Route", icon:"◈" }, { id:"chat", label:"Chat", icon:"◎" }];
+  const tabs = [{ id:"map", label:"Map", icon:"◌" }, { id:"convoy", label:"Convoy", icon:"◉" }, { id:"route", label:"Route", icon:"◈" }, { id:"chat", label:"Chat", icon:"◎" }];
 
   return (
     <div>
@@ -381,6 +439,105 @@ const TripModeApp = () => {
           </div>
         </div>
       )}
+
+      {tab === "map" && (
+        <div className="fade-in">
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
+            <div>
+              <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:A, textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:2 }}>{tripStarted ? "◉ Live Convoy" : "Pre-Trip"}</div>
+              <div style={{ fontSize:12, color:"#666" }}>{tripStarted ? "Real-time positions · PCH" : "4 cars · Ready to depart"}</div>
+            </div>
+            {tripStarted ? (
+              <div style={{ display:"flex", alignItems:"center", gap:6, background:`${T}10`, border:`1px solid ${T}25`, borderRadius:8, padding:"7px 14px" }}>
+                <span style={{ width:6, height:6, borderRadius:"50%", background:T, animation:"blink 2s infinite", display:"inline-block", flexShrink:0 }}/>
+                <span style={{ fontSize:11, fontWeight:700, color:T }}>Trip Active</span>
+              </div>
+            ) : (
+              <button onClick={()=>setTripStarted(true)} style={{ background:A, border:"none", borderRadius:10, padding:"9px 22px", color:"#111", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>Start Trip →</button>
+            )}
+          </div>
+
+          <div style={{ position:"relative", width:"100%", height:440, borderRadius:16, overflow:"hidden", background:"linear-gradient(160deg, #0B1420 0%, #091526 40%, #0D1B2A 100%)", border:`1px solid ${BDR}` }}>
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%", opacity:0.07 }}>
+              {[10,20,30,40,50,60,70,80,90].map(v=><line key={`h${v}`} x1="0" y1={v} x2="100" y2={v} stroke="white" strokeWidth="0.1"/>)}
+              {[10,20,30,40,50,60,70,80,90].map(v=><line key={`v${v}`} x1={v} y1="0" x2={v} y2="100" stroke="white" strokeWidth="0.1"/>)}
+            </svg>
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%" }}>
+              <path d="M 22,9 C 20,15 18,22 17,30 C 16,38 22,46 28,53 C 34,59 40,63 50,67 C 58,70 63,73 66,76 C 70,79 73,81 76,84" fill="none" stroke={A} strokeWidth="5" strokeLinecap="round" opacity={tripStarted?0.09:0.04}/>
+              {tripStarted && <path d="M 22,9 C 20,15 18,22 17,30 C 16,38 22,46 28,53" fill="none" stroke={T} strokeWidth="2" strokeLinecap="round" opacity="0.9"/>}
+              <path d="M 22,9 C 20,15 18,22 17,30 C 16,38 22,46 28,53 C 34,59 40,63 50,67 C 58,70 63,73 66,76 C 70,79 73,81 76,84" fill="none" stroke={A} strokeWidth={tripStarted?1.4:0.9} strokeLinecap="round" opacity={tripStarted?0.6:0.25} strokeDasharray={tripStarted?"3,3":"2,5"}/>
+            </svg>
+            <div style={{ position:"absolute", top:8, left:12, fontSize:7, color:"rgba(255,255,255,0.1)", fontFamily:"'Anybody',sans-serif", fontWeight:700, letterSpacing:1.5 }}>SAN FRANCISCO</div>
+            <div style={{ position:"absolute", bottom:8, right:12, fontSize:7, color:"rgba(255,255,255,0.1)", fontFamily:"'Anybody',sans-serif", fontWeight:700, letterSpacing:1.5 }}>CARMEL</div>
+
+            {tripStarted && Object.entries(stopPositions).map(([id, pos]) => {
+              const stop = itin.find(s => s.id === id);
+              if (!stop) return null;
+              return (
+                <div key={id} style={{ position:"absolute", left:`${pos.x}%`, top:`${pos.y}%`, transform:"translate(-50%,-50%)", zIndex:3 }}>
+                  <div style={{ width:stop.active?11:7, height:stop.active?11:7, borderRadius:"50%", background:stop.done?T:stop.active?A:"rgba(255,255,255,0.1)", border:`1.5px solid ${stop.done?T+"90":stop.active?A+"90":"rgba(255,255,255,0.2)"}`, boxShadow:stop.active?`0 0 10px ${A}70`:stop.done?`0 0 6px ${T}50`:"none", transition:"all 0.3s" }}/>
+                </div>
+              );
+            })}
+
+            {cars.map(c => {
+              const pos = tripStarted ? c.tripPos : c.homePos;
+              return (
+                <div key={c.id} style={{ position:"absolute", left:`${pos.x}%`, top:`${pos.y}%`, transform:"translate(-50%,-50%)", zIndex:c.isLeader?15:10, transition:"all 1.2s ease" }}>
+                  {c.isLeader && tripStarted && (
+                    <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:48, height:48, borderRadius:"50%", border:`1.5px solid ${c.accent}35`, animation:"pulse-ring 2.5s infinite" }}/>
+                  )}
+                  <div style={{ width:c.isLeader?34:28, height:c.isLeader?34:28, borderRadius:c.isLeader?10:8, background:`${c.accent}22`, border:`2px solid ${c.accent}${c.isLeader?"AA":"55"}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:c.isLeader?11:9, fontWeight:700, color:c.accent, fontFamily:"'Anybody',sans-serif", boxShadow:`0 0 ${c.isLeader?14:8}px ${c.accent}${c.isLeader?"50":"28"}`, backdropFilter:"blur(6px)" }}>
+                    {c.avatar}
+                  </div>
+                  <div style={{ position:"absolute", top:"100%", left:"50%", transform:"translateX(-50%)", marginTop:5, whiteSpace:"nowrap", textAlign:"center", background:"rgba(0,0,0,0.88)", padding:"3px 8px", borderRadius:6, border:`1px solid ${c.accent}25`, zIndex:20 }}>
+                    <div style={{ fontSize:8, fontWeight:700, color:c.accent }}>{c.name.split(" ")[0]}</div>
+                    {c.status !== "driving" && <div style={{ fontSize:7, color:stCfg[c.status]?.color, marginTop:1 }}>{stCfg[c.status]?.label}</div>}
+                  </div>
+                </div>
+              );
+            })}
+
+            {!tripStarted && (
+              <div style={{ position:"absolute", bottom:12, left:"50%", transform:"translateX(-50%)", fontSize:9, color:"rgba(255,255,255,0.22)", background:"rgba(0,0,0,0.5)", padding:"5px 14px", borderRadius:16, backdropFilter:"blur(4px)", whiteSpace:"nowrap" }}>
+                Tap Start Trip to go live
+              </div>
+            )}
+          </div>
+
+          {!tripStarted && (
+            <div className="fade-in" style={{ marginTop:12, background:SRF, border:`1px solid ${BDR}`, borderRadius:12, padding:"14px 16px" }}>
+              <div style={{ fontSize:11, color:"#666", lineHeight:1.55, marginBottom:12 }}>Your convoy is assembled. Start the trip to broadcast your route and sync all positions live.</div>
+              <div style={{ display:"flex", gap:6 }}>
+                {cars.map(c => (
+                  <div key={c.id} style={{ flex:1, textAlign:"center", background:`${c.accent}10`, border:`1px solid ${c.accent}25`, borderRadius:8, padding:"10px 4px" }}>
+                    <div style={{ fontSize:11, fontWeight:700, color:c.accent, fontFamily:"'Anybody',sans-serif" }}>{c.avatar}</div>
+                    <div style={{ fontSize:8, color:"#888", marginTop:3 }}>{c.name.split(" ")[0]}</div>
+                    <div style={{ fontSize:7, color:stCfg[c.status]?.color, marginTop:2 }}>{stCfg[c.status]?.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {tripStarted && (
+            <div className="fade-in" style={{ marginTop:12, display:"flex", gap:6 }}>
+              {cars.map(c => (
+                <div key={c.id} style={{ flex:1, background:c.isLeader?`${c.accent}10`:SRF, border:`1px solid ${c.isLeader?c.accent+"30":BDR}`, borderRadius:10, padding:"10px 10px" }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4 }}>
+                    <div style={{ width:22, height:22, borderRadius:6, background:`${c.accent}25`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:8, fontWeight:700, color:c.accent, fontFamily:"'Anybody',sans-serif", flexShrink:0 }}>{c.avatar}</div>
+                    <div>
+                      <div style={{ fontSize:10, fontWeight:600, color:"#EEE" }}>{c.name.split(" ")[0]}</div>
+                      <div style={{ fontSize:8, color:stCfg[c.status]?.color }}>{stCfg[c.status]?.label}</div>
+                    </div>
+                  </div>
+                  <div style={{ fontSize:8, color:"#555" }}>{c.dist===0?"At front":`${c.dist} mi back`}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -396,6 +553,8 @@ const RecommendationsApp = () => {
   const [sharingToggles, setSharingToggles] = useState({ maint:true, food:true, scenic:true, mode:false, events:true });
   const [discoverIdx, setDiscoverIdx] = useState(0);
   const [activatedFeatures, setActivatedFeatures] = useState(new Set());
+  const [compareId, setCompareId] = useState(null);
+  const [comparePicking, setComparePicking] = useState(false);
 
   const filtered = filter === "all" ? mapSpots : mapSpots.filter(s => s.type === filter);
   const spot = mapSpots.find(s => s.id === selected);
@@ -416,6 +575,8 @@ const RecommendationsApp = () => {
         <div style={{ fontSize:12, color:"#666", marginTop:4 }}>Aggregated from BMW drivers on Pacific Coast Highway</div>
       </div>
 
+      <div style={{ display:"flex", gap:20, alignItems:"flex-start" }}>
+      <div style={{ flex:"0 0 50%", minWidth:0 }}>
       <div style={{ display:"flex", gap:6, marginBottom:16, overflowX:"auto", paddingBottom:2 }}>
         {filters.map(f => (
           <button key={f.id} onClick={()=>{ setFilter(f.id); setSelected(null); }} style={{ padding:"6px 14px", borderRadius:20, border:`1px solid ${filter===f.id?T+"40":BDR}`, background:filter===f.id?`${T}15`:"transparent", color:filter===f.id?T:"#666", fontSize:11, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", display:"flex", alignItems:"center", gap:5, whiteSpace:"nowrap", transition:"all 0.2s" }}>
@@ -424,7 +585,7 @@ const RecommendationsApp = () => {
         ))}
       </div>
 
-      <div onClick={() => setSelected(null)} style={{ position:"relative", width:"100%", height:360, borderRadius:16, overflow:"hidden", background:"linear-gradient(160deg, #0D1B2A 0%, #0A1628 40%, #0F1D2F 70%, #0B1420 100%)", border:`1px solid ${BDR}`, marginBottom:16, cursor:"default" }}>
+      <div onClick={() => setSelected(null)} style={{ position:"relative", width:"100%", height:480, borderRadius:16, overflow:"hidden", background:"linear-gradient(160deg, #0D1B2A 0%, #0A1628 40%, #0F1D2F 70%, #0B1420 100%)", border:`1px solid ${BDR}`, marginBottom:16, cursor:"default" }}>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%", opacity:0.2 }}>
           <path d="M 0,0 Q 5,10 8,20 Q 12,30 10,42 Q 8,52 15,60 Q 22,68 18,78 Q 15,88 20,100 L 0,100 Z" fill={T} opacity="0.25"/>
           <path d="M 10,5 Q 20,15 15,25 Q 10,35 18,45 Q 25,55 22,65 Q 20,75 30,80 Q 45,88 55,82 Q 65,76 75,80 Q 85,85 90,95" fill="none" stroke={T} strokeWidth="0.5" strokeDasharray="2,2"/>
@@ -440,24 +601,30 @@ const RecommendationsApp = () => {
 
         {filtered.map(s => {
           const isSel = selected === s.id; const col = typeColors[s.type];
+          const sz = pinScale(s.visitors);
           return (
-            <div key={s.id} onClick={(e) => { e.stopPropagation(); setSelected(isSel ? null : s.id); }} style={{ position:"absolute", left:`${s.x}%`, top:`${s.y}%`, transform:"translate(-50%,-50%)", cursor:"pointer", zIndex:isSel?20:s.visitors>400?5:1, transition:"all 0.3s ease" }}>
-              {s.visitors > 300 && !isSel && (<div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:52, height:52, borderRadius:"50%", border:`1px solid ${col}25`, animation:"pulse-ring 3s infinite" }}/>)}
-              <div style={{ width:isSel?46:36, height:isSel?46:36, borderRadius:"50%", background:`radial-gradient(circle at 40% 35%, ${col}40, ${col}15)`, border:`2px solid ${col}${isSel?"CC":"55"}`, display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", boxShadow:isSel?`0 0 24px ${col}50, 0 0 48px ${col}20`:`0 0 10px ${col}15`, transition:"all 0.3s ease" }}>
-                <span style={{ fontSize:isSel?12:10, fontWeight:800, color:"#FFF", fontFamily:"'Anybody',sans-serif", lineHeight:1, textShadow:`0 0 8px ${col}` }}>{s.visitors}</span>
-                <span style={{ fontSize:isSel?7:6, color:"rgba(255,255,255,0.6)", fontWeight:600, marginTop:1 }}>visits</span>
+            <div key={s.id} onClick={(e) => { e.stopPropagation(); setSelected(isSel ? null : s.id); setComparePicking(false); }} style={{ position:"absolute", left:`${s.x}%`, top:`${s.y}%`, transform:"translate(-50%,-50%)", cursor:"pointer", zIndex:isSel?20:s.visitors>400?5:1, transition:"all 0.3s ease" }}>
+              {s.visitors > 150 && !isSel && (<div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:sz+14, height:sz+14, borderRadius:"50%", border:`1px solid ${col}${s.visitors>400?"35":"20"}`, animation:"pulse-ring 3s infinite" }}/>)}
+              <div style={{ width:isSel?sz+10:sz, height:isSel?sz+10:sz, borderRadius:"50%", background:`radial-gradient(circle at 40% 35%, ${col}${s.visitors>=400?"55":"38"}, ${col}${s.visitors>=400?"25":"12"})`, border:`2px solid ${col}${isSel?"CC":s.visitors>=400?"75":"45"}`, display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", boxShadow:isSel?`0 0 24px ${col}50, 0 0 48px ${col}20`:pinGlow(s.visitors,col), transition:"all 0.3s ease" }}>
+                <span style={{ fontSize:isSel?12:Math.max(8,Math.round(sz*0.3)), fontWeight:800, color:"#FFF", fontFamily:"'Anybody',sans-serif", lineHeight:1, textShadow:`0 0 8px ${col}` }}>{s.visitors}</span>
+                <span style={{ fontSize:isSel?7:Math.max(5,Math.round(sz*0.16)), color:"rgba(255,255,255,0.6)", fontWeight:600, marginTop:1 }}>visits</span>
               </div>
-              <div style={{ position:"absolute", top:"100%", left:"50%", transform:"translateX(-50%)", marginTop:6, whiteSpace:"nowrap", textAlign:"center", background:isSel?"rgba(0,0,0,0.9)":"rgba(0,0,0,0.65)", padding:isSel?"5px 12px":"3px 8px", borderRadius:8, border:`1px solid ${isSel?col+"60":"rgba(255,255,255,0.06)"}`, backdropFilter:"blur(8px)", transition:"all 0.3s" }}>
-                <div style={{ fontSize:isSel?11:9, fontWeight:600, color:isSel?"#FFF":"#CCC" }}>{s.name}</div>
-                {isSel && <div style={{ fontSize:8, color:col, marginTop:2 }}>{s.category} · ★{s.rating}</div>}
-              </div>
+              {isSel && (
+                <div style={{ position:"absolute", top:"100%", left:"50%", transform:"translateX(-50%)", marginTop:6, whiteSpace:"nowrap", textAlign:"center", background:"rgba(0,0,0,0.92)", padding:"5px 12px", borderRadius:8, border:`1px solid ${col}60`, backdropFilter:"blur(8px)", zIndex:30 }}>
+                  <div style={{ fontSize:11, fontWeight:600, color:"#FFF" }}>{s.name}</div>
+                  <div style={{ fontSize:8, color:col, marginTop:2 }}>{s.category} · ★{s.rating}</div>
+                </div>
+              )}
             </div>
           );
         })}
         {!selected && (<div style={{ position:"absolute", bottom:12, left:"50%", transform:"translateX(-50%)", fontSize:10, color:"rgba(255,255,255,0.25)", background:"rgba(0,0,0,0.5)", padding:"5px 14px", borderRadius:20, backdropFilter:"blur(4px)" }}>Tap a spot to see what's popular</div>)}
       </div>
+      </div>
+      <div style={{ flex:1, minWidth:0 }}>
 
       {spot && (
+        <>
         <div className="fade-in" style={{ background:`linear-gradient(160deg, ${typeColors[spot.type]}0A, transparent 60%)`, border:`1px solid ${typeColors[spot.type]}30`, borderRadius:18, padding:20, marginBottom:16 }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:16 }}>
             <div>
@@ -486,7 +653,105 @@ const RecommendationsApp = () => {
               ); })}
             </div>
           </div>
+          {spot.tips && spot.tips.length > 0 && (
+            <div style={{ marginTop:16 }}>
+              <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:8 }}>Driver Tips</div>
+              <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                {spot.tips.map((tip, i) => (
+                  <div key={i} style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:10, padding:"10px 14px", display:"flex", gap:10, alignItems:"flex-start" }}>
+                    <span style={{ fontSize:13, flexShrink:0 }}>💬</span>
+                    <div><div style={{ fontSize:12.5, color:"#CCC", lineHeight:1.45 }}>"{tip.text}"</div><div style={{ fontSize:9, color:"#555", marginTop:4, fontWeight:600 }}>— {tip.by}</div></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {spot.popularity && (
+            <div style={{ marginTop:16 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+                <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif" }}>Hour by Day</div>
+                <div style={{ fontSize:9, fontWeight:700, color:typeColors[spot.type] }}>Best: {spot.popularity.bestDay}</div>
+              </div>
+              {(()=>{
+                const days=["M","T","W","T","F","S","S"];
+                const slots=["AM","Mid","PM","Eve"];
+                const col=typeColors[spot.type];
+                const bg=v=>v===0?"rgba(255,255,255,0.04)":v===1?`${col}22`:v===2?`${col}55`:col;
+                return (
+                  <div>
+                    <div style={{ display:"grid", gridTemplateColumns:"14px 1fr 1fr 1fr 1fr", gap:3, marginBottom:4 }}>
+                      <div/>{slots.map(s=><div key={s} style={{ fontSize:7, color:"#444", textAlign:"center" }}>{s}</div>)}
+                    </div>
+                    {spot.popularity.grid.map((row,di)=>(
+                      <div key={di} style={{ display:"grid", gridTemplateColumns:"14px 1fr 1fr 1fr 1fr", gap:3, marginBottom:3 }}>
+                        <div style={{ fontSize:7, color:"#444", lineHeight:"14px", paddingRight:2, textAlign:"right" }}>{days[di]}</div>
+                        {row.map((v,ti)=><div key={ti} style={{ height:14, borderRadius:3, background:bg(v), transition:"background 0.3s" }}/>)}
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+            </div>
+          )}
+          <div style={{ marginTop:16, paddingTop:14, borderTop:`1px solid ${BDR}` }}>
+            {!comparePicking && !compareId && (
+              <button onClick={()=>setComparePicking(true)} style={{ width:"100%", background:SRF, border:`1px solid ${BDR}`, borderRadius:10, padding:"9px 16px", color:"#888", fontSize:12, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>↔ Compare with another spot</button>
+            )}
+            {comparePicking && !compareId && (
+              <div className="fade-in">
+                <div style={{ fontSize:10, color:"#777", fontWeight:600, marginBottom:8 }}>Pick a spot to compare:</div>
+                <div style={{ display:"flex", flexWrap:"wrap", gap:6 }}>
+                  {mapSpots.filter(s=>s.id!==spot.id).map(s=>(
+                    <button key={s.id} onClick={()=>{setCompareId(s.id);setComparePicking(false);}} style={{ padding:"6px 12px", borderRadius:8, border:`1px solid ${typeColors[s.type]}30`, background:`${typeColors[s.type]}10`, color:typeColors[s.type], fontSize:11, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>{s.name}</button>
+                  ))}
+                </div>
+                <button onClick={()=>setComparePicking(false)} style={{ marginTop:8, background:"transparent", border:"none", color:"#555", fontSize:11, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>Cancel</button>
+              </div>
+            )}
+          </div>
         </div>
+        {compareId && (()=>{
+          const cspot=mapSpots.find(s=>s.id===compareId);
+          if(!cspot) return null;
+          const col1=typeColors[spot.type], col2=typeColors[cspot.type];
+          const metrics=[
+            {label:"Visitors",  a:spot.visitors,    b:cspot.visitors,    fmt:v=>`${v}`,  win:(a,b)=>a>b},
+            {label:"Rating",    a:spot.rating,      b:cspot.rating,      fmt:v=>`★${v}`, win:(a,b)=>a>b},
+            {label:"Avg Spend", a:spot.avgSpend,    b:cspot.avgSpend,    fmt:v=>v,       win:null},
+            {label:"Wait",      a:spot.waitMinutes, b:cspot.waitMinutes, fmt:v=>v===0?"None":`${v}m`, win:(a,b)=>a<b},
+            {label:"Fit Score", a:spot.fitScore,    b:cspot.fitScore,    fmt:v=>`${v}`,  win:(a,b)=>a>b},
+          ];
+          return (
+            <div className="fade-in" style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:16, padding:16, marginBottom:16 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
+                <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif" }}>Comparison</div>
+                <button onClick={()=>{setCompareId(null);setComparePicking(false);}} style={{ background:"transparent", border:`1px solid ${BDR}`, color:"#555", fontSize:11, cursor:"pointer", padding:"3px 8px", borderRadius:6, fontWeight:600 }}>Clear ×</button>
+              </div>
+              <div style={{ display:"grid", gridTemplateColumns:"68px 1fr 1fr", gap:6, marginBottom:10 }}>
+                <div/>
+                <div style={{ fontSize:11, fontWeight:700, color:col1, textAlign:"center", padding:"6px 8px", background:`${col1}12`, borderRadius:8 }}>{spot.name}</div>
+                <div style={{ fontSize:11, fontWeight:700, color:col2, textAlign:"center", padding:"6px 8px", background:`${col2}12`, borderRadius:8 }}>{cspot.name}</div>
+              </div>
+              {metrics.map(m=>{
+                const aW=m.win&&m.win(m.a,m.b), bW=m.win&&m.win(m.b,m.a);
+                return (
+                  <div key={m.label} style={{ display:"grid", gridTemplateColumns:"68px 1fr 1fr", gap:6, marginBottom:5 }}>
+                    <div style={{ fontSize:9, color:"#555", fontWeight:600, textTransform:"uppercase", letterSpacing:0.5, alignSelf:"center" }}>{m.label}</div>
+                    <div style={{ background:aW?`${col1}18`:SRF, border:`1px solid ${aW?col1+"35":BDR}`, borderRadius:8, padding:"7px 6px", textAlign:"center" }}>
+                      <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:aW?col1:"#CCC" }}>{m.fmt(m.a)}</div>
+                      {aW&&<div style={{ fontSize:7, color:col1, fontWeight:700 }}>▲ Better</div>}
+                    </div>
+                    <div style={{ background:bW?`${col2}18`:SRF, border:`1px solid ${bW?col2+"35":BDR}`, borderRadius:8, padding:"7px 6px", textAlign:"center" }}>
+                      <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:bW?col2:"#CCC" }}>{m.fmt(m.b)}</div>
+                      {bW&&<div style={{ fontSize:7, color:col2, fontWeight:700 }}>▲ Better</div>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })()}
+        </>
       )}
 
       <div style={{ marginBottom:16 }}>
@@ -548,7 +813,9 @@ const RecommendationsApp = () => {
           <Toggle on={closeFriends} onFlip={()=>setCloseFriends(!closeFriends)} color={P}/>
         </div>
       </div>
+      </div>
     </div>
+  </div>
   );
 };
 
@@ -851,32 +1118,43 @@ export default function Root() {
         input::placeholder { color:#555; }
       `}</style>
 
-      <div style={{ fontFamily:"'Instrument Sans',sans-serif", background:"#08080C", color:"#F0F0F0", minHeight:"100vh" }}>
-        <div style={{ position:"fixed", inset:0, pointerEvents:"none", backgroundImage:`radial-gradient(circle at 50% 0%, ${app==="trip"?A:app==="past"?P:app==="vibe"?"#E8C438":T}06 0%, transparent 50%)` }}/>
+      <div style={{ fontFamily:"'Instrument Sans',sans-serif", background:"#08080C", color:"#F0F0F0", minHeight:"100vh", display:"flex" }}>
+        <div style={{ position:"fixed", inset:0, pointerEvents:"none", backgroundImage:`radial-gradient(circle at 20% 50%, ${app==="trip"?A:app==="past"?P:app==="vibe"?"#E8C438":T}05 0%, transparent 55%)` }}/>
 
-        <div style={{ position:"relative", maxWidth:520, margin:"0 auto", padding:"16px 16px 40px" }}>
-          <div style={{ display:"flex", gap:3, marginBottom:20, padding:3, background:"rgba(255,255,255,0.02)", borderRadius:12, border:`1px solid ${BDR}` }}>
+        {/* Sidebar nav */}
+        <div style={{ position:"relative", width:196, flexShrink:0, minHeight:"100vh", background:"rgba(255,255,255,0.012)", borderRight:`1px solid ${BDR}`, display:"flex", flexDirection:"column", padding:"28px 12px 24px", zIndex:10 }}>
+          <div style={{ paddingLeft:10, marginBottom:36 }}>
+            <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:8, fontWeight:800, letterSpacing:2.5, color:"#333", textTransform:"uppercase", marginBottom:6 }}>BMW Research</div>
+            <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:17, fontWeight:800, color:"#F0F0F0", letterSpacing:-0.4 }}>Driver HMI</div>
+          </div>
+          <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
             {[
-              { id:"trip", label:"Trip Mode", icon:"◉", color:A },
+              { id:"trip", label:"Trip Mode",       icon:"◉", color:A },
               { id:"recs", label:"Recommendations", icon:"✦", color:T },
-              { id:"past", label:"Past Drives", icon:"◈", color:P },
-              { id:"vibe", label:"Vibe Map", icon:"🍃", color:"#E8C438" },
+              { id:"past", label:"Past Drives",     icon:"◈", color:P },
+              { id:"vibe", label:"Vibe Map",        icon:"🍃", color:"#E8C438" },
             ].map(a => (
               <button key={a.id} onClick={()=>setApp(a.id)} style={{
-                flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5,
-                padding:"11px 8px", borderRadius:9, border:"none",
+                display:"flex", alignItems:"center", gap:10,
+                padding:"11px 14px", borderRadius:10, border:"none",
                 background:app===a.id?`${a.color}15`:"transparent",
                 color:app===a.id?a.color:"#555",
-                fontSize:11, fontWeight:700, cursor:"pointer",
-                fontFamily:"'Anybody',sans-serif", letterSpacing:0.2, transition:"all 0.25s",
+                fontSize:12, fontWeight:700, cursor:"pointer",
+                fontFamily:"'Anybody',sans-serif", letterSpacing:0.2,
+                transition:"all 0.25s", textAlign:"left",
               }}>
-                <span style={{ fontSize:10 }}>{a.icon}</span>{a.label}
+                <span style={{ fontSize:11 }}>{a.icon}</span>{a.label}
               </button>
             ))}
           </div>
+        </div>
 
-          <div key={app} className="fade-in">
-            {app === "trip" ? <TripModeApp /> : app === "recs" ? <RecommendationsApp /> : app === "past" ? <PastDrivesApp /> : <VibeMapApp />}
+        {/* Main content */}
+        <div style={{ flex:1, overflowY:"auto", minHeight:"100vh", position:"relative" }}>
+          <div style={{ maxWidth:900, margin:"0 auto", padding:"28px 40px 60px" }}>
+            <div key={app} className="fade-in">
+              {app === "trip" ? <TripModeApp /> : app === "recs" ? <RecommendationsApp /> : app === "past" ? <PastDrivesApp /> : <VibeMapApp />}
+            </div>
           </div>
         </div>
       </div>
