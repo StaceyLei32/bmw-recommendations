@@ -5,6 +5,7 @@ import cors from 'cors';
 const { Pool } = pg;
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 // Connects to cloud DB (Supabase)
 const pool = new Pool({
@@ -123,6 +124,67 @@ app.get('/api/discovery-features/:segment_id', async (req, res) => {
     }
 
     res.json(features);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "DB Error" });
+  }
+});
+
+// Endpoint: Record a visit (engine off → engine on)
+app.post('/api/visits', async (req, res) => {
+  const { place_id, engine_off_at, engine_on_at, dwell_minutes, item_name, drive_mode, window_status, temperature_f, weather_condition } = req.body;
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS visits (
+        id serial PRIMARY KEY,
+        place_id text,
+        engine_off_at timestamptz,
+        engine_on_at timestamptz,
+        dwell_minutes int,
+        item_name text,
+        drive_mode text,
+        window_status text,
+        temperature_f int,
+        weather_condition text,
+        created_at timestamptz DEFAULT now()
+      )
+    `);
+    const result = await pool.query(`
+      INSERT INTO visits (place_id, engine_off_at, engine_on_at, dwell_minutes, item_name, drive_mode, window_status, temperature_f, weather_condition)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      RETURNING *
+    `, [place_id, engine_off_at, engine_on_at, dwell_minutes, item_name || null, drive_mode || null, window_status || null, temperature_f || null, weather_condition || null]);
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "DB Error" });
+  }
+});
+
+// Endpoint: Get recent visits for a specific place
+app.get('/api/visits/:place_id', async (req, res) => {
+  const { place_id } = req.params;
+  try {
+    const result = await pool.query(`
+      SELECT * FROM visits WHERE place_id = $1 ORDER BY created_at DESC LIMIT 20
+    `, [place_id]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "DB Error" });
+  }
+});
+
+// Endpoint: Get all recent visits with place name
+app.get('/api/visits', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT v.*, p.name as place_name, p.category
+      FROM visits v
+      LEFT JOIN places p ON v.place_id = p.id
+      ORDER BY v.created_at DESC LIMIT 50
+    `);
+    res.json(result.rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "DB Error" });

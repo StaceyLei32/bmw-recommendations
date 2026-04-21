@@ -558,6 +558,49 @@ const RecommendationsApp = () => {
   const [activatedFeatures, setActivatedFeatures] = useState(new Set());
   const [compareId, setCompareId] = useState(null);
   const [comparePicking, setComparePicking] = useState(false);
+  const [checkIn, setCheckIn] = useState(null); // { placeId, startTime }
+  const [elapsed, setElapsed] = useState(0);    // seconds since engine off
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [driveMode, setDriveMode] = useState("Sport");
+  const [visitLog, setVisitLog] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (!checkIn) { setElapsed(0); return; }
+    const timer = setInterval(() => setElapsed(s => s + 1), 1000);
+    return () => clearInterval(timer);
+  }, [checkIn]);
+
+  const fmtElapsed = (s) => s < 60 ? `${s}s` : `${Math.floor(s/60)}m ${String(s%60).padStart(2,'0')}s`;
+
+  const submitVisit = async () => {
+    if (!checkIn) return;
+    setSubmitting(true);
+    const visitSpot = mapSpots.find(s => s.id === checkIn.placeId);
+    const payload = {
+      place_id: checkIn.placeId,
+      engine_off_at: new Date(checkIn.startTime).toISOString(),
+      engine_on_at: new Date().toISOString(),
+      dwell_minutes: Math.max(1, Math.round(elapsed / 60)),
+      item_name: selectedItem || null,
+      drive_mode: driveMode,
+      window_status: 'closed',
+      temperature_f: 68,
+      weather_condition: 'clear',
+    };
+    let entry = { ...payload, id: Date.now(), place_name: visitSpot?.name, category: visitSpot?.category, type: visitSpot?.type, elapsed };
+    try {
+      const r = await fetch('http://localhost:3000/api/visits', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+      });
+      if (r.ok) { const d = await r.json(); entry = { ...entry, ...d }; }
+    } catch (e) { console.warn("API offline — visit logged locally"); }
+    setVisitLog(p => [entry, ...p]);
+    setCheckIn(null);
+    setElapsed(0);
+    setSelectedItem(null);
+    setSubmitting(false);
+  };
 
   const filtered = filter === "all" ? mapSpots : mapSpots.filter(s => s.type === filter);
   const spot = mapSpots.find(s => s.id === selected);
@@ -688,6 +731,57 @@ const RecommendationsApp = () => {
             ))}
           </div>
           <div style={{ display:"inline-flex", alignItems:"center", gap:5, padding:"5px 12px", borderRadius:8, background:`${T}12`, border:`1px solid ${T}25`, marginBottom:16, fontSize:11, color:T, fontWeight:600 }}>📈 {spot.trend}</div>
+
+          {/* ── Check-In Panel ── */}
+          {(() => {
+            const isHere = checkIn?.placeId === spot.id;
+            const otherCheckIn = checkIn && checkIn.placeId !== spot.id;
+            const col = typeColors[spot.type];
+            if (isHere) return (
+              <div className="fade-in" style={{ marginBottom:16, background:`${EB}08`, border:`1px solid ${EB}35`, borderRadius:14, padding:"14px 16px" }}>
+                <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                    <div style={{ width:8, height:8, borderRadius:"50%", background:R, animation:"blink 1.2s infinite", flexShrink:0 }}/>
+                    <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:R, textTransform:"uppercase" }}>Engine Off · Parked</div>
+                  </div>
+                  <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, fontWeight:800, color:"#E0F0FF", letterSpacing:-0.5 }}>{fmtElapsed(elapsed)}</div>
+                </div>
+                {spot.type === "food" && (
+                  <div style={{ marginBottom:12 }}>
+                    <div style={{ fontSize:9, fontWeight:700, letterSpacing:1, color:"#555", textTransform:"uppercase", marginBottom:7 }}>What did you get?</div>
+                    <div style={{ display:"flex", flexWrap:"wrap", gap:5 }}>
+                      {spot.items.map(item => (
+                        <button key={item.name} onClick={()=>setSelectedItem(p => p===item.name ? null : item.name)} style={{ padding:"5px 10px", borderRadius:8, border:`1px solid ${selectedItem===item.name?col+"70":BDR}`, background:selectedItem===item.name?`${col}20`:"rgba(255,255,255,0.04)", color:selectedItem===item.name?col:"#666", fontSize:10, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", transition:"all 0.15s" }}>{item.name}</button>
+                      ))}
+                      <button onClick={()=>setSelectedItem(p => p==="Something else" ? null : "Something else")} style={{ padding:"5px 10px", borderRadius:8, border:`1px solid ${selectedItem==="Something else"?col+"70":BDR}`, background:selectedItem==="Something else"?`${col}20`:"rgba(255,255,255,0.04)", color:selectedItem==="Something else"?col:"#666", fontSize:10, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>Other</button>
+                    </div>
+                  </div>
+                )}
+                <div style={{ marginBottom:12 }}>
+                  <div style={{ fontSize:9, fontWeight:700, letterSpacing:1, color:"#555", textTransform:"uppercase", marginBottom:7 }}>Drive Mode</div>
+                  <div style={{ display:"flex", gap:5 }}>
+                    {["Sport","Comfort","Sport+","Eco"].map(m => (
+                      <button key={m} onClick={()=>setDriveMode(m)} style={{ flex:1, padding:"5px 4px", borderRadius:8, border:`1px solid ${driveMode===m?EB+"60":BDR}`, background:driveMode===m?`${EB}18`:"rgba(255,255,255,0.04)", color:driveMode===m?EB:"#555", fontSize:9, fontWeight:700, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>{m}</button>
+                    ))}
+                  </div>
+                </div>
+                <button onClick={submitVisit} disabled={submitting} style={{ width:"100%", background:submitting?"#1A2A3A":EB, border:"none", borderRadius:10, padding:"10px 16px", color:submitting?"#4A7A9B":"#060C1A", fontSize:12, fontWeight:700, cursor:submitting?"not-allowed":"pointer", fontFamily:"'Instrument Sans',sans-serif", transition:"all 0.2s" }}>
+                  {submitting ? "Recording…" : "⚡ Engine On — Record Visit"}
+                </button>
+              </div>
+            );
+            if (otherCheckIn) return (
+              <div style={{ marginBottom:16, background:SRF, border:`1px solid ${BDR}`, borderRadius:12, padding:"10px 14px", fontSize:11, color:"#555" }}>
+                Already parked at another spot — engine on first to check in here.
+              </div>
+            );
+            return (
+              <button onClick={()=>setCheckIn({ placeId:spot.id, startTime:Date.now() })} style={{ width:"100%", marginBottom:16, background:"rgba(255,255,255,0.04)", border:`1px solid ${col}40`, borderRadius:12, padding:"11px 16px", color:col, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", display:"flex", alignItems:"center", justifyContent:"center", gap:8, transition:"all 0.2s" }}>
+                <span style={{ fontSize:10 }}>▐▌</span> Engine Off — I'm Here
+              </button>
+            );
+          })()}
+
           <div>
             <div style={{ fontSize:10, fontWeight:700, letterSpacing:1.5, color:"#777", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>{spot.type==="food"?"Most Ordered Items":spot.type==="scenic"?"Popular Activities":spot.type==="event"?"Attendance Breakdown":"Most Requested Services"}</div>
             <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
@@ -803,6 +897,37 @@ const RecommendationsApp = () => {
         )}
 
       </div>{/* end map container */}
+
+      {/* Visit Log */}
+      {visitLog.length > 0 && (
+        <div style={{ marginBottom:20 }}>
+          <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:EB, textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>This Drive · Stops Recorded</div>
+          <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+            {visitLog.map((v, i) => {
+              const col = v.type ? typeColors[v.type] : EB;
+              const mins = v.dwell_minutes || Math.max(1, Math.round(v.elapsed/60));
+              return (
+                <div key={v.id || i} className="fade-in" style={{ background:SRF, border:`1px solid ${col}25`, borderRadius:12, padding:"12px 16px", display:"flex", alignItems:"center", gap:12 }}>
+                  <div style={{ width:36, height:36, borderRadius:10, background:`${col}15`, border:`1px solid ${col}35`, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                    <span style={{ fontSize:14 }}>{v.type==="food"?"🍴":v.type==="scenic"?"⛰":"📍"}</span>
+                  </div>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ fontSize:13, fontWeight:700, color:"#E0E0E0", marginBottom:2 }}>{v.place_name || v.place_id}</div>
+                    <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+                      {v.item_name && <span style={{ fontSize:10, color:col, fontWeight:600 }}>✓ {v.item_name}</span>}
+                      {v.drive_mode && <span style={{ fontSize:10, color:"#555" }}>{v.drive_mode} mode</span>}
+                    </div>
+                  </div>
+                  <div style={{ textAlign:"right", flexShrink:0 }}>
+                    <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:18, fontWeight:800, color:"#E0F0FF", lineHeight:1 }}>{mins}<span style={{ fontSize:10, fontWeight:500, color:"#4A7A9B" }}>m</span></div>
+                    <div style={{ fontSize:9, color:"#4A7A9B", marginTop:2 }}>parked</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div>
         <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>Your Data Sharing</div>

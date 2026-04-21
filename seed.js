@@ -35,6 +35,23 @@ async function runSeed() {
     `;
     await client.query(alterCommands);
 
+    console.log("Creating visits table...");
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS visits (
+        id serial PRIMARY KEY,
+        place_id text,
+        engine_off_at timestamptz,
+        engine_on_at timestamptz,
+        dwell_minutes int,
+        item_name text,
+        drive_mode text,
+        window_status text,
+        temperature_f int,
+        weather_condition text,
+        created_at timestamptz DEFAULT now()
+      );
+    `);
+
     console.log("Creating map spots tables...");
     // 2. Create tables for Map Spots
     await client.query(`
