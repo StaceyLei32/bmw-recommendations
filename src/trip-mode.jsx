@@ -11,8 +11,14 @@ const T = "#3DD6C8";
 const R = "#E8574A";
 const O = "#E87C4A";
 const P = "#A87CE8";
-const SRF = "rgba(255,255,255,0.035)";
-const BDR = "rgba(255,255,255,0.07)";
+const SRF = "rgba(14,165,255,0.07)";
+const BDR = "rgba(14,165,255,0.18)";
+/* BMW blue palette */
+const EB  = "#0EA5FF";   // electric blue
+const EBD = "rgba(14,165,255,0.18)";
+const EBS = "rgba(14,165,255,0.07)";
+const NBG = "#060C1A";   // navy background
+const NPL = "rgba(8,18,48,0.9)"; // navy panel
 
 /* ── Data ── */
 
@@ -28,12 +34,12 @@ const initCars = [
 ];
 
 const initItinerary = [
-  { id:"s1", time:"09:00", label:"Depart San Francisco", sub:"Golden Gate meetup", done:true },
-  { id:"s2", time:"10:30", label:"Pacifica Overlook", sub:"10-min photo stop", done:true },
-  { id:"s3", time:"12:00", label:"Lunch — Davenport", sub:"Whale City Bakery", done:true },
-  { id:"s4", time:"14:15", label:"Big Sur — Bixby Bridge", sub:"Vista point pulloff", done:false, active:true },
-  { id:"s5", time:"15:30", label:"Pfeiffer Beach", sub:"Purple sand, 30 min", done:false },
-  { id:"s6", time:"17:00", label:"Arrive Carmel", sub:"L'Auberge check-in", done:false },
+  { id:"s1", time:"09:00", label:"Depart — Downtown Berkeley BART", sub:"Assembly point, Shattuck & Center", done:true },
+  { id:"s2", time:"09:45", label:"Cheeseboard Pizza", sub:"Quick stop, Gourmet Ghetto", done:true },
+  { id:"s3", time:"10:30", label:"UC Berkeley Campus Loop", sub:"North Gate → Campanile", done:true },
+  { id:"s4", time:"11:30", label:"Claremont Canyon Ascent", sub:"Sport mode — twisty switchbacks", done:false, active:true },
+  { id:"s5", time:"12:30", label:"Grizzly Peak Blvd", sub:"Ridgeline views, 5.6 mi", done:false },
+  { id:"s6", time:"13:30", label:"Arrive Tilden Regional Park", sub:"Lake Anza & Nimitz Way Trail", done:false },
 ];
 
 const initMsgs = [
@@ -47,148 +53,145 @@ const initMsgs = [
 
 const mapSpots = [
   {
-    id:"spot1", name:"Boba Guys", type:"food", x:32, y:22,
-    visitors:94, rating:4.8, category:"Boba & Tea",
-    tagline:"Most visited boba spot on this route",
+    id:"spot1", name:"Cheeseboard Pizza", type:"food", x:32, y:22,
+    visitors:287, rating:4.9, category:"Pizza & Bakery",
+    tagline:"Worker-owned collective — always a line, always worth it",
     items:[
-      { name:"Classic Milk Tea", orders:312, pct:38, hot:true },
-      { name:"Strawberry Matcha", orders:198, pct:24 },
-      { name:"Horchata Boba", orders:147, pct:18 },
-      { name:"Jasmine Green Tea", orders:89, pct:11 },
-      { name:"Mango Lassi", orders:73, pct:9 },
+      { name:"Daily Veggie Pizza", orders:534, pct:44, hot:true },
+      { name:"Cheese Board Selection", orders:298, pct:25 },
+      { name:"Sourdough Loaf", orders:178, pct:15 },
+      { name:"Croissant", orders:112, pct:9 },
+      { name:"Cookie", orders:89, pct:7 },
     ],
-    peakHour:"2–4 PM", avgSpend:"$7.40", trend:"+23% this week", waitMinutes:5, fitScore:72,
+    peakHour:"12–1:30 PM", avgSpend:"$9", trend:"+18% this week", waitMinutes:20, fitScore:88,
     tips:[
-      { text:"Order ahead on weekdays — line moves fast.", by:"The Efficiency Optimizer" },
-      { text:"Strawberry matcha is the move on a warm day.", by:"The Weekend Wanderer" },
+      { text:"The daily pizza changes — follow their IG for a heads up.", by:"The Weekend Wanderer" },
+      { text:"Get there 15 min before opening or the line wraps the block.", by:"The Efficiency Optimizer" },
     ],
-    popularity:{ bestDay:"Saturday", grid:[[1,1,2,2],[0,1,2,1],[0,1,2,2],[1,1,3,2],[1,2,3,3],[1,2,3,3],[1,2,3,2]] },
+    popularity:{ bestDay:"Friday", grid:[[0,2,2,0],[0,2,2,0],[0,2,2,0],[0,3,3,0],[0,3,3,1],[1,3,3,2],[0,3,3,1]] },
   },
   {
-    id:"spot2", name:"Duarte's Tavern", type:"food", x:28, y:38,
-    visitors:203, rating:4.6, category:"Restaurant",
-    tagline:"Legendary artichoke soup since 1894",
+    id:"spot2", name:"Chez Panisse", type:"food", x:28, y:38,
+    visitors:178, rating:4.8, category:"Farm-to-Table",
+    tagline:"Alice Waters' iconic restaurant — California cuisine birthplace",
     items:[
-      { name:"Cream of Artichoke Soup", orders:589, pct:42, hot:true },
-      { name:"Crab Cioppino", orders:301, pct:22 },
-      { name:"Fish & Chips", orders:234, pct:17 },
-      { name:"Olallieberry Pie", orders:178, pct:13 },
-      { name:"Clam Chowder", orders:87, pct:6 },
+      { name:"Prix Fixe Dinner", orders:389, pct:46, hot:true },
+      { name:"Café Lunch", orders:234, pct:28 },
+      { name:"Seasonal Tasting Menu", orders:134, pct:16 },
+      { name:"Wine Pairing", orders:84, pct:10 },
     ],
-    peakHour:"12–1:30 PM", avgSpend:"$28.50", trend:"+8% this week", waitMinutes:18, fitScore:88,
+    peakHour:"7–9 PM", avgSpend:"$115", trend:"Steady", waitMinutes:0, fitScore:82,
     tips:[
-      { text:"Artichoke soup first, always — it's the move.", by:"The Road Captain" },
-      { text:"Park around back, much easier for a group exit.", by:"The Road Captain" },
+      { text:"Book at least 4 weeks ahead — the café downstairs is easier.", by:"The Road Captain" },
+      { text:"Café menu is half the price and just as good.", by:"The Efficiency Optimizer" },
     ],
-    popularity:{ bestDay:"Sunday", grid:[[0,2,1,0],[0,2,1,0],[0,2,2,0],[0,2,2,1],[1,3,2,1],[1,3,2,1],[1,3,2,0]] },
+    popularity:{ bestDay:"Saturday", grid:[[0,0,1,1],[0,0,1,1],[0,0,1,1],[0,0,1,2],[0,0,2,2],[0,0,2,2],[0,0,2,2]] },
   },
   {
-    id:"spot3", name:"Hawk Hill Overlook", type:"scenic", x:42, y:12,
-    visitors:631, rating:4.9, category:"Scenic Viewpoint",
-    tagline:"#1 photo spot for BMW drivers on PCH",
+    id:"spot3", name:"Campanile (Sather Tower)", type:"scenic", x:42, y:12,
+    visitors:631, rating:4.9, category:"Landmark & Viewpoint",
+    tagline:"Best 360° view of the Bay Area — SF, Oakland, Marin",
     items:[
-      { name:"Golden Gate photo", orders:1842, pct:45, hot:true, label:"photos" },
-      { name:"Sunset visit", orders:723, pct:18, label:"visits" },
-      { name:"Sunrise visit", orders:412, pct:10, label:"visits" },
-      { name:"Drone footage", orders:289, pct:7, label:"clips" },
-      { name:"Timelapse", orders:198, pct:5, label:"recordings" },
+      { name:"Tower visit + bay view", orders:1842, pct:48, hot:true, label:"visits" },
+      { name:"Carillon concert (noon)", orders:523, pct:14, label:"visits" },
+      { name:"Sunset panorama", orders:412, pct:11, label:"visits" },
+      { name:"Campus photo tour", orders:367, pct:10, label:"visits" },
+      { name:"Drone footage", orders:201, pct:5, label:"clips" },
     ],
-    peakHour:"5:30–7 PM", avgSpend:"Free", trend:"+15% this week", waitMinutes:0, fitScore:95,
+    peakHour:"12–1 PM", avgSpend:"$3", trend:"+12% this month", waitMinutes:10, fitScore:96,
     tips:[
-      { text:"Golden hour is 6:30–7:30 PM — plan the stop around it.", by:"The Spirited Tourer" },
-      { text:"Lower lot has quicker turnaround if you're keeping pace.", by:"The Efficiency Optimizer" },
+      { text:"Noon carillon concert every day — worth timing your visit.", by:"The Spirited Tourer" },
+      { text:"Climb to the top for the bay view. $3 is worth every penny.", by:"The Weekend Wanderer" },
     ],
-    popularity:{ bestDay:"Saturday", grid:[[0,1,2,3],[0,1,2,3],[0,1,2,3],[0,1,3,3],[1,2,3,3],[1,2,3,3],[1,2,3,3]] },
+    popularity:{ bestDay:"Saturday", grid:[[0,2,3,2],[0,2,3,2],[0,2,3,2],[0,2,3,2],[1,3,3,2],[1,3,3,3],[1,3,3,2]] },
   },
   {
-    id:"spot4", name:"Phil's Fish Market", type:"food", x:62, y:58,
-    visitors:178, rating:4.7, category:"Seafood",
-    tagline:"Cioppino so good you'll want seconds",
+    id:"spot4", name:"Top Dog", type:"food", x:62, y:58,
+    visitors:203, rating:4.6, category:"Hot Dogs & Sausages",
+    tagline:"Berkeley institution since 1966 — open until 2 AM",
     items:[
-      { name:"Cioppino in Bread Bowl", orders:445, pct:40, hot:true },
-      { name:"Grilled Calamari", orders:267, pct:24 },
-      { name:"Fish Tacos", orders:189, pct:17 },
-      { name:"Clam Strips", orders:123, pct:11 },
-      { name:"Seafood Pasta", orders:89, pct:8 },
+      { name:"Polish Sausage", orders:445, pct:38, hot:true },
+      { name:"Hot Link", orders:312, pct:27 },
+      { name:"Italian Sausage", orders:201, pct:17 },
+      { name:"Frankfurter", orders:134, pct:11 },
+      { name:"Turkey Dog", orders:84, pct:7 },
     ],
-    peakHour:"11:30–1 PM", avgSpend:"$22", trend:"+12% this week", waitMinutes:22, fitScore:84,
+    peakHour:"12–2 PM & 10 PM–2 AM", avgSpend:"$6", trend:"+8% this week", waitMinutes:8, fitScore:79,
     tips:[
-      { text:"Get the cioppino in a bread bowl. Non-negotiable.", by:"The Road Captain" },
-      { text:"Arrive before noon — the rush hits hard after 12:30.", by:"The Efficiency Optimizer" },
+      { text:"Late night after a show at the Greek is the move.", by:"The Weekend Wanderer" },
+      { text:"Cash only. Polish sausage with mustard — that's the order.", by:"The Road Captain" },
     ],
-    popularity:{ bestDay:"Sunday", grid:[[0,2,1,0],[0,3,2,0],[0,2,1,0],[1,3,2,1],[1,3,2,1],[1,3,2,1],[1,3,2,1]] },
+    popularity:{ bestDay:"Friday", grid:[[0,2,1,1],[0,2,1,1],[0,2,1,1],[0,2,2,2],[1,2,2,3],[1,2,2,3],[0,2,2,3]] },
   },
   {
-    id:"spot5", name:"Cars & Coffee", type:"event", x:70, y:68,
-    visitors:445, rating:4.8, category:"Car Meet",
-    tagline:"Saturday mornings — biggest BMW turnout in NorCal",
+    id:"spot5", name:"The Greek Theatre", type:"event", x:70, y:68,
+    visitors:445, rating:4.8, category:"Concert Venue",
+    tagline:"Outdoor amphitheater — iconic Berkeley summer concerts",
     items:[
-      { name:"M3/M4 owners", orders:89, pct:32, hot:true, label:"attendees" },
-      { name:"3-Series", orders:67, pct:24, label:"attendees" },
-      { name:"X models", orders:56, pct:20, label:"attendees" },
-      { name:"i-Series EV", orders:42, pct:15, label:"attendees" },
-      { name:"Classic/Vintage", orders:25, pct:9, label:"attendees" },
+      { name:"Concert / Live Show", orders:1234, pct:65, hot:true, label:"events" },
+      { name:"Graduation Ceremony", orders:312, pct:16, label:"events" },
+      { name:"Comedy Show", orders:189, pct:10, label:"events" },
+      { name:"Special Event", orders:178, pct:9, label:"events" },
     ],
-    peakHour:"8–10 AM Sat", avgSpend:"$5 coffee", trend:"+31% this month", waitMinutes:0, fitScore:97,
+    peakHour:"7–10 PM", avgSpend:"$65", trend:"+28% this month", waitMinutes:0, fitScore:92,
     tips:[
-      { text:"Show up before 8 AM — best energy and easiest parking.", by:"The Spirited Tourer" },
-      { text:"Bring a jacket. Coastal fog doesn't clear until 10.", by:"The Weekend Wanderer" },
+      { text:"Section C has the best sound and sightlines.", by:"The Spirited Tourer" },
+      { text:"Arrive via Gayley Rd — much less traffic than the main entrance.", by:"The Efficiency Optimizer" },
     ],
-    popularity:{ bestDay:"Saturday", grid:[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[3,2,1,0],[1,0,0,0]] },
+    popularity:{ bestDay:"Saturday", grid:[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,1,1],[0,0,2,2],[1,1,3,3],[1,1,2,2]] },
   },
   {
-    id:"spot6", name:"Bavarian Motorwerks", type:"service", x:18, y:30,
-    visitors:412, rating:4.9, category:"BMW Service",
-    tagline:"Top-rated independent BMW shop on the coast",
+    id:"spot6", name:"Bongo Burger", type:"food", x:18, y:30,
+    visitors:312, rating:4.5, category:"Burgers & Shakes",
+    tagline:"Berkeley's favorite no-frills burger — cash only",
     items:[
-      { name:"Oil Change / Inspection", orders:623, pct:35, hot:true, label:"services" },
-      { name:"Brake Service", orders:389, pct:22, label:"services" },
-      { name:"Suspension Work", orders:267, pct:15, label:"services" },
-      { name:"Software / Coding", orders:234, pct:13, label:"services" },
-      { name:"Performance Upgrades", orders:178, pct:10, label:"services" },
+      { name:"Double Cheeseburger", orders:623, pct:38, hot:true },
+      { name:"Vanilla Shake", orders:389, pct:24 },
+      { name:"Bacon Burger", orders:267, pct:16 },
+      { name:"Veggie Burger", orders:234, pct:14 },
+      { name:"Chili Cheese Fries", orders:134, pct:8 },
     ],
-    peakHour:"9 AM–12 PM", avgSpend:"$185", trend:"Steady", waitMinutes:35, fitScore:91,
+    peakHour:"12–1:30 PM", avgSpend:"$12", trend:"+6% this week", waitMinutes:10, fitScore:77,
     tips:[
-      { text:"Call ahead — walk-ins wait significantly longer.", by:"The Efficiency Optimizer" },
-      { text:"They do same-day coding and resets if you're passing through.", by:"The Road Captain" },
+      { text:"Cash only, ATM on-site. The double with special sauce is the pick.", by:"The Road Captain" },
+      { text:"Lunch rush is real — go before noon or after 1:30.", by:"The Efficiency Optimizer" },
     ],
-    popularity:{ bestDay:"Tuesday", grid:[[1,3,3,1],[1,3,3,1],[1,3,2,1],[1,3,2,1],[1,3,2,0],[0,1,1,0],[0,0,0,0]] },
+    popularity:{ bestDay:"Thursday", grid:[[0,2,2,0],[0,2,2,0],[0,3,3,0],[0,3,3,0],[0,3,3,1],[0,2,2,0],[0,1,1,0]] },
   },
   {
-    id:"spot7", name:"Alice's Restaurant", type:"food", x:38, y:32,
-    visitors:287, rating:4.4, category:"Cafe & Meetup",
-    tagline:"Weekend car meet with great breakfast",
+    id:"spot7", name:"Tilden Regional Park", type:"scenic", x:38, y:32,
+    visitors:412, rating:4.9, category:"Regional Park",
+    tagline:"Hidden gem above Berkeley — trails, lake, and bay views",
     items:[
-      { name:"Breakfast Burrito", orders:401, pct:34, hot:true },
-      { name:"Eggs Benedict", orders:278, pct:23 },
-      { name:"Avocado Toast", orders:198, pct:17 },
-      { name:"Drip Coffee", orders:189, pct:16 },
-      { name:"Smoothie Bowl", orders:112, pct:10 },
+      { name:"Nimitz Way Trail", orders:623, pct:32, hot:true, label:"visits" },
+      { name:"Lake Anza swim", orders:412, pct:21, label:"visits" },
+      { name:"Grizzly Peak overlook", orders:389, pct:20, label:"visits" },
+      { name:"Botanical Garden", orders:312, pct:16, label:"visits" },
+      { name:"Steam Train ride", orders:201, pct:11, label:"rides" },
     ],
-    peakHour:"9–11 AM", avgSpend:"$16", trend:"+5% this week", waitMinutes:15, fitScore:79,
+    peakHour:"9 AM–12 PM", avgSpend:"Free", trend:"+14% this month", waitMinutes:0, fitScore:94,
     tips:[
-      { text:"The breakfast burrito feeds two. Plan accordingly.", by:"The Weekend Wanderer" },
-      { text:"Car crowd peaks 9–11 AM — great window for a stretch.", by:"The Spirited Tourer" },
+      { text:"Drive Grizzly Peak Blvd at dusk — Bay Area city lights coming on.", by:"The Spirited Tourer" },
+      { text:"Roads up here are twisty and mostly empty — sport mode territory.", by:"The Performance Seeker" },
     ],
-    popularity:{ bestDay:"Sunday", grid:[[0,1,1,0],[0,1,1,0],[0,1,1,0],[0,1,2,0],[1,2,2,1],[2,3,2,1],[2,3,2,1]] },
+    popularity:{ bestDay:"Sunday", grid:[[0,1,2,1],[0,1,2,1],[0,1,2,1],[0,2,3,2],[1,3,3,2],[1,3,3,2],[1,3,3,2]] },
   },
   {
-    id:"spot8", name:"Laguna Seca", type:"event", x:78, y:74,
-    visitors:312, rating:4.9, category:"Track Day",
-    tagline:"Put your M car where it belongs",
+    id:"spot8", name:"CREAM", type:"food", x:78, y:74,
+    visitors:178, rating:4.5, category:"Ice Cream & Desserts",
+    tagline:"Build your own cookie sandwich — Telegraph Ave staple",
     items:[
-      { name:"Track day pass", orders:312, pct:45, hot:true, label:"bookings" },
-      { name:"Instructor session", orders:156, pct:22, label:"bookings" },
-      { name:"Ride-along", orders:112, pct:16, label:"bookings" },
-      { name:"Photography pkg", orders:78, pct:11, label:"bookings" },
-      { name:"Car rental (track)", orders:42, pct:6, label:"bookings" },
+      { name:"Cookie Sandwich", orders:534, pct:52, hot:true },
+      { name:"Ice Cream Cup", orders:234, pct:23 },
+      { name:"Cookie Only", orders:156, pct:15 },
+      { name:"Vegan Options", orders:104, pct:10 },
     ],
-    peakHour:"All day events", avgSpend:"$350", trend:"+18% this month", waitMinutes:0, fitScore:93,
+    peakHour:"2–5 PM", avgSpend:"$6", trend:"+11% this week", waitMinutes:6, fitScore:73,
     tips:[
-      { text:"Book the instructor session — worth every dollar.", by:"The Performance Seeker" },
-      { text:"Best photo spot for the Corkscrew is turn 8–8A.", by:"The Spirited Tourer" },
+      { text:"Snickerdoodle + vanilla is the classic combo.", by:"The Weekend Wanderer" },
+      { text:"Line moves fast — don't let the queue scare you off.", by:"The Efficiency Optimizer" },
     ],
-    popularity:{ bestDay:"Saturday", grid:[[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,2,2,1],[1,3,3,2],[2,3,3,2],[2,3,2,1]] },
+    popularity:{ bestDay:"Saturday", grid:[[0,1,1,0],[0,1,1,0],[0,1,1,0],[0,1,2,1],[0,2,3,2],[0,2,3,2],[0,2,3,2]] },
   },
 ];
 
@@ -335,7 +338,7 @@ const TripModeApp = () => {
     <div>
       <div style={{ marginBottom:18 }}>
         <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:9, fontWeight:800, letterSpacing:3, color:A, textTransform:"uppercase", marginBottom:8 }}>◉ Trip Mode</div>
-        <h2 style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, fontWeight:800, margin:0, color:"#F5F5F5", letterSpacing:-0.5 }}>Pacific Coast Highway</h2>
+        <h2 style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, fontWeight:800, margin:0, color:"#F5F5F5", letterSpacing:-0.5 }}>Berkeley Hills Drive</h2>
         <div style={{ display:"flex", gap:0, marginTop:12, padding:"10px 0", background:SRF, border:`1px solid ${BDR}`, borderRadius:10, justifyContent:"space-around" }}>
           {[["ELAPSED", fmt(elapsed), A], ["CONVOY", `${cars.length} cars`, "#DDD"], ["ETA", leader?.eta, "#DDD"], ["STOPS", `${itin.filter(s=>s.done).length}/${itin.length}`, "#DDD"]].map(([l,v,c]) => (
             <div key={l} style={{ textAlign:"center", padding:"0 8px" }}>
@@ -457,7 +460,7 @@ const TripModeApp = () => {
             )}
           </div>
 
-          <div style={{ position:"relative", width:"100%", height:440, borderRadius:16, overflow:"hidden", background:"linear-gradient(160deg, #0B1420 0%, #091526 40%, #0D1B2A 100%)", border:`1px solid ${BDR}` }}>
+          <div style={{ position:"relative", width:"100%", height:440, borderRadius:16, overflow:"hidden", background:"linear-gradient(160deg, #040A1C 0%, #060E22 40%, #081426 100%)", border:`1px solid ${BDR}` }}>
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%", opacity:0.07 }}>
               {[10,20,30,40,50,60,70,80,90].map(v=><line key={`h${v}`} x1="0" y1={v} x2="100" y2={v} stroke="white" strokeWidth="0.1"/>)}
               {[10,20,30,40,50,60,70,80,90].map(v=><line key={`v${v}`} x1={v} y1="0" x2={v} y2="100" stroke="white" strokeWidth="0.1"/>)}
@@ -569,23 +572,25 @@ const RecommendationsApp = () => {
 
   return (
     <div>
-      <div style={{ marginBottom:16 }}>
-        <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:9, fontWeight:800, letterSpacing:3, color:T, textTransform:"uppercase", marginBottom:8 }}>✦ Recommendations</div>
-        <h2 style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, fontWeight:800, margin:0, color:"#F5F5F5", letterSpacing:-0.5 }}>Popular Near You</h2>
-        <div style={{ fontSize:12, color:"#666", marginTop:4 }}>Aggregated from BMW drivers on Pacific Coast Highway</div>
+      <div style={{ marginBottom:12, display:"flex", alignItems:"flex-end", justifyContent:"space-between" }}>
+        <div>
+          <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:9, fontWeight:800, letterSpacing:3, color:T, textTransform:"uppercase", marginBottom:6 }}>✦ Recommendations</div>
+          <h2 style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, fontWeight:800, margin:0, color:"#F5F5F5", letterSpacing:-0.5 }}>Popular Near You</h2>
+        </div>
+        <div style={{ fontSize:11, color:"#3A5A7A" }}>Aggregated from BMW drivers · UC Berkeley</div>
       </div>
 
-      <div style={{ display:"flex", gap:20, alignItems:"flex-start" }}>
-      <div style={{ flex:"0 0 50%", minWidth:0 }}>
-      <div style={{ display:"flex", gap:6, marginBottom:16, overflowX:"auto", paddingBottom:2 }}>
-        {filters.map(f => (
-          <button key={f.id} onClick={()=>{ setFilter(f.id); setSelected(null); }} style={{ padding:"6px 14px", borderRadius:20, border:`1px solid ${filter===f.id?T+"40":BDR}`, background:filter===f.id?`${T}15`:"transparent", color:filter===f.id?T:"#666", fontSize:11, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", display:"flex", alignItems:"center", gap:5, whiteSpace:"nowrap", transition:"all 0.2s" }}>
-            {f.label} <span style={{ fontSize:9, opacity:0.6 }}>{f.count}</span>
-          </button>
-        ))}
-      </div>
+      {/* Full-width map with everything overlaid */}
+      <div onClick={() => setSelected(null)} style={{ position:"relative", width:"100%", height:580, borderRadius:18, overflow:"hidden", background:"linear-gradient(160deg, #040A1C 0%, #060E22 40%, #081426 70%, #040A1C 100%)", border:`1px solid ${BDR}`, marginBottom:20, cursor:"default" }}>
 
-      <div onClick={() => setSelected(null)} style={{ position:"relative", width:"100%", height:480, borderRadius:16, overflow:"hidden", background:"linear-gradient(160deg, #0D1B2A 0%, #0A1628 40%, #0F1D2F 70%, #0B1420 100%)", border:`1px solid ${BDR}`, marginBottom:16, cursor:"default" }}>
+        {/* Filter tabs — overlaid top-left */}
+        <div style={{ position:"absolute", top:14, left:14, zIndex:20, display:"flex", gap:5, flexWrap:"wrap" }}>
+          {filters.map(f => (
+            <button key={f.id} onClick={(e)=>{ e.stopPropagation(); setFilter(f.id); setSelected(null); }} style={{ padding:"5px 12px", borderRadius:16, border:`1px solid ${filter===f.id?T+"60":BDR}`, background:filter===f.id?`${T}20`:"rgba(4,10,28,0.75)", color:filter===f.id?T:"#4A7A9B", fontSize:10, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", display:"flex", alignItems:"center", gap:4, whiteSpace:"nowrap", backdropFilter:"blur(8px)", transition:"all 0.2s" }}>
+              {f.label} <span style={{ fontSize:8, opacity:0.6 }}>{f.count}</span>
+            </button>
+          ))}
+        </div>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%", opacity:0.2 }}>
           <path d="M 0,0 Q 5,10 8,20 Q 12,30 10,42 Q 8,52 15,60 Q 22,68 18,78 Q 15,88 20,100 L 0,100 Z" fill={T} opacity="0.25"/>
           <path d="M 10,5 Q 20,15 15,25 Q 10,35 18,45 Q 25,55 22,65 Q 20,75 30,80 Q 45,88 55,82 Q 65,76 75,80 Q 85,85 90,95" fill="none" stroke={T} strokeWidth="0.5" strokeDasharray="2,2"/>
@@ -609,22 +614,65 @@ const RecommendationsApp = () => {
                 <span style={{ fontSize:isSel?12:Math.max(8,Math.round(sz*0.3)), fontWeight:800, color:"#FFF", fontFamily:"'Anybody',sans-serif", lineHeight:1, textShadow:`0 0 8px ${col}` }}>{s.visitors}</span>
                 <span style={{ fontSize:isSel?7:Math.max(5,Math.round(sz*0.16)), color:"rgba(255,255,255,0.6)", fontWeight:600, marginTop:1 }}>visits</span>
               </div>
-              {isSel && (
-                <div style={{ position:"absolute", top:"100%", left:"50%", transform:"translateX(-50%)", marginTop:6, whiteSpace:"nowrap", textAlign:"center", background:"rgba(0,0,0,0.92)", padding:"5px 12px", borderRadius:8, border:`1px solid ${col}60`, backdropFilter:"blur(8px)", zIndex:30 }}>
-                  <div style={{ fontSize:11, fontWeight:600, color:"#FFF" }}>{s.name}</div>
-                  <div style={{ fontSize:8, color:col, marginTop:2 }}>{s.category} · ★{s.rating}</div>
-                </div>
-              )}
+              <div style={{ position:"absolute", top:"100%", left:"50%", transform:"translateX(-50%)", marginTop:5, whiteSpace:"nowrap", textAlign:"center", background:isSel?"rgba(0,0,0,0.92)":"rgba(0,0,0,0.7)", padding:isSel?"5px 12px":"3px 8px", borderRadius:7, border:`1px solid ${col}${isSel?"60":"30"}`, backdropFilter:"blur(8px)", zIndex:30, transition:"all 0.2s" }}>
+                <div style={{ fontSize:isSel?11:9, fontWeight:600, color:"#FFF" }}>{s.name}</div>
+                {isSel && <div style={{ fontSize:8, color:col, marginTop:2 }}>{s.category} · ★{s.rating}</div>}
+              </div>
             </div>
           );
         })}
         {!selected && (<div style={{ position:"absolute", bottom:12, left:"50%", transform:"translateX(-50%)", fontSize:10, color:"rgba(255,255,255,0.25)", background:"rgba(0,0,0,0.5)", padding:"5px 14px", borderRadius:20, backdropFilter:"blur(4px)" }}>Tap a spot to see what's popular</div>)}
-      </div>
-      </div>
-      <div style={{ flex:1, minWidth:0 }}>
 
-      {spot && (
-        <>
+        {/* Suggestion notification — bottom-left overlay */}
+        {!activatedFeatures.has(discoveryFeatures[discoverIdx].id) ? (
+          <div className="fade-in" key={discoverIdx} onClick={e=>e.stopPropagation()} style={{
+            position:"absolute", bottom:14, left:14, width:260, zIndex:40,
+            background:"rgba(4,10,28,0.88)",
+            border:`1px solid ${discoveryFeatures[discoverIdx].color}50`,
+            borderRadius:14, padding:"12px 14px",
+            backdropFilter:"blur(18px)",
+            boxShadow:`0 0 0 1px ${discoveryFeatures[discoverIdx].color}20, 0 0 18px ${discoveryFeatures[discoverIdx].color}30, 0 0 40px ${discoveryFeatures[discoverIdx].color}12`,
+            animation:"suggGlow 2.5s ease-in-out infinite",
+          }}>
+            <style>{`@keyframes suggGlow { 0%,100%{box-shadow:0 0 0 1px ${discoveryFeatures[discoverIdx].color}20,0 0 14px ${discoveryFeatures[discoverIdx].color}25,0 0 32px ${discoveryFeatures[discoverIdx].color}10} 50%{box-shadow:0 0 0 1px ${discoveryFeatures[discoverIdx].color}40,0 0 24px ${discoveryFeatures[discoverIdx].color}45,0 0 52px ${discoveryFeatures[discoverIdx].color}20} }`}</style>
+            <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:8 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:7 }}>
+                <div style={{ position:"relative", flexShrink:0 }}>
+                  <div style={{ width:28, height:28, borderRadius:8, background:`${discoveryFeatures[discoverIdx].color}20`, border:`1px solid ${discoveryFeatures[discoverIdx].color}50`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:13 }}>{discoveryFeatures[discoverIdx].icon}</div>
+                  <div style={{ position:"absolute", top:-3, right:-3, width:8, height:8, borderRadius:"50%", background:discoveryFeatures[discoverIdx].color, border:"1.5px solid rgba(4,10,28,0.9)", animation:"blink 1.8s infinite" }}/>
+                </div>
+                <div>
+                  <div style={{ fontSize:7, fontWeight:700, letterSpacing:1.2, color:discoveryFeatures[discoverIdx].color, textTransform:"uppercase", marginBottom:1 }}>Suggestion</div>
+                  <div style={{ fontSize:12, fontWeight:700, color:"#E0F0FF", lineHeight:1.2 }}>{discoveryFeatures[discoverIdx].title}</div>
+                </div>
+              </div>
+              <div style={{ display:"flex", gap:3 }}>
+                <button onClick={()=>setDiscoverIdx(i=>(i-1+discoveryFeatures.length)%discoveryFeatures.length)} style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", color:"#4A7A9B", fontSize:11, cursor:"pointer", padding:"2px 7px", borderRadius:5 }}>‹</button>
+                <button onClick={()=>setDiscoverIdx(i=>(i+1)%discoveryFeatures.length)} style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", color:"#4A7A9B", fontSize:11, cursor:"pointer", padding:"2px 7px", borderRadius:5 }}>›</button>
+              </div>
+            </div>
+            <div style={{ fontSize:10, color:"rgba(180,210,240,0.65)", lineHeight:1.45, marginBottom:10 }}>{discoveryFeatures[discoverIdx].desc}</div>
+            <div style={{ display:"flex", gap:6, alignItems:"center" }}>
+              <button onClick={()=>setActivatedFeatures(p=>new Set([...p,discoveryFeatures[discoverIdx].id]))} style={{ flex:1, background:discoveryFeatures[discoverIdx].color, border:"none", borderRadius:7, padding:"7px 10px", color:"#0A0A14", fontSize:10, fontWeight:700, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>{discoveryFeatures[discoverIdx].cta} →</button>
+              <button onClick={()=>setDiscoverIdx(i=>(i+1)%discoveryFeatures.length)} style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:7, padding:"7px 10px", color:"#4A7A9B", fontSize:10, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>Skip</button>
+            </div>
+          </div>
+        ) : (
+          <div className="fade-in" onClick={e=>e.stopPropagation()} style={{
+            position:"absolute", bottom:14, left:14, zIndex:40,
+            background:"rgba(4,10,28,0.88)", border:`1px solid ${T}40`, borderRadius:12, padding:"10px 14px",
+            backdropFilter:"blur(18px)", display:"flex", alignItems:"center", gap:10,
+            boxShadow:`0 0 14px ${T}25`,
+          }}>
+            <div style={{ width:22, height:22, borderRadius:6, background:`${T}20`, border:`1px solid ${T}50`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, color:T }}>✓</div>
+            <div style={{ fontSize:11, fontWeight:600, color:T }}>{discoveryFeatures[discoverIdx].title} — Activated</div>
+            <button onClick={()=>{setActivatedFeatures(p=>{const n=new Set(p);n.delete(discoveryFeatures[discoverIdx].id);return n;})}} style={{ background:"transparent", border:"none", color:"#4A7A9B", fontSize:10, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif", paddingLeft:4 }}>Undo</button>
+          </div>
+        )}
+
+        {/* Spot detail panel — overlaid bottom-right on the map */}
+        {spot && (
+          <div className="fade-in" onClick={e=>e.stopPropagation()} style={{ position:"absolute", bottom:14, right:14, width:340, maxHeight:500, overflowY:"auto", zIndex:40, borderRadius:16, backdropFilter:"blur(20px)" }}>
         <div className="fade-in" style={{ background:`linear-gradient(160deg, ${typeColors[spot.type]}0A, transparent 60%)`, border:`1px solid ${typeColors[spot.type]}30`, borderRadius:18, padding:20, marginBottom:16 }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:16 }}>
             <div>
@@ -751,55 +799,10 @@ const RecommendationsApp = () => {
             </div>
           );
         })()}
-        </>
-      )}
-
-      <div style={{ marginBottom:16 }}>
-        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
-          <div>
-            <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:A, textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:3 }}>Discover Your Car</div>
-            <div style={{ fontSize:12, color:"#666" }}>Contextual suggestions based on road, weather & driving data</div>
-          </div>
-        </div>
-        {!activatedFeatures.has(discoveryFeatures[discoverIdx].id) ? (
-          <div className="fade-in" key={discoverIdx} style={{ background:`linear-gradient(160deg, ${discoveryFeatures[discoverIdx].color}12, transparent 70%)`, border:`1px solid ${discoveryFeatures[discoverIdx].color}30`, borderRadius:16, padding:18, marginBottom:10, position:"relative", overflow:"hidden" }}>
-            <div style={{ position:"absolute", top:-30, right:-30, width:100, height:100, borderRadius:"50%", background:`${discoveryFeatures[discoverIdx].color}06` }}/>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10, position:"relative" }}>
-              <div style={{ display:"flex", alignItems:"center", gap:8 }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:18, color:discoveryFeatures[discoverIdx].color }}>{discoveryFeatures[discoverIdx].icon}</span><div style={{ fontSize:9, fontWeight:700, letterSpacing:1, color:discoveryFeatures[discoverIdx].color, textTransform:"uppercase", fontFamily:"'Anybody',sans-serif" }}>Suggestion · Now</div></div>
-              <div style={{ display:"flex", gap:4 }}>
-                <button onClick={()=>setDiscoverIdx(i => (i-1+discoveryFeatures.length)%discoveryFeatures.length)} style={{ background:SRF, border:`1px solid ${BDR}`, color:"#888", fontSize:12, cursor:"pointer", padding:"3px 8px", borderRadius:6, fontFamily:"'Anybody',sans-serif" }}>‹</button>
-                <button onClick={()=>setDiscoverIdx(i => (i+1)%discoveryFeatures.length)} style={{ background:SRF, border:`1px solid ${BDR}`, color:"#888", fontSize:12, cursor:"pointer", padding:"3px 8px", borderRadius:6, fontFamily:"'Anybody',sans-serif" }}>›</button>
-              </div>
-            </div>
-            <div style={{ fontSize:17, fontWeight:700, color:"#F0F0F0", marginBottom:4, position:"relative" }}>{discoveryFeatures[discoverIdx].title}</div>
-            <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8, position:"relative" }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:700, color:discoveryFeatures[discoverIdx].color }}>{discoveryFeatures[discoverIdx].stat}</span><span style={{ fontSize:12, color:"#888" }}>{discoveryFeatures[discoverIdx].statDetail}</span></div>
-            <div style={{ fontSize:12, color:"#999", lineHeight:1.5, marginBottom:14, position:"relative" }}>{discoveryFeatures[discoverIdx].desc}</div>
-            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:14, position:"relative" }}><span style={{ fontSize:9, color:"#555", background:SRF, padding:"3px 8px", borderRadius:6, border:`1px solid ${BDR}` }}>{discoveryFeatures[discoverIdx].context}</span></div>
-            <div style={{ display:"flex", gap:8, position:"relative" }}>
-              <button onClick={()=>{ setActivatedFeatures(p => new Set([...p, discoveryFeatures[discoverIdx].id])); }} style={{ background:discoveryFeatures[discoverIdx].color, border:"none", borderRadius:8, padding:"9px 20px", color:"#111", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>{discoveryFeatures[discoverIdx].cta} →</button>
-              <button onClick={()=>setDiscoverIdx(i => (i+1)%discoveryFeatures.length)} style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:8, padding:"9px 16px", color:"#888", fontSize:12, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>Skip</button>
-            </div>
-            <div style={{ position:"relative", marginTop:12, display:"flex", gap:3, justifyContent:"center" }}>
-              {discoveryFeatures.map((_, i) => (<div key={i} onClick={()=>setDiscoverIdx(i)} style={{ width:i===discoverIdx?16:6, height:6, borderRadius:3, cursor:"pointer", background:activatedFeatures.has(discoveryFeatures[i].id)?`${T}60`:i===discoverIdx?discoveryFeatures[discoverIdx].color:"rgba(255,255,255,0.1)", transition:"all 0.25s" }}/>))}
-            </div>
-          </div>
-        ) : (
-          <div className="fade-in" style={{ background:`${T}0C`, border:`1px solid ${T}25`, borderRadius:14, padding:14, marginBottom:10, display:"flex", alignItems:"center", gap:12 }}>
-            <span style={{ fontSize:16, color:T }}>✓</span>
-            <div style={{ flex:1 }}><div style={{ fontSize:13, fontWeight:600, color:T }}>{discoveryFeatures[discoverIdx].title} — Activated</div><div style={{ fontSize:11, color:"#888", marginTop:2 }}>Tap arrows above to browse more suggestions</div></div>
-            <button onClick={()=>{ setActivatedFeatures(p => { const n = new Set(p); n.delete(discoveryFeatures[discoverIdx].id); return n; }); }} style={{ background:SRF, border:`1px solid ${BDR}`, borderRadius:6, padding:"5px 10px", color:"#888", fontSize:10, fontWeight:600, cursor:"pointer", fontFamily:"'Instrument Sans',sans-serif" }}>Undo</button>
           </div>
         )}
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6 }}>
-          {discoveryFeatures.filter((_,i) => i !== discoverIdx).slice(0,4).map(f => { const active = activatedFeatures.has(f.id); return (
-            <div key={f.id} onClick={() => setDiscoverIdx(discoveryFeatures.findIndex(d => d.id === f.id))} style={{ background:active?`${T}08`:SRF, border:`1px solid ${active?T+"20":BDR}`, borderRadius:10, padding:"10px 12px", cursor:"pointer", transition:"all 0.2s" }}>
-              <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4 }}><span style={{ fontFamily:"'Anybody',sans-serif", fontSize:12, color:active?T:f.color }}>{active?"✓":f.icon}</span><span style={{ fontSize:11, fontWeight:600, color:active?"#999":"#CCC" }}>{f.title}</span></div>
-              <div style={{ fontSize:10, color:"#555" }}><span style={{ color:active?T:f.color, fontWeight:600 }}>{f.stat}</span> {f.statDetail.split(" ").slice(0,3).join(" ")}…</div>
-            </div>
-          ); })}
-        </div>
-        {activatedFeatures.size > 0 && (<div style={{ textAlign:"center", marginTop:10, fontSize:11, color:T }}>{activatedFeatures.size} feature{activatedFeatures.size>1?"s":""} activated this drive</div>)}
-      </div>
+
+      </div>{/* end map container */}
 
       <div>
         <div style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#555", textTransform:"uppercase", fontFamily:"'Anybody',sans-serif", marginBottom:10 }}>Your Data Sharing</div>
@@ -813,9 +816,7 @@ const RecommendationsApp = () => {
           <Toggle on={closeFriends} onFlip={()=>setCloseFriends(!closeFriends)} color={P}/>
         </div>
       </div>
-      </div>
     </div>
-  </div>
   );
 };
 
@@ -929,15 +930,15 @@ const vibeEmojis = {
 };
 
 const roadSegments = [
-  { id:"seg1", name:"Golden Gate → Pacifica", from:{x:22,y:6}, to:{x:18,y:18}, vibe:"exhilarating", pct:89, votes:342, miles:12.4, details:"Sweeping bridge exit into coastal curves. Sport mode territory — every driver loves this opening.", breakdown:[{v:"exhilarating",p:89},{v:"scenic",p:68},{v:"focused",p:42},{v:"peaceful",p:12},{v:"stressful",p:5}] },
-  { id:"seg2", name:"Pacifica → Devil's Slide", from:{x:18,y:18}, to:{x:15,y:28}, vibe:"focused", pct:78, votes:298, miles:8.2, details:"Tight cliff-edge curves with ocean drops. Requires attention — tunnels ahead get the exhaust echoing.", breakdown:[{v:"focused",p:78},{v:"exhilarating",p:65},{v:"stressful",p:28},{v:"scenic",p:45},{v:"peaceful",p:8}] },
-  { id:"seg3", name:"Half Moon Bay Stretch", from:{x:15,y:28}, to:{x:20,y:40}, vibe:"peaceful", pct:94, votes:445, miles:15.8, details:"Long coastal flats with farm views and ocean on the left. Roll down your windows, open the roof.", breakdown:[{v:"peaceful",p:94},{v:"scenic",p:82},{v:"boring",p:12},{v:"exhilarating",p:8},{v:"stressful",p:2}] },
-  { id:"seg4", name:"Pescadero → Davenport", from:{x:20,y:40}, to:{x:28,y:52}, vibe:"scenic", pct:91, votes:387, miles:18.6, details:"Redwood groves transition to open cliffs. The most photographed stretch — pull over at Shark Fin Cove.", breakdown:[{v:"scenic",p:91},{v:"peaceful",p:76},{v:"exhilarating",p:34},{v:"focused",p:18},{v:"boring",p:3}] },
-  { id:"seg5", name:"Davenport → Santa Cruz", from:{x:28,y:52}, to:{x:38,y:60}, vibe:"boring", pct:52, votes:234, miles:11.2, details:"Flat agricultural stretch connecting to the city. Highway vibes — put on a podcast and cruise.", breakdown:[{v:"boring",p:52},{v:"peaceful",p:34},{v:"stressful",p:18},{v:"focused",p:22},{v:"scenic",p:12}] },
-  { id:"seg6", name:"Santa Cruz → Moss Landing", from:{x:38,y:60}, to:{x:52,y:66}, vibe:"peaceful", pct:72, votes:267, miles:22.4, details:"Coastal highway with wetland views. Sea otters in the harbor if you stop. Comfortable cruising.", breakdown:[{v:"peaceful",p:72},{v:"scenic",p:58},{v:"boring",p:28},{v:"focused",p:12},{v:"exhilarating",p:6}] },
-  { id:"seg7", name:"Monterey Peninsula", from:{x:52,y:66}, to:{x:62,y:72}, vibe:"scenic", pct:86, votes:412, miles:14.8, details:"17-Mile Drive adjacent. Cypress trees, ocean, Pebble Beach. Drive slow — it's all about the views.", breakdown:[{v:"scenic",p:86},{v:"peaceful",p:78},{v:"exhilarating",p:22},{v:"focused",p:14},{v:"boring",p:4}] },
-  { id:"seg8", name:"Big Sur — Bixby Bridge", from:{x:62,y:72}, to:{x:74,y:80}, vibe:"exhilarating", pct:96, votes:523, miles:24.6, details:"THE stretch. Bixby Bridge, cliff-hugging curves, 1000ft drops to the Pacific. Peak driving experience.", breakdown:[{v:"exhilarating",p:96},{v:"scenic",p:94},{v:"focused",p:72},{v:"peaceful",p:18},{v:"stressful",p:8}] },
-  { id:"seg9", name:"Big Sur → Carmel", from:{x:74,y:80}, to:{x:82,y:90}, vibe:"peaceful", pct:82, votes:378, miles:16.2, details:"Winding descent into Carmel. The drive mellows out — golden light through the trees as you arrive.", breakdown:[{v:"peaceful",p:82},{v:"scenic",p:74},{v:"exhilarating",p:28},{v:"focused",p:16},{v:"boring",p:6}] },
+  { id:"seg1", name:"University Ave → Campus", from:{x:22,y:6}, to:{x:18,y:18}, vibe:"peaceful", pct:82, votes:312, miles:2.1, details:"The main artery from the bay to campus. Light signals keep pace steady — a scenic approach through the Berkeley flats.", breakdown:[{v:"peaceful",p:82},{v:"scenic",p:58},{v:"boring",p:28},{v:"focused",p:14},{v:"stressful",p:8}] },
+  { id:"seg2", name:"Shattuck Ave (Gourmet Ghetto)", from:{x:18,y:18}, to:{x:15,y:28}, vibe:"peaceful", pct:76, votes:267, miles:1.8, details:"North Berkeley's food corridor. Slow roll past Chez Panisse and Cheeseboard — windows down, no rush.", breakdown:[{v:"peaceful",p:76},{v:"scenic",p:54},{v:"boring",p:24},{v:"focused",p:16},{v:"stressful",p:8}] },
+  { id:"seg3", name:"Bancroft Way (Campus Edge)", from:{x:15,y:28}, to:{x:20,y:40}, vibe:"scenic", pct:87, votes:398, miles:0.9, details:"Tree-lined edge of campus with pedestrians, bikes, and stadium views. The quintessential Berkeley experience.", breakdown:[{v:"scenic",p:87},{v:"peaceful",p:72},{v:"exhilarating",p:18},{v:"focused",p:14},{v:"boring",p:3}] },
+  { id:"seg4", name:"Telegraph Ave Strip", from:{x:20,y:40}, to:{x:28,y:52}, vibe:"focused", pct:71, votes:287, miles:1.4, details:"Dense pedestrian traffic and double-parked delivery trucks. Navigate carefully — rewards the patient driver.", breakdown:[{v:"focused",p:71},{v:"stressful",p:45},{v:"scenic",p:32},{v:"peaceful",p:12},{v:"exhilarating",p:8}] },
+  { id:"seg5", name:"Claremont Canyon Road", from:{x:28,y:52}, to:{x:38,y:60}, vibe:"exhilarating", pct:88, votes:445, miles:2.8, details:"Climbing switchbacks through Claremont Canyon. Tight curves through the eucalyptus trees — Sport mode required.", breakdown:[{v:"exhilarating",p:88},{v:"focused",p:76},{v:"scenic",p:62},{v:"peaceful",p:18},{v:"stressful",p:12}] },
+  { id:"seg6", name:"Grizzly Peak Blvd", from:{x:38,y:60}, to:{x:52,y:66}, vibe:"exhilarating", pct:94, votes:523, miles:5.6, details:"THE drive in the Berkeley Hills. Sweeping ridgeline road with 180° bay views. Empty at dawn, perfect at golden hour.", breakdown:[{v:"exhilarating",p:94},{v:"scenic",p:91},{v:"focused",p:55},{v:"peaceful",p:22},{v:"stressful",p:6}] },
+  { id:"seg7", name:"Stadium Rim Road", from:{x:52,y:66}, to:{x:62,y:72}, vibe:"scenic", pct:84, votes:234, miles:1.5, details:"Winding above Memorial Stadium with hillside views. Light traffic, great pavement — a little-known gem.", breakdown:[{v:"scenic",p:84},{v:"exhilarating",p:48},{v:"peaceful",p:42},{v:"focused",p:22},{v:"boring",p:4}] },
+  { id:"seg8", name:"College Ave (Elmwood)", from:{x:62,y:72}, to:{x:74,y:80}, vibe:"peaceful", pct:79, votes:312, miles:2.2, details:"Charming neighborhood main street. Boutiques, cafés, and tree canopy — the nicest surface street in Berkeley.", breakdown:[{v:"peaceful",p:79},{v:"scenic",p:65},{v:"boring",p:18},{v:"focused",p:12},{v:"exhilarating",p:6}] },
+  { id:"seg9", name:"Tilden Park Road", from:{x:74,y:80}, to:{x:82,y:90}, vibe:"scenic", pct:91, votes:412, miles:3.2, details:"Into the East Bay wilderness above Berkeley. Open meadows and redwoods — feels miles from the city.", breakdown:[{v:"scenic",p:91},{v:"peaceful",p:78},{v:"exhilarating",p:38},{v:"focused",p:24},{v:"boring",p:4}] },
 ];
 
 const VibeMapApp = () => {
@@ -955,7 +956,7 @@ const VibeMapApp = () => {
       <div style={{ marginBottom:16 }}>
         <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:9, fontWeight:800, letterSpacing:3, color:"#E8C438", textTransform:"uppercase", marginBottom:8 }}>🍃 Vibe Map</div>
         <h2 style={{ fontFamily:"'Anybody',sans-serif", fontSize:22, fontWeight:800, margin:0, color:"#F5F5F5", letterSpacing:-0.5 }}>Emotional Road Map</h2>
-        <div style={{ fontSize:12, color:"#666", marginTop:4 }}>How drivers <em>feel</em> on every stretch — {totalVotes.toLocaleString()} ratings across {totalMiles} mi</div>
+        <div style={{ fontSize:12, color:"#666", marginTop:4 }}>How drivers <em>feel</em> on every Berkeley road — {totalVotes.toLocaleString()} ratings across {totalMiles} mi</div>
       </div>
 
       <div style={{ display:"flex", gap:5, marginBottom:14, overflowX:"auto", paddingBottom:2 }}>
@@ -968,7 +969,7 @@ const VibeMapApp = () => {
       </div>
 
       {/* Heat Map */}
-      <div onClick={()=>setSelectedSeg(null)} style={{ position:"relative", width:"100%", height:400, borderRadius:16, overflow:"hidden", background:"linear-gradient(170deg, #0D1B2A 0%, #080E18 50%, #0B1420 100%)", border:`1px solid ${BDR}`, marginBottom:16 }}>
+      <div onClick={()=>setSelectedSeg(null)} style={{ position:"relative", width:"100%", height:400, borderRadius:16, overflow:"hidden", background:"linear-gradient(170deg, #040A1C 0%, #050C1E 50%, #060E22 100%)", border:`1px solid ${BDR}`, marginBottom:16 }}>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position:"absolute", inset:0, width:"100%", height:"100%", opacity:0.1 }}>
           {[10,20,30,40,50,60,70,80,90].map(v => <line key={`h${v}`} x1="0" y1={v} x2="100" y2={v} stroke="white" strokeWidth="0.08"/>)}
           {[10,20,30,40,50,60,70,80,90].map(v => <line key={`v${v}`} x1={v} y1="0" x2={v} y2="100" stroke="white" strokeWidth="0.08"/>)}
@@ -1100,63 +1101,209 @@ const VibeMapApp = () => {
    ROOT — App Switcher
    ═══════════════════ */
 
+/* ── Small reusable UI atoms for BMW HMI shell ── */
+const DockBtn = ({ icon, label, active, onClick }) => (
+  <button onClick={onClick} style={{
+    display:"flex", flexDirection:"column", alignItems:"center", gap:5,
+    background:"transparent", border:"none", cursor:"pointer",
+    padding:"8px 14px", borderRadius:12,
+    transition:"all 0.2s",
+  }}>
+    <div style={{
+      width:38, height:38, borderRadius:10,
+      background: active ? "rgba(14,165,255,0.18)" : "rgba(255,255,255,0.04)",
+      border: `1px solid ${active ? "#0EA5FF55" : "rgba(255,255,255,0.08)"}`,
+      display:"flex", alignItems:"center", justifyContent:"center",
+      boxShadow: active ? "0 0 14px #0EA5FF40, inset 0 0 8px #0EA5FF15" : "none",
+      transition:"all 0.2s",
+    }}>{icon}</div>
+    <span style={{ fontSize:9, fontWeight:600, color: active ? "#0EA5FF" : "#445", letterSpacing:0.5, textTransform:"uppercase" }}>{label}</span>
+  </button>
+);
+
+const StatusPill = ({ children }) => (
+  <span style={{ fontSize:10, color:"#4A7A9B", fontWeight:500, display:"flex", alignItems:"center", gap:3 }}>{children}</span>
+);
+
 export default function Root() {
   const [app, setApp] = useState("recs");
+  const [time, setTime] = useState(() => {
+    const d = new Date(); return `${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+  });
+  useEffect(() => {
+    const t = setInterval(() => {
+      const d = new Date(); setTime(`${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`);
+    }, 10000);
+    return () => clearInterval(t);
+  }, []);
+
+  const navItems = [
+    { id:"trip", label:"Trip",    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><path d="m4.9 4.9 2.1 2.1M16.9 16.9l2.1 2.1M4.9 19.1l2.1-2.1M16.9 7.1l2.1-2.1"/></svg> },
+    { id:"recs", label:"Spots",   icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg> },
+    { id:"past", label:"Drives",  icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg> },
+    { id:"vibe", label:"Vibe",    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg> },
+    { id:"home", label:"Home",    icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg> },
+    { id:"phone", label:"Phone",  icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.22 2 2 0 012 .04h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg> },
+    { id:"climate", label:"Climate", icon:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M14 14.76V3.5a2.5 2.5 0 00-5 0v11.26a4.5 4.5 0 105 0z"/></svg> },
+  ];
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Anybody:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap');
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-        @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
         @keyframes pulse-ring { 0%{transform:translate(-50%,-50%) scale(0.8);opacity:0.5} 100%{transform:translate(-50%,-50%) scale(1.5);opacity:0} }
-        .fade-in { animation: fadeIn 0.35s ease both; }
+        @keyframes blueGlow { 0%,100%{box-shadow:0 0 18px #0EA5FF22} 50%{box-shadow:0 0 32px #0EA5FF44} }
+        @keyframes scanline { 0%{transform:translateY(-100%)} 100%{transform:translateY(100vh)} }
+        .fade-in { animation: fadeIn 0.3s ease both; }
         * { box-sizing:border-box; margin:0; padding:0; }
-        ::-webkit-scrollbar { width:3px; }
+        ::-webkit-scrollbar { width:2px; }
         ::-webkit-scrollbar-track { background:transparent; }
-        ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.08); border-radius:3px; }
-        input::placeholder { color:#555; }
+        ::-webkit-scrollbar-thumb { background:rgba(14,165,255,0.2); border-radius:2px; }
+        input::placeholder { color:#1E3A5F; }
+        button:focus { outline:none; }
       `}</style>
 
-      <div style={{ fontFamily:"'Instrument Sans',sans-serif", background:"#08080C", color:"#F0F0F0", minHeight:"100vh", display:"flex" }}>
-        <div style={{ position:"fixed", inset:0, pointerEvents:"none", backgroundImage:`radial-gradient(circle at 20% 50%, ${app==="trip"?A:app==="past"?P:app==="vibe"?"#E8C438":T}05 0%, transparent 55%)` }}/>
+      {/* Outer bezel — angled corners */}
+      <div style={{
+        fontFamily:"'Instrument Sans',sans-serif",
+        background: NBG,
+        color:"#D0E8FF",
+        minHeight:"100vh",
+        display:"flex",
+        flexDirection:"column",
+        position:"relative",
+        overflow:"hidden",
+        clipPath:"polygon(8px 0%, calc(100% - 8px) 0%, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0% calc(100% - 8px), 0% 8px)",
+      }}>
 
-        {/* Sidebar nav */}
-        <div style={{ position:"relative", width:196, flexShrink:0, minHeight:"100vh", background:"rgba(255,255,255,0.012)", borderRight:`1px solid ${BDR}`, display:"flex", flexDirection:"column", padding:"28px 12px 24px", zIndex:10 }}>
-          <div style={{ paddingLeft:10, marginBottom:36 }}>
-            <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:8, fontWeight:800, letterSpacing:2.5, color:"#333", textTransform:"uppercase", marginBottom:6 }}>BMW Research</div>
-            <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:17, fontWeight:800, color:"#F0F0F0", letterSpacing:-0.4 }}>Driver HMI</div>
+        {/* Ambient background glow */}
+        <div style={{ position:"fixed", inset:0, pointerEvents:"none", zIndex:0,
+          background:`radial-gradient(ellipse 60% 50% at 65% 40%, rgba(14,165,255,0.06) 0%, transparent 70%),
+                     radial-gradient(ellipse 40% 30% at 20% 60%, rgba(14,165,255,0.04) 0%, transparent 60%)`
+        }}/>
+        {/* Subtle scanline texture */}
+        <div style={{ position:"fixed", inset:0, pointerEvents:"none", zIndex:0,
+          backgroundImage:"repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px)",
+          opacity:0.4,
+        }}/>
+        {/* Top edge glow line */}
+        <div style={{ position:"fixed", top:0, left:0, right:0, height:1, background:"linear-gradient(90deg, transparent 5%, #0EA5FF60 30%, #0EA5FFaa 50%, #0EA5FF60 70%, transparent 95%)", zIndex:100, pointerEvents:"none" }}/>
+
+        {/* ── TOP STATUS BAR ── */}
+        <div style={{
+          position:"relative", zIndex:20,
+          display:"flex", alignItems:"center", justifyContent:"space-between",
+          padding:"10px 24px 10px 20px",
+          background:"rgba(4,10,28,0.85)",
+          borderBottom:"1px solid rgba(14,165,255,0.14)",
+          backdropFilter:"blur(12px)",
+          flexShrink:0,
+        }}>
+          {/* Brand */}
+          <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+            <div style={{ width:26, height:26, borderRadius:6, background:"rgba(14,165,255,0.12)", border:"1px solid rgba(14,165,255,0.3)", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 0 10px #0EA5FF30" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#0EA5FF" strokeWidth="1.5"/><path d="M12 2C12 2 7 6 7 12s5 10 5 10" stroke="#0EA5FF" strokeWidth="1.5" strokeLinecap="round"/><path d="M12 2c0 0 5 4 5 10s-5 10-5 10" stroke="#0EA5FF" strokeWidth="1.5" strokeLinecap="round"/><line x1="2" y1="12" x2="22" y2="12" stroke="#0EA5FF" strokeWidth="1.5"/></svg>
+            </div>
+            <div>
+              <div style={{ fontSize:7, fontWeight:700, letterSpacing:2.5, color:"rgba(14,165,255,0.5)", textTransform:"uppercase" }}>BMW Research</div>
+              <div style={{ fontFamily:"'Anybody',sans-serif", fontSize:13, fontWeight:800, color:"#D0E8FF", letterSpacing:0.5 }}>Driver HMI</div>
+            </div>
           </div>
-          <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
-            {[
-              { id:"trip", label:"Trip Mode",       icon:"◉", color:A },
-              { id:"recs", label:"Recommendations", icon:"✦", color:T },
-              { id:"past", label:"Past Drives",     icon:"◈", color:P },
-              { id:"vibe", label:"Vibe Map",        icon:"🍃", color:"#E8C438" },
-            ].map(a => (
-              <button key={a.id} onClick={()=>setApp(a.id)} style={{
-                display:"flex", alignItems:"center", gap:10,
-                padding:"11px 14px", borderRadius:10, border:"none",
-                background:app===a.id?`${a.color}15`:"transparent",
-                color:app===a.id?a.color:"#555",
-                fontSize:12, fontWeight:700, cursor:"pointer",
-                fontFamily:"'Anybody',sans-serif", letterSpacing:0.2,
-                transition:"all 0.25s", textAlign:"left",
+
+          {/* Nav tabs centered */}
+          <div style={{ display:"flex", gap:2, background:"rgba(14,165,255,0.06)", border:"1px solid rgba(14,165,255,0.14)", borderRadius:12, padding:3 }}>
+            {navItems.slice(0,4).map(n => (
+              <button key={n.id} onClick={()=>setApp(n.id)} style={{
+                display:"flex", alignItems:"center", gap:7,
+                padding:"7px 16px", borderRadius:9, border:"none",
+                background: app===n.id ? "rgba(14,165,255,0.2)" : "transparent",
+                color: app===n.id ? "#0EA5FF" : "rgba(100,160,200,0.55)",
+                fontSize:11, fontWeight:700, cursor:"pointer",
+                fontFamily:"'Anybody',sans-serif", letterSpacing:0.3,
+                transition:"all 0.2s",
+                boxShadow: app===n.id ? "0 0 12px #0EA5FF30, inset 0 0 6px #0EA5FF15" : "none",
               }}>
-                <span style={{ fontSize:11 }}>{a.icon}</span>{a.label}
+                <span style={{ color:"inherit", opacity:0.9 }}>{n.icon}</span>{n.label}
               </button>
             ))}
           </div>
+
+          {/* Right status cluster */}
+          <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+            {/* Signal bars */}
+            <StatusPill>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="14" width="3" height="8" rx="1" fill="#0EA5FF" opacity="0.4"/><rect x="7" y="10" width="3" height="12" rx="1" fill="#0EA5FF" opacity="0.6"/><rect x="12" y="6" width="3" height="16" rx="1" fill="#0EA5FF" opacity="0.8"/><rect x="17" y="2" width="3" height="20" rx="1" fill="#0EA5FF"/></svg>
+            </StatusPill>
+            {/* Bluetooth */}
+            <StatusPill>
+              <svg width="11" height="13" viewBox="0 0 24 24" fill="none" stroke="#0EA5FF" strokeWidth="2" strokeLinecap="round"><path d="M6 7l12 10-6 5V2l6 5L6 17"/></svg>
+            </StatusPill>
+            {/* Wifi */}
+            <StatusPill>
+              <svg width="14" height="11" viewBox="0 0 24 24" fill="none" stroke="#0EA5FF" strokeWidth="2" strokeLinecap="round"><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M10.54 16.1a6 6 0 012.92 0"/><circle cx="12" cy="20" r="1" fill="#0EA5FF"/></svg>
+            </StatusPill>
+            {/* Divider */}
+            <div style={{ width:1, height:16, background:"rgba(14,165,255,0.15)" }}/>
+            {/* Temp */}
+            <div style={{ fontSize:12, fontWeight:700, color:"#0EA5FF", fontFamily:"'Anybody',sans-serif" }}>22°C</div>
+            {/* Time */}
+            <div style={{ fontSize:14, fontWeight:800, color:"#D0E8FF", fontFamily:"'Anybody',sans-serif", letterSpacing:1.5 }}>{time}</div>
+            {/* Profile */}
+            <div style={{ width:28, height:28, borderRadius:8, background:"rgba(14,165,255,0.15)", border:"1px solid rgba(14,165,255,0.3)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0EA5FF" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </div>
+          </div>
         </div>
 
-        {/* Main content */}
-        <div style={{ flex:1, overflowY:"auto", minHeight:"100vh", position:"relative" }}>
-          <div style={{ maxWidth:900, margin:"0 auto", padding:"28px 40px 60px" }}>
+        {/* ── MAIN CONTENT ── */}
+        <div style={{ flex:1, overflowY:"auto", position:"relative", zIndex:10 }}>
+          <div style={{ maxWidth:1100, margin:"0 auto", padding:"24px 32px 100px" }}>
             <div key={app} className="fade-in">
               {app === "trip" ? <TripModeApp /> : app === "recs" ? <RecommendationsApp /> : app === "past" ? <PastDrivesApp /> : <VibeMapApp />}
             </div>
           </div>
         </div>
+
+        {/* ── BOTTOM DOCK ── */}
+        <div style={{
+          position:"fixed", bottom:0, left:0, right:0, zIndex:50,
+          background:"rgba(4,10,28,0.92)",
+          borderTop:"1px solid rgba(14,165,255,0.18)",
+          backdropFilter:"blur(20px)",
+          display:"flex", alignItems:"center", justifyContent:"space-between",
+          padding:"0 32px",
+          boxShadow:"0 -4px 30px rgba(14,165,255,0.08)",
+        }}>
+          {/* Left climate */}
+          <div style={{ display:"flex", alignItems:"center", gap:10, minWidth:120 }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0EA5FF" strokeWidth="1.8" strokeLinecap="round" opacity="0.7"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg>
+            <div>
+              <div style={{ fontSize:16, fontWeight:800, color:"#0EA5FF", fontFamily:"'Anybody',sans-serif", lineHeight:1 }}>22.0°</div>
+              <div style={{ fontSize:8, color:"rgba(14,165,255,0.45)", letterSpacing:0.5, fontWeight:600 }}>DRIVER</div>
+            </div>
+          </div>
+
+          {/* Center dock icons */}
+          <div style={{ display:"flex", alignItems:"center", gap:2 }}>
+            {navItems.map(n => (
+              <DockBtn key={n.id} icon={<span style={{ color: app===n.id ? "#0EA5FF" : "rgba(100,160,200,0.45)" }}>{n.icon}</span>} label={n.label} active={app===n.id} onClick={()=>{ if(["trip","recs","past","vibe"].includes(n.id)) setApp(n.id); }}/>
+            ))}
+          </div>
+
+          {/* Right climate */}
+          <div style={{ display:"flex", alignItems:"center", gap:10, minWidth:120, justifyContent:"flex-end" }}>
+            <div style={{ textAlign:"right" }}>
+              <div style={{ fontSize:16, fontWeight:800, color:"#0EA5FF", fontFamily:"'Anybody',sans-serif", lineHeight:1 }}>21.0°</div>
+              <div style={{ fontSize:8, color:"rgba(14,165,255,0.45)", letterSpacing:0.5, fontWeight:600 }}>PASSENGER</div>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0EA5FF" strokeWidth="1.8" strokeLinecap="round" opacity="0.7"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg>
+          </div>
+        </div>
+
+        {/* Bottom edge glow */}
+        <div style={{ position:"fixed", bottom:72, left:0, right:0, height:1, background:"linear-gradient(90deg, transparent 5%, #0EA5FF30 30%, #0EA5FF55 50%, #0EA5FF30 70%, transparent 95%)", zIndex:49, pointerEvents:"none" }}/>
       </div>
     </>
   );
