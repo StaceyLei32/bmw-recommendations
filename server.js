@@ -6,11 +6,12 @@ const { Pool } = pg;
 const app = express();
 app.use(cors());
 
-// Connects to local DB (standard mac postgres.app setup)
+// Connects to cloud DB (Supabase)
 const pool = new Pool({
-  user: 'staceylei',
-  database: 'bmw_research',
-  port: 5432,
+  connectionString: 'postgresql://postgres:thewhitespace123!@db.hfhsqauawpgmtkzfwyxf.supabase.co:5432/postgres',
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // Endpoint: dynamic map spots based on visitor telemetry

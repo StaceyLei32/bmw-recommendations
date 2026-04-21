@@ -1,16 +1,29 @@
 import { Pool } from 'pg';
 
 const pool = new Pool({
-  user: 'staceylei',
-  database: 'bmw_research',
-  port: 5432,
+  connectionString: 'postgresql://postgres:thewhitespace123!@db.hfhsqauawpgmtkzfwyxf.supabase.co:5432/postgres',
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 async function runSeed() {
   const client = await pool.connect();
   try {
-    console.log("Adding new fields to driver_events...");
-    // 1. Alter driver_events to add missing context fields
+    console.log("Setting up driver_events table...");
+    // 1. Create driver_events table and then alter to add missing context fields
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS driver_events (
+        id serial PRIMARY KEY,
+        trip_id text,
+        place_id text,
+        road_segment_id text,
+        event_type text,
+        action_value text,
+        temperature_f int,
+        weather_condition text
+      );
+    `);
     const alterCommands = `
       ALTER TABLE driver_events ADD COLUMN IF NOT EXISTS window_status text;
       ALTER TABLE driver_events ADD COLUMN IF NOT EXISTS roof_status text;
