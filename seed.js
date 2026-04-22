@@ -40,6 +40,7 @@ async function runSeed() {
       CREATE TABLE IF NOT EXISTS visits (
         id serial PRIMARY KEY,
         place_id text,
+        place_name text,
         engine_off_at timestamptz,
         engine_on_at timestamptz,
         dwell_minutes int,
@@ -51,6 +52,7 @@ async function runSeed() {
         created_at timestamptz DEFAULT now()
       );
     `);
+    await client.query(`ALTER TABLE visits ADD COLUMN IF NOT EXISTS place_name text`);
 
     console.log("Creating map spots tables...");
     // 2. Create tables for Map Spots

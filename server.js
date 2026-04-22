@@ -132,12 +132,13 @@ app.get('/api/discovery-features/:segment_id', async (req, res) => {
 
 // Endpoint: Record a visit (engine off → engine on)
 app.post('/api/visits', async (req, res) => {
-  const { place_id, engine_off_at, engine_on_at, dwell_minutes, item_name, drive_mode, window_status, temperature_f, weather_condition } = req.body;
+  const { place_id, place_name, engine_off_at, engine_on_at, dwell_minutes, item_name, drive_mode, window_status, temperature_f, weather_condition } = req.body;
   try {
     await pool.query(`
       CREATE TABLE IF NOT EXISTS visits (
         id serial PRIMARY KEY,
         place_id text,
+        place_name text,
         engine_off_at timestamptz,
         engine_on_at timestamptz,
         dwell_minutes int,
@@ -149,11 +150,12 @@ app.post('/api/visits', async (req, res) => {
         created_at timestamptz DEFAULT now()
       )
     `);
+    await pool.query(`ALTER TABLE visits ADD COLUMN IF NOT EXISTS place_name text`);
     const result = await pool.query(`
-      INSERT INTO visits (place_id, engine_off_at, engine_on_at, dwell_minutes, item_name, drive_mode, window_status, temperature_f, weather_condition)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      INSERT INTO visits (place_id, place_name, engine_off_at, engine_on_at, dwell_minutes, item_name, drive_mode, window_status, temperature_f, weather_condition)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       RETURNING *
-    `, [place_id, engine_off_at, engine_on_at, dwell_minutes, item_name || null, drive_mode || null, window_status || null, temperature_f || null, weather_condition || null]);
+    `, [place_id, place_name || null, engine_off_at, engine_on_at, dwell_minutes, item_name || null, drive_mode || null, window_status || null, temperature_f || null, weather_condition || null]);
     res.json(result.rows[0]);
   } catch (err) {
     console.error(err);

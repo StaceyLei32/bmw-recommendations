@@ -579,6 +579,7 @@ const RecommendationsApp = () => {
     const visitSpot = mapSpots.find(s => s.id === checkIn.placeId);
     const payload = {
       place_id: checkIn.placeId,
+      place_name: visitSpot?.name || checkIn.placeId,
       engine_off_at: new Date(checkIn.startTime).toISOString(),
       engine_on_at: new Date().toISOString(),
       dwell_minutes: Math.max(1, Math.round(elapsed / 60)),
