@@ -1,10 +1,10 @@
 # BMW Research Prototype
 
-This is the backend and API for the BMW Research app, driving the contextual map suggestions and Trip Mode features. 
+This is the full-stack prototype for the BMW Research app, driving the contextual map suggestions and Trip Mode features. 
 
-The API uses an Express server and connects to a live PostgreSQL database hosted on Supabase.
+The application uses a Vite + React frontend and an Express API backend that connects to a live PostgreSQL database hosted on Supabase.
 
-## 🚀 Getting Started (Zero Setup)
+## Getting Started (Zero Setup)
 
 To make collaboration as seamless as possible, the database connection is already securely configured to point to the live cloud database. There is **no local database setup or `.env` file required!**
 
@@ -20,6 +20,13 @@ To run the project locally:
    node server.js
    ```
    *(The API will start running on port 3000)*
+
+3. **Start the frontend application**
+   Open a new terminal window/tab and run:
+   ```bash
+   npm run dev
+   ```
+   *(This will start the Vite dev server, typically on port 5173, providing a localhost link to open the app in your browser)*
 
 ## 🗄️ Database Management
 
