@@ -28,14 +28,23 @@ To run the project locally:
    ```
    *(This will start the Vite dev server, typically on port 5173, providing a localhost link to open the app in your browser)*
 
-## 🗄️ Database Management
+## 🗄️ Data Architecture & Supabase Integration
 
-The database is populated with mock place locations (e.g., Boba Guys, Hawk Hill) and simulated driver events (e.g., opening windows over coastal roads). 
+This prototype leverages a live **PostgreSQL database on Supabase** to simulate real-world, cloud-synced vehicle telemetry and crowdsourced recommendations.
 
-If you ever modify the mock data structures or need to reset the database from scratch, you can run the seed script:
+### Simulated Telemetry & Dummy Data
+Rather than relying on static JSON files, the application fetches live aggregated data from Supabase to demonstrate how a production environment would handle dynamic data points:
+- **`driver_events`**: Stores raw, anonymized vehicle telemetry tied to specific road segments and places (e.g., `window_status`, `drive_mode`, `temperature`).
+- **`places` & `place_items`**: Contains crowdsourced points of interest (food, scenic overlooks) along with their aggregated popularity metrics.
+- **`visits`**: Records granular stop data, including engine dwell times, weather conditions, and active drive modes.
+
+### Seeding the Database
+The project includes a robust `seed.js` script that generates intelligent dummy data to make the UI feel alive. It simulates hundreds of individual driver events—such as calculating the percentage of drivers who switch to "Comfort" mode entering city limits or roll down their windows along coastal stretches—which directly powers the dynamic "Discover Your Car" map feature.
+
+If you ever modify the schema or need to reset the data from scratch, you can run:
 
 ```bash
 node seed.js
 ```
 
-This script will seamlessly recreate the tables on Supabase and re-inject all the mock data!
+*(This script will seamlessly drop existing records, recreate the necessary tables on Supabase, and re-inject all the simulated telemetry!)*
